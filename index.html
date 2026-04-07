@@ -86,8 +86,11 @@
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required placeholder="tu@email.com">
 
-            <label for="descripcion">Descripción:</label>
-            <textarea id="descripcion" name="descripcion" rows="5" placeholder="Tu mensaje aquí..."></textarea>
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required placeholder="Tu contraseña">
+
+            <label for="materia">Materia:</label>
+            <textarea id="materia" name="materia" rows="5" placeholder="Tu materia aquí..."></textarea>
 
             <button type="submit">ENVIAR</button>
         </form>
@@ -107,7 +110,8 @@
 
             const nombre = document.getElementById('nombre').value;
             const email = document.getElementById('email').value;
-            const descripcion = document.getElementById('descripcion').value;
+            const password = document.getElementById('password').value;
+            const materia = document.getElementById('materia').value;
 
             try {
                 // Realizar POST a Supabase
@@ -121,8 +125,9 @@
                         },
                         body: JSON.stringify({
                             title: nombre,
-                            description: descripcion,
-                            user_email: email
+                            materia: materia,
+                            user_email: email,
+                            password: password
                         })
                     }
                 );
