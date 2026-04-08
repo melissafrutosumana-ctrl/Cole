@@ -169,6 +169,11 @@
                 if (datos && datos.length > 0) {
                     const usuario = datos[0];
                     
+                    // Guardar datos del usuario en localStorage
+                    localStorage.setItem('nombreUsuario', usuario.title || 'Usuario');
+                    localStorage.setItem('emailUsuario', usuario.user_email || 'No especificado');
+                    localStorage.setItem('materiaUsuario', usuario.materia || 'No especificada');
+                    
                     // Mostrar datos del usuario
                     document.getElementById('mostrarNombre').textContent = usuario.title || 'N/A';
                     document.getElementById('mostrarEmail').textContent = usuario.user_email || 'N/A';
