@@ -240,6 +240,7 @@
 
         <div class="tabs">
             <button class="tab-btn active" onclick="cambiarTab('ausencias')">📋 Ausencias/Tardanzas</button>
+            <button class="tab-btn" onclick="cambiarTab('miausencia')">⚠️ Mi Ausencia</button>
             <button class="tab-btn" onclick="cambiarTab('comunicados')">📢 Comunicados</button>
             <button class="tab-btn" onclick="cambiarTab('reportes')">📊 Reportes</button>
         </div>
@@ -301,7 +302,59 @@
             </table>
         </div>
 
-        <!-- TAB 2: COMUNICADOS -->
+        <!-- TAB 2: MI AUSENCIA -->
+        <div id="miausencia" class="tab-content">
+            <h3>⚠️ Registrar Mi Ausencia</h3>
+            <p style="background: #fff3cd; padding: 15px; border-radius: 5px; border-left: 4px solid #ffc107; margin-bottom: 20px;">
+                <strong>Nota:</strong> Use esta sección para comunicar que usted no se presentará a la clase. Se enviará automáticamente un comunicado a padres y estudiantes.
+            </p>
+            <form id="formMiAusencia">
+                <div class="form-group">
+                    <label for="fechaAusenciaDocente">Fecha que no asistirá:</label>
+                    <input type="date" id="fechaAusenciaDocente" required>
+                </div>
+                <div class="form-group">
+                    <label for="razonAusencia">Razón de la Ausencia:</label>
+                    <select id="razonAusencia" required>
+                        <option value="">Selecciona...</option>
+                        <option value="Enfermedad">Enfermedad</option>
+                        <option value="Calamidad Doméstica">Calamidad Doméstica</option>
+                        <option value="Permiso Personal">Permiso Personal</option>
+                        <option value="Capacitación">Capacitación</option>
+                        <option value="Otra">Otra</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="detalleAusencia">Detalles Adicionales:</label>
+                    <textarea id="detalleAusencia" placeholder="Información adicional sobre su ausencia..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="actividadRemplazo">¿Dejar actividad de remplazo?</label>
+                    <textarea id="actividadRemplazo" placeholder="Actividad que los estudiantes realizarán en tu ausencia..."></textarea>
+                </div>
+                <button type="submit">Registrar Mi Ausencia y Notificar</button>
+            </form>
+
+            <h3 style="margin-top: 30px;">Mis Ausencias Registradas</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Razón</th>
+                        <th>Detalles</th>
+                        <th>Actividad de Remplazo</th>
+                        <th>Notificación Enviada</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaMiAusencia">
+                    <tr>
+                        <td colspan="5" style="text-align: center; color: #999;">No hay ausencias registradas</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- TAB 3: COMUNICADOS -->
         <div id="comunicados" class="tab-content">
             <h3>Enviar Comunicado a Padres/Estudiantes</h3>
             <form id="formComunicados">
@@ -347,7 +400,7 @@
             </table>
         </div>
 
-        <!-- TAB 3: REPORTES -->
+        <!-- TAB 4: REPORTES -->
         <div id="reportes" class="tab-content">
             <h3>Resumen de Actividades</h3>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
@@ -372,6 +425,7 @@
         // Fijar fecha actual como default
         document.getElementById('fechaRegistro').valueAsDate = new Date();
         document.getElementById('fechaComunicado').valueAsDate = new Date();
+        document.getElementById('fechaAusenciaDocente').valueAsDate = new Date();
 
         function cambiarTab(tabName) {
             // Ocultar todos los tabs
@@ -419,32 +473,52 @@
             }
         });
 
-        // FORM COMUNICADOS
-        document.getElementById('formComunicados').addEventListener('submit', async (e) => {
+        // FORM MI AUSENCIA
+        document.getElementById('formMiAusencia').addEventListener('submit', async (e) => {
             e.preventDefault();
             const docente = localStorage.getItem('emailUsuario');
+            const nombre = localStorage.getItem('nombreUsuario');
+            const materia = localStorage.getItem('materiaUsuario');
+            
             const data = {
-                destinatario: document.getElementById('destinatario').value,
-                asunto: document.getElementById('asuntoComunicado').value,
-                mensaje: document.getElementById('mensajeComunicado').value,
-                fecha: document.getElementById('fechaComunicado').value,
-                docente: docente
+                fecha: document.getElementById('fechaAusenciaDocente').value,
+                razon: document.getElementById('razonAusencia').value,
+                detalle: document.getElementById('detalleAusencia').value,
+                actividad: document.getElementById('actividadRemplazo').value,
+                docente: docente,
+                nombre: nombre,
+                materia: materia,
+                notificada: new Date().toLocaleString()
             };
 
             try {
+                // Guardar ausencia del docente
+                let ausenciasDocente = JSON.parse(localStorage.getItem('ausenciasDocente') || '[]');
+                ausenciasDocente.push(data);
+                localStorage.setItem('ausenciasDocente', JSON.stringify(ausenciasDocente));
+                
+                // Crear automáticamente un comunicado notificando
                 let comunicados = JSON.parse(localStorage.getItem('comunicados') || '[]');
-                comunicados.push(data);
+                comunicados.push({
+                    destinatario: 'Ambos',
+                    asunto: `⚠️ Ausencia del Prof/a ${nombre} - ${data.fecha}`,
+                    mensaje: `Informamos que el/la docente ${nombre} de la materia ${materia} no se presentará el ${data.fecha}.\n\nRazón: ${data.razon}\n${data.detalle ? '\nDetalles: ' + data.detalle : ''}\n${data.actividad ? '\nActividad de remplazo: ' + data.actividad : ''}`,
+                    fecha: new Date().toISOString().split('T')[0],
+                    docente: docente
+                });
                 localStorage.setItem('comunicados', JSON.stringify(comunicados));
                 
-                mostrarMensaje('✅ Comunicado enviado correctamente', 'éxito');
-                document.getElementById('formComunicados').reset();
-                document.getElementById('fechaComunicado').valueAsDate = new Date();
+                mostrarMensaje('✅ Ausencia registrada y notificación enviada a padres y estudiantes', 'éxito');
+                document.getElementById('formMiAusencia').reset();
+                document.getElementById('fechaAusenciaDocente').valueAsDate = new Date();
+                cargarTablaMiAusencia();
                 cargarTablaComunicados();
             } catch (error) {
                 mostrarMensaje('❌ Error: ' + error.message, 'error');
             }
         });
 
+        
         function cargarTablaAusencias() {
             const ausencias = JSON.parse(localStorage.getItem('ausencias') || '[]');
             const tbody = document.getElementById('tablaAusencias');
@@ -488,6 +562,26 @@
             document.getElementById('totalComunicados').textContent = comunicados.length;
         }
 
+        function cargarTablaMiAusencia() {
+            const ausenciasDocente = JSON.parse(localStorage.getItem('ausenciasDocente') || '[]');
+            const tbody = document.getElementById('tablaMiAusencia');
+            
+            if (ausenciasDocente.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #999;">No hay ausencias registradas</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = ausenciasDocente.map(a => `
+                <tr>
+                    <td><strong>${a.fecha}</strong></td>
+                    <td>${a.razon}</td>
+                    <td>${a.detalle || '-'}</td>
+                    <td>${a.actividad || '-'}</td>
+                    <td style="color: #28a745; font-weight: bold;">✅ Enviada</td>
+                </tr>
+            `).join('');
+        }
+
         function cargarDatosUsuario() {
             const nombre = localStorage.getItem('nombreUsuario') || 'Usuario';
             const email = localStorage.getItem('emailUsuario') || 'No especificado';
@@ -498,6 +592,7 @@
             document.getElementById('materiaUsuario').textContent = materia;
             
             cargarTablaAusencias();
+            cargarTablaMiAusencia();
             cargarTablaComunicados();
         }
 
