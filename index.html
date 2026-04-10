@@ -28,7 +28,7 @@
         }
 
         .left img {
-            width: 80px; /* tamaño más pequeño */
+            width: 80px;
         }
 
         .anuncios {
@@ -41,6 +41,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: 5px;
         }
 
         /* CENTRO (ESCUDO + TITULO) */
@@ -66,17 +67,25 @@
             gap: 10px;
         }
 
-        .right button {
+        /* ESTILO DE BOTONES */
+        .btn {
             padding: 8px 12px;
-            border: none;
-            background-color: #38ada9;
+            text-decoration: none;
             color: white;
-            cursor: pointer;
             border-radius: 5px;
+            font-size: 14px;
         }
 
-        .right button:hover {
-            background-color: #079992;
+        .btn-registro {
+            background-color: #38ada9;
+        }
+
+        .btn-login {
+            background-color: #e58e26;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
         }
     </style>
 </head>
@@ -88,21 +97,20 @@
         <div class="left">
             <img src="steam.png" alt="Logo STEAM">
             <div class="anuncios">
-                Espacio para anuncios
+                Espacio para anuncios del colegio
             </div>
         </div>
 
         <!-- CENTRO -->
         <div class="center">
-            <img src="escudo.png" alt="Escudo Colegio">
-            <h1>Nombre del Colegio</h1>
+            <img src="escudo sin fondo.png" alt="Escudo Colegio">
+            <h1>Colegio Técnico Profesional de Matapalo</h1>
         </div>
 
         <!-- DERECHA -->
         <div class="right">
-            <button>Inicio</button>
-            <button>Servicios</button>
-            <button>Contacto</button>
+            <a href="registro-docentes.html" class="btn btn-registro">Registro Docente</a>
+            <a href="registrarme.html" class="btn btn-login">Iniciar Sesión</a>
         </div>
 
     </div>
