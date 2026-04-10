@@ -49,12 +49,12 @@ body {
     padding: 30px;
 }
 
-/* CONTENEDOR CENTRADO */
+/* CONTENEDOR */
 .contenedor {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 50px;
+    gap: 40px;
 }
 
 /* LOGO */
@@ -62,27 +62,35 @@ body {
     width: 100px;
 }
 
-/* CARRUSEL */
+/* CARRUSEL CENTRADO */
 .carousel-container {
-    width: 60%;
+    width: 500px;
+    margin: auto;
     text-align: center;
 }
 
 .carousel {
     position: relative;
     width: 100%;
-    height: 320px;
+    height: 350px;
     overflow: hidden;
     border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* IMÁGENES CENTRADAS SIN RECORTE */
+/* IMÁGENES BIEN CENTRADAS */
 .slides img {
     position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* 🔥 NO SE CORTA */
-    background-color: #ffffff; /* fondo limpio */
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     opacity: 0;
     transition: opacity 0.8s ease-in-out;
 }
@@ -115,11 +123,11 @@ body {
     }
 
     .carousel-container {
-        width: 95%;
+        width: 90%;
     }
 
     .carousel {
-        height: 220px;
+        height: 250px;
     }
 }
 </style>
