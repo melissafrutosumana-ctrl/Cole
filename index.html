@@ -62,7 +62,7 @@ body {
     width: 200px;
 }
 
-/* CARRUSEL CENTRADO */
+/* CARRUSEL */
 .carousel-container {
     width: 500px;
     margin: auto;
@@ -80,17 +80,13 @@ body {
     align-items: center;
 }
 
-/* IMÁGENES BIEN CENTRADAS */
 .slides img {
     position: absolute;
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
     margin: auto;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: 0; left: 0; right: 0; bottom: 0;
     opacity: 0;
     transition: opacity 0.8s ease-in-out;
 }
@@ -116,19 +112,39 @@ body {
 .prev { left: 10px; }
 .next { right: 10px; }
 
-/* RESPONSIVE */
-@media (max-width: 768px) {
-    .contenedor {
-        flex-direction: column;
-    }
+/* 🔥 TABLA AUSENCIAS */
+.tabla-ausencias {
+    margin-top: 50px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+}
 
-    .carousel-container {
-        width: 90%;
-    }
+.tabla-ausencias h2 {
+    text-align: center;
+    color: #0a3d62;
+}
 
-    .carousel {
-        height: 250px;
-    }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th {
+    background: #0a3d62;
+    color: white;
+    padding: 10px;
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+tr:hover {
+    background: #f2f2f2;
 }
 </style>
 </head>
@@ -140,7 +156,8 @@ body {
     <div></div>
 
     <div class="center">
-        <img src="LOGO MEP.png"> <img src="escudo sin fondo.png">
+        <img src="LOGO MEP.png">
+        <img src="escudo sin fondo.png">
         <h1>Colegio Técnico Profesional de Matapalo</h1>
     </div>
 
@@ -157,7 +174,6 @@ body {
 
         <!-- LOGO -->
         <div class="steam">
-            
             <a href="galeria.html"><img src="steam.png"></a>
         </div>
 
@@ -183,19 +199,38 @@ body {
 
     </div>
 
+    <!-- 🔥 TABLA DE AUSENCIAS -->
+    <div class="tabla-ausencias">
+        <h2>Ausencias de Docentes</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Docente</th>
+                    <th>Fecha</th>
+                    <th>Razón</th>
+                    <th>Detalle</th>
+                </tr>
+            </thead>
+            <tbody id="tablaAusencias">
+                <tr>
+                    <td colspan="4">No hay ausencias registradas</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
 </div>
 
 <script>
 let index = 0;
 let slides = document.querySelectorAll("#carousel1 .slides img");
 
-/* MOSTRAR */
 function mostrar(i) {
     slides.forEach(img => img.classList.remove("active"));
     slides[i].classList.add("active");
 }
 
-/* CAMBIAR */
 function cambiar(direccion) {
     index += direccion;
 
@@ -205,18 +240,43 @@ function cambiar(direccion) {
     mostrar(index);
 }
 
-/* AUTO + PAUSA */
 let intervalo = setInterval(() => cambiar(1), 4000);
 
 let carrusel = document.getElementById("carousel1");
 
-carrusel.addEventListener("mouseenter", () => {
-    clearInterval(intervalo);
-});
-
+carrusel.addEventListener("mouseenter", () => clearInterval(intervalo));
 carrusel.addEventListener("mouseleave", () => {
     intervalo = setInterval(() => cambiar(1), 4000);
 });
+
+
+// 🔥 CARGAR AUSENCIAS EN TIEMPO REAL
+function cargarAusencias() {
+    let ausencias = JSON.parse(localStorage.getItem("ausenciasDocente") || "[]");
+    let tabla = document.getElementById("tablaAusencias");
+
+    if (ausencias.length === 0) {
+        tabla.innerHTML = "<tr><td colspan='4'>No hay ausencias registradas</td></tr>";
+        return;
+    }
+
+    tabla.innerHTML = "";
+
+    ausencias.forEach(a => {
+        tabla.innerHTML += `
+        <tr>
+            <td>${a.nombre || "Docente"}</td>
+            <td>${a.fecha}</td>
+            <td>${a.razon}</td>
+            <td>${a.detalle}</td>
+        </tr>
+        `;
+    });
+}
+
+// 🔄 ACTUALIZA SOLO (TIEMPO REAL)
+setInterval(cargarAusencias, 2000);
+cargarAusencias();
 </script>
 
 </body>
