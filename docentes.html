@@ -2,167 +2,594 @@
 <html lang="es">
 
 <head>
-<meta charset="UTF-8">
-<title>Registro Docente</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Docentes</title>
+    <link rel="stylesheet" href="stylo.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
 
-<style>
-body {
-    font-family: Arial;
-    background: #008CD0;
-}
+        .navbar {
+            background: #008CD0;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
-.form-container {
-    max-width: 500px;
-    margin: 40px auto;
-    padding: 25px;
-    background: white;
-    border-radius: 10px;
-}
+        .navbar h1 {
+            color: white;
+            margin: 0;
+            font-size: 24px;
+        }
 
-input, textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-}
+        .navbar a {
+            background: #ff6b6b;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
-button {
-    margin-top: 15px;
-    padding: 12px;
-    background: #008CD0;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
+        .navbar a:hover {
+            background: #cc5555;
+        }
 
-#datosDocente {
-    margin-top: 20px;
-    background: #f4f4f4;
-    padding: 10px;
-}
-</style>
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .bienvenida {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .bienvenida h2 {
+            color: #008CD0;
+            font-size: 28px;
+        }
+
+        .info-usuario {
+            background: #f0f8ff;
+            padding: 20px;
+            border-radius: 5px;
+            border-left: 4px solid #008CD0;
+            margin-bottom: 30px;
+        }
+
+        .info-usuario p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        .info-usuario strong {
+            color: #008CD0;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background: #f0f0f0;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+            font-weight: bold;
+            color: #008CD0;
+        }
+
+        .tab-btn.active {
+            background: #008CD0;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        button {
+            background: #008CD0;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: #006a9a;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #008CD0;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        .mensaje {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .éxito {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .mensaje.show {
+            display: block;
+        }
+
+        .boton-volver {
+            display: inline-block;
+            margin-top: 20px;
+            background: #28a745;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .boton-volver:hover {
+            background: #218838;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+    </style>
 </head>
 
-<body>
+<body bgcolor="#008CD0">
+    <div class="navbar">
+        <h1>📚 Panel de Docentes</h1>
+        <a onclick="cerrarSesion()">Cerrar Sesión</a>
+    </div>
 
-<div class="form-container">
+    <center><img src="escudo sin fondo.png" style="margin-top: 20px; max-width: 150px; height: auto;">
+        <!--COMENTARIO bradley le deje un codigo centrado no lo mueva-->
+    </center>
 
-<h2>Registro Docente</h2>
+    <div class="container">
+        <div class="bienvenida">
+            <h2>¡Bienvenido/a Docente!</h2>
+            <p>Gestiona la asistencia, tardanzas y comunicados</p>
+        </div>
 
-<form id="miFormulario">
+        <div class="info-usuario">
+            <h3>Tu Información</h3>
+            <p><strong>Nombre:</strong> <span id="nombreUsuario">Usuario</span></p>
+            <p><strong>Email:</strong> <span id="emailUsuario">No especificado</span></p>
+            <p><strong>Materia:</strong> <span id="materiaUsuario">No especificada</span></p>
+        </div>
 
-<label>Nombre</label>
-<input type="text" id="nombre" required>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="cambiarTab('miausencia')">⚠️ Mi Ausencia</button>
+            <button class="tab-btn" onclick="cambiarTab('estudiantes')">👥 Estudiantes</button>
+            <button class="tab-btn" onclick="cambiarTab('comunicados')">📢 Comunicados</button>
+        </div>
 
-<label>Email</label>
-<input type="email" id="email" required placeholder="correo@mep.go.cr">
+        <div id="mensajeDiv" class="mensaje"></div>
 
-<label>Contraseña</label>
-<input type="password" id="password" required>
+        <!-- TAB 1: MI AUSENCIA -->
+        <div id="miausencia" class="tab-content active">
+            <h3>⚠️ Registrar Mi Ausencia</h3>
+            <p style="background: #fff3cd; padding: 15px; border-radius: 5px; border-left: 4px solid #ffc107; margin-bottom: 20px;">
+                <strong>Nota:</strong> Use esta sección para comunicar que usted no se presentará a la clase. Se enviará automáticamente un comunicado a padres y estudiantes.
+            </p>
+            <form id="formMiAusencia">
+                <div class="form-group">
+                    <label for="fechaAusenciaDocente">Fecha que no asistirá:</label>
+                    <input type="date" id="fechaAusenciaDocente" required>
+                </div>
+                <div class="form-group">
+                    <label for="razonAusencia">Razón de la Ausencia:</label>
+                    <select id="razonAusencia" required>
+                        <option value="">Selecciona...</option>
+                        <option value="Enfermedad">Enfermedad</option>
+                        <option value="Calamidad Doméstica">Calamidad Doméstica</option>
+                        <option value="Permiso Personal">Permiso Personal</option>
+                        <option value="Capacitación">Capacitación</option>
+                        <option value="Otra">Otra</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="detalleAusencia">Detalles Adicionales:</label>
+                    <textarea id="detalleAusencia" placeholder="Información adicional sobre su ausencia..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="actividadRemplazo">¿Dejar actividad de remplazo?</label>
+                    <textarea id="actividadRemplazo" placeholder="Actividad que los estudiantes realizarán en tu ausencia..."></textarea>
+                </div>
+                <button type="submit">Registrar Mi Ausencia y Notificar</button>
+            </form>
 
-<label>Materia</label>
-<textarea id="materia"></textarea>
+            <h3 style="margin-top: 30px;">Mis Ausencias Registradas</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Razón</th>
+                        <th>Detalles</th>
+                        <th>Actividad de Remplazo</th>
+                        <th>Notificación Enviada</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaMiAusencia">
+                    <tr>
+                        <td colspan="5" style="text-align: center; color: #999;">No hay ausencias registradas</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-<!-- SOLO DOCENTE -->
-<label>Tipo</label>
-<select>
-    <option>Docente</option>
-</select>
+        <!-- TAB 2: ESTUDIANTES -->
+        <div id="estudiantes" class="tab-content">
+            <h3>Gestionar Lista de Estudiantes</h3>
+            <p style="background: #e7f3ff; padding: 15px; border-radius: 5px; border-left: 4px solid #008CD0; margin-bottom: 20px;">
+                <strong>Nota:</strong> Agrega y gestiona la lista de estudiantes de tu clase.
+            </p>
+            <form id="formEstudiantes">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nomEstudiante">Nombre del Estudiante:</label>
+                        <input type="text" id="nomEstudiante" required placeholder="Ej: Juan Pérez">
+                    </div>
+                    <div class="form-group">
+                        <label for="emailEstudiante">Email:</label>
+                        <input type="email" id="emailEstudiante" placeholder="estudiante@email.com">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="telefonoEstudiante">Teléfono:</label>
+                        <input type="tel" id="telefonoEstudiante" placeholder="3001234567">
+                    </div>
+                    <div class="form-group">
+                        <label for="acudienteEstudiante">Acudiente:</label>
+                        <input type="text" id="acudienteEstudiante" placeholder="Nombre del acudiente">
+                    </div>
+                </div>
+                <button type="submit">Agregar Estudiante</button>
+            </form>
 
-<button type="submit">Guardar</button>
+            <h3 style="margin-top: 30px;">Lista de Estudiantes</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                        <th>Acudiente</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaEstudiantes">
+                    <tr>
+                        <td colspan="5" style="text-align: center; color: #999;">No hay estudiantes registrados</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-</form>
+        <!-- TAB 3: COMUNICADOS -->
+        <div id="comunicados" class="tab-content">
+            <h3>Enviar Comunicado a Padres/Estudiantes</h3>
+            <form id="formComunicados">
+                <div class="form-group">
+                    <label for="destinatario">Destinatario:</label>
+                    <select id="destinatario" required>
+                        <option value="">Selecciona...</option>
+                        <option value="Padres">Padres de Familia</option>
+                        <option value="Estudiantes">Estudiantes</option>
+                        <option value="Ambos">Ambos (Padres y Estudiantes)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="asuntoComunicado">Asunto:</label>
+                    <input type="text" id="asuntoComunicado" required placeholder="Ej: Importante - Cambio de horario">
+                </div>
+                <div class="form-group">
+                    <label for="mensajeComunicado">Mensaje:</label>
+                    <textarea id="mensajeComunicado" required placeholder="Escribe tu comunicado aquí..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="fechaComunicado">Fecha del Comunicado:</label>
+                    <input type="date" id="fechaComunicado" required>
+                </div>
+                <button type="submit">Enviar Comunicado</button>
+            </form>
 
-<!-- BOTÓN AUSENCIA -->
-<button onclick="enviarCorreo()">Registrar ausencia</button>
+            <h3 style="margin-top: 30px;">Comunicados Enviados</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Destinatario</th>
+                        <th>Asunto</th>
+                        <th>Fecha</th>
+                        <th>Mensaje</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaComunicados">
+                    <tr>
+                        <td colspan="4" style="text-align: center; color: #999;">No hay comunicados aún</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-<!-- MOSTRAR DATOS -->
-<div id="datosDocente"></div>
+        <a href="index.html" class="boton-volver">← Volver a Registro</a>
+    </div>
 
-</div>
+    <script>
+        const SUPABASE_URL = 'https://etdcmuikvtnqfcnlvodh.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0ZGNtdWlrdnRucWZjbmx2b2RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1OTQ1ODcsImV4cCI6MjA5MTE3MDU4N30.8JHWlTxYRSYEkpipqesHVBKn7QomTXJYHp6Nm6SzU4A';
 
-<script>
+        // Fijar fecha actual como default
+        document.getElementById('fechaComunicado').valueAsDate = new Date();
+        document.getElementById('fechaAusenciaDocente').valueAsDate = new Date();
 
-const SUPABASE_URL = 'https://etdcmuikvtnqfcnlvodh.supabase.co';
-const SUPABASE_KEY = 'TU_API_KEY_AQUI';
+        function cambiarTab(tabName) {
+            // Ocultar todos los tabs
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            // Mostrar el tab seleccionado
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
 
-const form = document.getElementById('miFormulario');
-
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    let nombre = document.getElementById('nombre').value;
-    let email = document.getElementById('email').value;
-    let password = document.getElementById('password').value;
-    let materia = document.getElementById('materia').value;
-
-    // VALIDACIÓN MEP
-    if (!email.endsWith("@mep.go.cr")) {
-        alert("Solo correos @mep.go.cr");
-        return;
-    }
-
-    await fetch(`${SUPABASE_URL}/rest/v1/todos`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'apikey': SUPABASE_KEY,
-            'Authorization': `Bearer ${SUPABASE_KEY}`
-        },
-        body: JSON.stringify({
-            title: nombre,
-            user_email: email,
-            password: password,
-            materia: materia
-        })
-    });
-
-    alert("Docente guardado");
-    form.reset();
-    cargarDocente();
-});
+        function mostrarMensaje(texto, tipo) {
+            const div = document.getElementById('mensajeDiv');
+            div.textContent = texto;
+            div.className = `mensaje ${tipo} show`;
+            setTimeout(() => div.classList.remove('show'), 3000);
+        }
 
 
-// MOSTRAR DATOS
-async function cargarDocente() {
+        // FORM MI AUSENCIA
+        document.getElementById('formMiAusencia').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const docente = localStorage.getItem('emailUsuario');
+            const nombre = localStorage.getItem('nombreUsuario');
+            const materia = localStorage.getItem('materiaUsuario');
+            
+            const data = {
+                fecha: document.getElementById('fechaAusenciaDocente').value,
+                razon: document.getElementById('razonAusencia').value,
+                detalle: document.getElementById('detalleAusencia').value,
+                actividad: document.getElementById('actividadRemplazo').value,
+                docente: docente,
+                nombre: nombre,
+                materia: materia,
+                notificada: new Date().toLocaleString()
+            };
 
-    const response = await fetch(
-        `${SUPABASE_URL}/rest/v1/todos?select=*`, {
-            headers: {
-                'apikey': SUPABASE_KEY,
-                'Authorization': `Bearer ${SUPABASE_KEY}`
+            try {
+                // Guardar ausencia del docente
+                let ausenciasDocente = JSON.parse(localStorage.getItem('ausenciasDocente') || '[]');
+                ausenciasDocente.push(data);
+                localStorage.setItem('ausenciasDocente', JSON.stringify(ausenciasDocente));
+                
+                // Crear automáticamente un comunicado notificando
+                let comunicados = JSON.parse(localStorage.getItem('comunicados') || '[]');
+                comunicados.push({
+                    destinatario: 'Ambos',
+                    asunto: `⚠️ Ausencia del Prof/a ${nombre} - ${data.fecha}`,
+                    mensaje: `Informamos que el/la docente ${nombre} de la materia ${materia} no se presentará el ${data.fecha}.\n\nRazón: ${data.razon}\n${data.detalle ? '\nDetalles: ' + data.detalle : ''}\n${data.actividad ? '\nActividad de remplazo: ' + data.actividad : ''}`,
+                    fecha: new Date().toISOString().split('T')[0],
+                    docente: docente
+                });
+                localStorage.setItem('comunicados', JSON.stringify(comunicados));
+                
+                mostrarMensaje('✅ Ausencia registrada y notificación enviada a padres y estudiantes', 'éxito');
+                document.getElementById('formMiAusencia').reset();
+                document.getElementById('fechaAusenciaDocente').valueAsDate = new Date();
+                cargarTablaMiAusencia();
+                cargarTablaComunicados();
+            } catch (error) {
+                mostrarMensaje('❌ Error: ' + error.message, 'error');
+            }
+        });
+
+        // FORM ESTUDIANTES
+        document.getElementById('formEstudiantes').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const docente = localStorage.getItem('emailUsuario');
+            
+            const data = {
+                nombre: document.getElementById('nomEstudiante').value,
+                email: document.getElementById('emailEstudiante').value,
+                telefono: document.getElementById('telefonoEstudiante').value,
+                acudiente: document.getElementById('acudienteEstudiante').value,
+                docente: docente,
+                fechaRegistro: new Date().toISOString()
+            };
+
+            try {
+                let estudiantes = JSON.parse(localStorage.getItem('estudiantes') || '[]');
+                estudiantes.push(data);
+                localStorage.setItem('estudiantes', JSON.stringify(estudiantes));
+                
+                mostrarMensaje('✅ Estudiante agregado correctamente', 'éxito');
+                document.getElementById('formEstudiantes').reset();
+                cargarTablaEstudiantes();
+            } catch (error) {
+                mostrarMensaje('❌ Error: ' + error.message, 'error');
+            }
+        });
+
+        
+            const comunicados = JSON.parse(localStorage.getItem('comunicados') || '[]');
+            const tbody = document.getElementById('tablaComunicados');
+            
+            if (comunicados.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #999;">No hay comunicados aún</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = comunicados.map(c => `
+                <tr>
+                    <td>${c.destinatario}</td>
+                    <td>${c.asunto}</td>
+                    <td>${c.fecha}</td>
+                    <td>${c.mensaje.substring(0, 50)}...</td>
+                </tr>
+            `).join('');
+            
+            document.getElementById('totalComunicados').textContent = comunicados.length;
+        }
+
+        function cargarTablaMiAusencia() {
+            const ausenciasDocente = JSON.parse(localStorage.getItem('ausenciasDocente') || '[]');
+            const tbody = document.getElementById('tablaMiAusencia');
+            
+            if (ausenciasDocente.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #999;">No hay ausencias registradas</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = ausenciasDocente.map(a => `
+                <tr>
+                    <td><strong>${a.fecha}</strong></td>
+                    <td>${a.razon}</td>
+                    <td>${a.detalle || '-'}</td>
+                    <td>${a.actividad || '-'}</td>
+                    <td style="color: #28a745; font-weight: bold;">✅ Enviada</td>
+                </tr>
+            `).join('');
+        }
+
+        function cargarTablaEstudiantes() {
+            const estudiantes = JSON.parse(localStorage.getItem('estudiantes') || '[]');
+            const tbody = document.getElementById('tablaEstudiantes');
+            
+            if (estudiantes.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #999;">No hay estudiantes registrados</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = estudiantes.map((e, index) => `
+                <tr>
+                    <td><strong>${e.nombre}</strong></td>
+                    <td>${e.email || '-'}</td>
+                    <td>${e.telefono || '-'}</td>
+                    <td>${e.acudiente || '-'}</td>
+                    <td><button style="background: #ff6b6b; padding: 5px 10px; font-size: 12px; cursor: pointer; border: none; border-radius: 3px; color: white;" onclick="eliminarEstudiante(${index})">Eliminar</button></td>
+                </tr>
+            `).join('');
+        }
+
+        function eliminarEstudiante(index) {
+            if (confirm('¿Estás seguro de eliminar este estudiante?')) {
+                let estudiantes = JSON.parse(localStorage.getItem('estudiantes') || '[]');
+                estudiantes.splice(index, 1);
+                localStorage.setItem('estudiantes', JSON.stringify(estudiantes));
+                cargarTablaEstudiantes();
+                mostrarMensaje('✅ Estudiante eliminado', 'éxito');
             }
         }
-    );
 
-    const data = await response.json();
+        function cargarDatosUsuario() {
+            const nombre = localStorage.getItem('nombreUsuario') || 'Usuario';
+            const email = localStorage.getItem('emailUsuario') || 'No especificado';
+            const materia = localStorage.getItem('materiaUsuario') || 'No especificada';
 
-    let contenedor = document.getElementById("datosDocente");
-    contenedor.innerHTML = "<h3>Docentes registrados:</h3>";
+            document.getElementById('nombreUsuario').textContent = nombre;
+            document.getElementById('emailUsuario').textContent = email;
+            document.getElementById('materiaUsuario').textContent = materia;
+            
+            cargarTablaEstudiantes();
+            cargarTablaMiAusencia();
+            cargarTablaComunicados();
+        }
 
-    data.forEach(docente => {
-        contenedor.innerHTML += `
-            <p><b>Nombre:</b> ${docente.title}</p>
-            <p><b>Email:</b> ${docente.user_email}</p>
-            <p><b>Materia:</b> ${docente.materia}</p>
-            <hr>
-        `;
-    });
-}
+        function cerrarSesion() {
+            if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+                localStorage.removeItem('nombreUsuario');
+                localStorage.removeItem('emailUsuario');
+                localStorage.removeItem('materiaUsuario');
+                window.location.href = 'index.html';
+            }
+        }
 
-cargarDocente();
-
-
-// ENVIAR CORREO
-function enviarCorreo() {
-
-    let asunto = "Ausencia Docente";
-    let mensaje = "Se notifica ausencia del docente.";
-
-    window.location.href = 
-    `mailto:melissa.frutos.umana@mep.go.cr?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(mensaje)}`;
-}
-
-</script>
-
+        cargarDatosUsuario();
+    </script>
 </body>
+
 </html>
