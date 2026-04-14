@@ -216,13 +216,13 @@ const SUPABASE_URL = 'https://etdcmuikvtnqfcnlvodh.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0ZGNtdWlrdnRucWZjbmx2b2RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1OTQ1ODcsImV4cCI6MjA5MTE3MDU4N30.8JHWlTxYRSYEkpipqesHVBKn7QomTXJYHp6Nm6SzU4A';
 
 
-// 📊 CARGAR AUSENCIAS
+// 📊 CARGAR AUSENCIAS (CORREGIDO)
 async function cargarAusencias(){
 
     try {
 
         const response = await fetch(
-            `${SUPABASE_URL}/rest/v1/ausencias?select=nombre,fecha,razon,detalle&order=fecha.desc`,
+            `${SUPABASE_URL}/rest/v1/ausencias?select=*&order=fecha.desc`,
             {
                 headers: {
                     apikey: SUPABASE_KEY,
@@ -240,6 +240,8 @@ async function cargarAusencias(){
         }
 
         const datos = await response.json();
+        console.log("DATOS:", datos);
+
         let tabla = document.getElementById("tablaAusencias");
 
         if(!datos || datos.length === 0){
@@ -251,19 +253,21 @@ async function cargarAusencias(){
 
         datos.forEach(a => {
 
-            let fechaBonita = new Date(a.fecha).toLocaleDateString("es-CR", {
-                weekday: "long",
-                year: "numeric",
-                month: "long",
-                day: "numeric"
-            });
+            let fechaBonita = a.fecha 
+                ? new Date(a.fecha).toLocaleDateString("es-CR", {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric"
+                })
+                : "Sin fecha";
 
             tabla.innerHTML += `
             <tr>
-                <td>${a.nombre || "Sin nombre"}</td>
+                <td>${a.nombre}</td>
                 <td>${fechaBonita}</td>
-                <td>${a.razon || "-"}</td>
-                <td>${a.detalle || "-"}</td>
+                <td>${a.razon}</td>
+                <td>${a.detalle}</td>
             </tr>`;
         });
 
