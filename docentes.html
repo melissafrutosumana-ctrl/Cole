@@ -93,8 +93,8 @@ td, th {
 
 <div class="info-usuario">
 <p><b>Nombre:</b> <span id="nombreUsuario"></span></p>
-<p><b>Email:</b> <span id="emailUsuario"></span></p>
-<p><b>Materia:</b> <span id="materiaUsuario"></span></p>
+<p><b>Usuario:</b> <span id="emailUsuario"></span></p>
+<p><b>Rol:</b> <span id="materiaUsuario"></span></p>
 </div>
 
 <h3>Registrar Ausencia</h3>
@@ -141,24 +141,22 @@ td, th {
 
 <script>
 
-// 🔥 PRUEBA AUTOMÁTICA (QUÍTALO CUANDO TENGAS LOGIN)
-if (!localStorage.getItem("nombreUsuario")) {
-    localStorage.setItem("nombreUsuario", "Docente Prueba");
-    localStorage.setItem("emailUsuario", "docente@mep.go.cr");
-    localStorage.setItem("materiaUsuario", "Informática");
-}
-
-
-// 🔥 CARGAR DATOS
+// 🔐 CARGAR DATOS DEL LOGIN
 function cargarDatosUsuario() {
 
-    const nombre = localStorage.getItem('nombreUsuario');
-    const email = localStorage.getItem('emailUsuario');
-    const materia = localStorage.getItem('materiaUsuario');
+    const nombre = localStorage.getItem('nombre');
+    const usuario = localStorage.getItem('usuario');
+
+    // Si no hay sesión → regresar al login
+    if (!nombre || !usuario) {
+        alert("⚠️ Debe iniciar sesión primero");
+        window.location.href = "index.html";
+        return;
+    }
 
     document.getElementById('nombreUsuario').textContent = nombre;
-    document.getElementById('emailUsuario').textContent = email;
-    document.getElementById('materiaUsuario').textContent = materia;
+    document.getElementById('emailUsuario').textContent = usuario;
+    document.getElementById('materiaUsuario').textContent = "Docente";
 
     cargarTablaMiAusencia();
 }
@@ -166,7 +164,7 @@ function cargarDatosUsuario() {
 cargarDatosUsuario();
 
 
-// 🔥 REGISTRAR AUSENCIA (CORREGIDO)
+// 📝 REGISTRAR AUSENCIA
 document.getElementById('formMiAusencia').addEventListener('submit', function(e){
 
     e.preventDefault();
@@ -179,8 +177,8 @@ document.getElementById('formMiAusencia').addEventListener('submit', function(e)
     let lista = JSON.parse(localStorage.getItem('ausenciasDocente') || '[]');
 
     lista.push({
-        nombre: localStorage.getItem('nombreUsuario'),
-        materia: localStorage.getItem('materiaUsuario'),
+        nombre: localStorage.getItem('nombre'),
+        usuario: localStorage.getItem('usuario'),
         fecha: fecha,
         razon: razon,
         detalle: detalle,
@@ -189,7 +187,7 @@ document.getElementById('formMiAusencia').addEventListener('submit', function(e)
 
     localStorage.setItem('ausenciasDocente', JSON.stringify(lista));
 
-    alert("✅ Ausencia enviada correctamente");
+    alert("✅ Ausencia registrada correctamente");
 
     this.reset();
     cargarTablaMiAusencia();
