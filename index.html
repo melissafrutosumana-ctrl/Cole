@@ -12,87 +12,85 @@ body {
 
 /* HEADER */
 .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     background: linear-gradient(90deg, #2ecc71, #27ae60);
-    padding: 10px 20px;
-    color: white;
-}
-
-.center {
     text-align: center;
-    width: 60%;
+    padding: 20px;
+    color: white;
 }
 
 /* LOGOS */
-.logo-mep { width: 220px; }
-.logo-escudo { width: 100px; }
+.logo-mep {
+    width: 260px; /* MÁS GRANDE */
+}
 
-.right {
-    display: flex;
-    gap: 10px;
+.logo-escudo {
+    width: 90px;
 }
 
 /* BOTONES */
+.right {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
 .btn {
-    padding: 10px 16px;
-    text-decoration: none;
-    color: white;
+    padding: 10px 15px;
     border-radius: 8px;
-    font-weight: bold;
-    transition: 0.3s;
+    color: white;
+    text-decoration: none;
+    margin-left: 10px;
 }
 
-.btn-registro {
-    background: linear-gradient(135deg, #38ada9, #079992);
-}
+.btn-registro { background: #16a085; }
+.btn-login { background: #f39c12; }
 
-.btn-login {
-    background: linear-gradient(135deg, #f6b93b, #e58e26);
-}
-
-.btn:hover {
-    transform: translateY(-2px);
-}
-
-/* CONTENEDOR */
+/* CONTENIDO */
 .seccion-blanca {
-    padding: 30px;
+    padding: 40px;
+    text-align: center;
 }
 
-.contenedor {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-}
-
+/* STEAM */
 .steam img {
     width: 200px;
 }
 
-/* 🎠 CARRUSEL PRO */
-.carousel-container {
-    width: 600px;
+.steam p {
+    max-width: 300px;
     margin: auto;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* 🎠 CARRUSEL CORREGIDO */
+.carousel-container {
+    width: 500px;
+    margin: auto;
+}
+
+.carousel-wrapper {
+    position: relative;
 }
 
 .carousel {
     overflow: hidden;
     border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
 }
 
 .slides {
     display: flex;
+    width: 500%;
     transition: transform 0.5s ease;
 }
 
+/* 🔥 CLAVE: cada imagen ocupa 100% */
 .slides img {
     width: 100%;
-    height: 380px;
-    object-fit: cover;
+    flex-shrink: 0;
+    height: 350px;
+    object-fit: contain; /* NO CORTA */
+    background: #f4f6f7;
 }
 
 /* BOTONES */
@@ -103,7 +101,7 @@ body {
     background: rgba(0,0,0,0.6);
     border: none;
     color: white;
-    padding: 12px;
+    padding: 10px;
     border-radius: 50%;
     cursor: pointer;
 }
@@ -111,16 +109,9 @@ body {
 .prev { left: 10px; }
 .next { right: 10px; }
 
-.carousel-wrapper {
-    position: relative;
-}
-
 /* TABLA */
 .tabla-ausencias {
     margin-top: 50px;
-    padding: 25px;
-    border-radius: 12px;
-    background: #fff;
 }
 
 table {
@@ -138,17 +129,6 @@ td {
     padding: 10px;
     border-bottom: 1px solid #ddd;
 }
-
-/* RESPONSIVE */
-@media (max-width: 768px) {
-    .contenedor {
-        flex-direction: column;
-    }
-
-    .carousel-container {
-        width: 95%;
-    }
-}
 </style>
 </head>
 
@@ -157,60 +137,57 @@ td {
 <!-- HEADER -->
 <div class="header">
 
-    <div></div>
+<div class="right">
+    <a href="registro-docentes.html" class="btn btn-registro">Registro Docente</a>
+    <a href="registrarme.html" class="btn btn-login">Iniciar Sesión</a>
+</div>
 
-    <div class="center">
-        <img src="LOGO MEP.png" class="logo-mep">
-        <img src="escudo sin fondo.png" class="logo-escudo">
-        <h1>Colegio Técnico Profesional de Matapalo</h1>
-    </div>
+<img src="LOGO MEP.png" class="logo-mep">
+<img src="escudo sin fondo.png" class="logo-escudo">
 
-    <div class="right">
-        <a href="registro-docentes.html" class="btn btn-registro">Registro Docente</a>
-        <a href="registrarme.html" class="btn btn-login">Iniciar Sesión</a>
-    </div>
+<h1>Colegio Técnico Profesional de Matapalo</h1>
 
 </div>
 
 <!-- CONTENIDO -->
 <div class="seccion-blanca">
 
-<div class="contenedor">
-
-<!-- LOGO -->
 <div class="steam">
-    <a href="galeria.html"><img src="steam.png"></a>
+    <img src="steam.png">
+    <p>
+    Conservación y Promoción de la Reserva Ecológica Institucional como estrategia 
+    para la Educación Ambiental desde un enfoque STEAM
+    </p>
 </div>
 
-<!-- CARRUSEL PRO -->
+<br><br>
+
+<!-- CARRUSEL -->
 <div class="carousel-container">
 
-<h2 style="text-align:center;">Anuncios del Colegio</h2>
+<h2>Anuncios del Colegio</h2>
 
 <div class="carousel-wrapper">
 
-    <button class="nav-btn prev" onclick="mover(-1)">❮</button>
-    <button class="nav-btn next" onclick="mover(1)">❯</button>
+<button class="nav-btn prev" onclick="mover(-1)">❮</button>
+<button class="nav-btn next" onclick="mover(1)">❯</button>
 
-    <div class="carousel">
-        <div class="slides" id="slides">
-            <img src="1.jpeg">
-            <img src="2.jpeg">
-            <img src="3.jpeg">
-            <img src="4.jpeg">
-            <img src="5.jpeg">
-        </div>
+<div class="carousel">
+    <div class="slides" id="slides">
+        <img src="1.jpeg">
+        <img src="2.jpeg">
+        <img src="3.jpeg">
+        <img src="4.jpeg">
+        <img src="5.jpeg">
     </div>
-
 </div>
 
 </div>
-
 </div>
 
 <!-- TABLA -->
 <div class="tabla-ausencias">
-<h2 style="text-align:center;">Ausencias de Docentes</h2>
+<h2>Ausencias de Docentes</h2>
 
 <table>
 <thead>
@@ -224,14 +201,13 @@ td {
 </thead>
 <tbody id="tablaAusencias"></tbody>
 </table>
-
 </div>
 
 </div>
 
 <script>
 
-// 🎠 CARRUSEL PRO
+// 🎠 CARRUSEL ARREGLADO
 let index = 0;
 const slides = document.getElementById("slides");
 
@@ -247,19 +223,6 @@ function mover(direccion){
 
 // AUTO
 setInterval(() => mover(1), 4000);
-
-// SWIPE
-let startX = 0;
-
-slides.addEventListener("touchstart", e => {
-    startX = e.touches[0].clientX;
-});
-
-slides.addEventListener("touchend", e => {
-    let endX = e.changedTouches[0].clientX;
-    if(startX > endX) mover(1);
-    else mover(-1);
-});
 
 
 // TABLA
