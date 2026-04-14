@@ -2,286 +2,354 @@
 <html lang="es">
 
 <head>
-<meta charset="UTF-8">
-<title>Colegio</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CTP de Matapalo - Inicio</title>
 
-<style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-}
+    <style>
+        :root {
+            --verde-primario: #27ae60;
+            --verde-claro: #2ecc71;
+            --azul-oscuro: #2c3e50;
+            --gris-fondo: #f4f7f6;
+            --blanco: #ffffff;
+            --naranja: #f39c12;
+        }
 
-/* HEADER */
-.header {
-    background: linear-gradient(90deg, #2ecc71, #27ae60);
-    text-align: center;
-    padding: 20px;
-    color: white;
-    position: relative;
-}
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--gris-fondo);
+            color: #333;
+        }
 
-/* LOGOS */
-.logo-mep { width: 260px; }
-.logo-escudo { width: 90px; }
+        /* HEADER MODERNO */
+        .header {
+            background: linear-gradient(135deg, var(--verde-claro), var(--verde-primario));
+            padding: 30px 20px;
+            color: white;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
 
-/* BOTONES */
-.right {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-}
+        .header-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 15px;
+        }
 
-.btn {
-    padding: 10px 15px;
-    border-radius: 8px;
-    color: white;
-    text-decoration: none;
-    margin-left: 10px;
-}
+        .logo-mep { width: 220px; filter: brightness(0) invert(1); }
+        .logo-escudo { width: 80px; }
 
-.btn-registro { background: #16a085; }
-.btn-login { background: #f39c12; }
+        .header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
 
-/* CONTENIDO */
-.seccion-blanca { padding: 40px; }
+        /* BOTONES FLOTANTES */
+        .nav-actions {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            display: flex;
+            gap: 10px;
+        }
 
-.contenedor {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 50px;
-}
+        .btn {
+            padding: 10px 20px;
+            border-radius: 25px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
 
-/* STEAM */
-.steam { width: 300px; text-align: center; }
-.steam img { width: 180px; }
+        .btn-registro { background: #16a085; border: 2px solid transparent; }
+        .btn-login { background: var(--naranja); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.2); opacity: 0.9; }
 
-/* CARRUSEL */
-.carousel-container { width: 500px; }
-.carousel-wrapper { position: relative; }
+        /* CONTENEDOR PRINCIPAL */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
 
-.carousel {
-    overflow: hidden;
-    border-radius: 15px;
-}
+        .grid-superior {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
 
-.slides {
-    display: flex;
-    transition: transform 0.6s ease;
-}
+        /* SECCIÓN STEAM */
+        .card-steam {
+            background: var(--blanco);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--verde-primario);
+        }
 
-.slides img {
-    width: 100%;
-    height: 350px;
-    object-fit: contain;
-}
+        .card-steam img { width: 180px; margin-bottom: 20px; }
+        .card-steam p { line-height: 1.6; color: #555; font-style: italic; }
 
-/* BOTONES */
-.nav-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0,0,0,0.6);
-    border: none;
-    color: white;
-    padding: 10px;
-    border-radius: 50%;
-    cursor: pointer;
-}
+        /* CARRUSEL MEJORADO */
+        .carousel-box {
+            background: var(--blanco);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            position: relative;
+        }
 
-.prev { left: 10px; }
-.next { right: 10px; }
+        .carousel {
+            overflow: hidden;
+            border-radius: 10px;
+            height: 400px;
+        }
 
-/* TABLA */
-.tabla-ausencias { margin-top: 50px; }
+        .slides { display: flex; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); height: 100%; }
+        .slides img { width: 100%; min-width: 100%; object-fit: cover; }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
+        /* NUEVA SECCIÓN: COMUNICADOS */
+        .seccion-comunicados {
+            margin-bottom: 50px;
+        }
 
-th {
-    background: #27ae60;
-    color: white;
-    padding: 10px;
-}
+        .titulo-seccion {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 10px;
+        }
 
-td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-}
+        .titulo-seccion::after {
+            content: '';
+            width: 60px;
+            height: 4px;
+            background: var(--verde-primario);
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
 
-/* RESPONSIVE */
-@media (max-width: 768px) {
-    .contenedor { flex-direction: column; }
-}
-</style>
+        .comunicados-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .comunicado-card {
+            background: var(--blanco);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid var(--naranja);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .comunicado-card h3 { margin-top: 0; color: var(--verde-primario); }
+        .comunicado-card span { font-size: 0.8rem; color: #999; display: block; margin-bottom: 10px; }
+
+        /* TABLA DE AUSENCIAS MODERNA */
+        .tabla-container {
+            background: var(--blanco);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            overflow-x: auto;
+        }
+
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        
+        thead th {
+            background-color: #f8f9fa;
+            color: var(--azul-oscuro);
+            text-align: left;
+            padding: 15px;
+            border-bottom: 3px solid var(--verde-primario);
+        }
+
+        tbody td { padding: 15px; border-bottom: 1px solid #eee; }
+        tbody tr:hover { background-color: #f1f9f4; }
+
+        .badge-motivo {
+            background: #e1f5fe;
+            color: #0288d1;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        @media (max-width: 900px) {
+            .grid-superior { grid-template-columns: 1fr; }
+            .header h1 { font-size: 1.5rem; }
+            .nav-actions { position: static; justify-content: center; margin-top: 20px; }
+        }
+    </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
-<div class="header">
+    <header class="header">
+        <div class="nav-actions">
+            <a href="registro-docentes.html" class="btn btn-registro">Registro Docente</a>
+            <a href="registrarme.html" class="btn btn-login">Iniciar Sesión</a>
+        </div>
+        
+        <div class="header-logos">
+            <img src="LOGO MEP.png" class="logo-mep" alt="Logo MEP">
+            <img src="escudo sin fondo.png" class="logo-escudo" alt="Escudo">
+        </div>
+        <h1>Colegio Técnico Profesional de Matapalo</h1>
+    </header>
 
-<div class="right">
-    <a href="registro-docentes.html" class="btn btn-registro">Registro Docente</a>
-    <a href="registrarme.html" class="btn btn-login">Iniciar Sesión</a>
-</div>
+    <main class="container">
 
-<img src="LOGO MEP.png" class="logo-mep">
-<img src="escudo sin fondo.png" class="logo-escudo">
+        <div class="grid-superior">
+            
+            <section class="card-steam">
+                <a href="galeria.html"><img src="steam.png" alt="STEAM"></a>
+                <h3>Enfoque STEAM</h3>
+                <p>
+                    "Conservación y Promoción de la Reserva Ecológica Institucional como estrategia 
+                    para la Educación Ambiental."
+                </p>
+            </section>
 
-<h1>Colegio Técnico Profesional de Matapalo</h1>
+            <section class="carousel-box">
+                <h2 style="text-align:center; margin-top:0;">Anuncios y Eventos</h2>
+                <div class="carousel">
+                    <div class="slides" id="slides">
+                        <img src="1.jpeg">
+                        <img src="2.jpeg">
+                        <img src="3.jpeg">
+                        <img src="4.jpeg">
+                        <img src="5.jpeg">
+                    </div>
+                </div>
+            </section>
+        </div>
 
-</div>
+        <section class="seccion-comunicados">
+            <h2 class="titulo-seccion">Comunicados Oficiales</h2>
+            <div class="comunicados-grid">
+                <div class="comunicado-card">
+                    <span>14 de Abril, 2026</span>
+                    <h3>Entrega de Notas</h3>
+                    <p>Se les informa que la entrega de notas del primer trimestre se realizará el próximo viernes en el gimnasio.</p>
+                </div>
+                <div class="comunicado-card" style="border-left-color: #3498db;">
+                    <span>12 de Abril, 2026</span>
+                    <h3>Feria Científica</h3>
+                    <p>Invitamos a toda la comunidad estudiantil a participar en la fase institucional de la Feria Científica 2026.</p>
+                </div>
+                <div class="comunicado-card" style="border-left-color: #9b59b6;">
+                    <span>10 de Abril, 2026</span>
+                    <h3>Reunión de Padres</h3>
+                    <p>Reunión general para padres de décimo año para tratar temas de Práctica Profesional.</p>
+                </div>
+            </div>
+        </section>
 
-<!-- CONTENIDO -->
-<div class="seccion-blanca">
+        <section class="tabla-ausencias">
+            <h2 class="titulo-seccion">Control de Ausencias Docentes</h2>
+            <div class="tabla-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Docente</th>
+                            <th>Día y Fecha</th>
+                            <th>Motivo</th>
+                            <th>Observaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaAusencias">
+                        <tr><td colspan="4" style="text-align:center;">Cargando información...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
-<div class="contenedor">
+    </main>
 
-<div class="steam">
-<a href="galeria.html"><img src="steam.png"></a>
-<p>
-Conservación y Promoción de la Reserva Ecológica Institucional como estrategia 
-para la Educación Ambiental desde un enfoque STEAM
-</p>
-</div>
+    <footer style="text-align: center; padding: 40px; color: #888; font-size: 0.9rem;">
+        &copy; 2026 CTP de Matapalo - Ministerio de Educación Pública
+    </footer>
 
-<div class="carousel-container">
+    <script>
+        // 🎠 CARRUSEL AUTOMATIZADO
+        let index = 0;
+        const slides = document.getElementById("slides");
+        const totalSlides = 5; // Cambiar si hay más imágenes
 
-<h2 style="text-align:center;">Anuncios del Colegio</h2>
+        function siguienteSlide() {
+            index++;
+            if (index >= totalSlides) index = 0;
+            slides.style.transform = `translateX(-${index * 100}%)`;
+        }
 
-<div class="carousel-wrapper">
+        setInterval(siguienteSlide, 5000);
 
-<button class="nav-btn prev" onclick="mover(-1)">❮</button>
-<button class="nav-btn next" onclick="mover(1)">❯</button>
+        // 🔐 SUPABASE CONFIG
+        const SUPABASE_URL = 'https://etdcmuikvtnqfcnlvodh.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0ZGNtdWlrdnRucWZjbmx2b2RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1OTQ1ODcsImV4cCI6MjA5MTE3MDU4N30.8JHWlTxYRSYEkpipqesHVBKn7QomTXJYHp6Nm6SzU4A';
 
-<div class="carousel">
-    <div class="slides" id="slides">
-        <img src="1.jpeg">
-        <img src="2.jpeg">
-        <img src="3.jpeg">
-        <img src="4.jpeg">
-        <img src="5.jpeg">
-    </div>
-</div>
+        async function cargarAusencias() {
+            try {
+                const response = await fetch(
+                    `${SUPABASE_URL}/rest/v1/ausencias?select=*&order=fecha.desc`,
+                    {
+                        headers: {
+                            apikey: SUPABASE_KEY,
+                            Authorization: `Bearer ${SUPABASE_KEY}`
+                        }
+                    }
+                );
 
-</div>
+                if (!response.ok) throw new Error("Error en la respuesta");
 
-</div>
+                const datos = await response.json();
+                let tabla = document.getElementById("tablaAusencias");
+                tabla.innerHTML = "";
 
-</div>
-
-<!-- TABLA -->
-<div class="tabla-ausencias">
-<h2 style="text-align:center;">Ausencias de Docentes</h2>
-
-<table>
-<thead>
-<tr>
-<th>Docente</th>
-<th>Día</th>
-<th>Motivo</th>
-<th>Detalle</th>
-</tr>
-</thead>
-<tbody id="tablaAusencias"></tbody>
-</table>
-</div>
-
-</div>
-
-<script>
-
-// 🎠 CARRUSEL
-let index = 0;
-const slides = document.getElementById("slides");
-
-function mover(direccion){
-    const total = slides.children.length;
-    index += direccion;
-
-    if(index < 0) index = total - 1;
-    if(index >= total) index = 0;
-
-    slides.style.transform = `translateX(-${index * 100}%)`;
-}
-
-setInterval(() => mover(1), 7000);
-
-
-// 🔐 SUPABASE
-const SUPABASE_URL = 'https://etdcmuikvtnqfcnlvodh.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0ZGNtdWlrdnRucWZjbmx2b2RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1OTQ1ODcsImV4cCI6MjA5MTE3MDU4N30.8JHWlTxYRSYEkpipqesHVBKn7QomTXJYHp6Nm6SzU4A';
-
-
-// 📊 CARGAR AUSENCIAS (CORREGIDO)
-async function cargarAusencias(){
-
-    try {
-
-        const response = await fetch(
-            `${SUPABASE_URL}/rest/v1/ausencias?select=*&order=fecha.desc`,
-            {
-                headers: {
-                    apikey: SUPABASE_KEY,
-                    Authorization: `Bearer ${SUPABASE_KEY}`
+                if (datos.length === 0) {
+                    tabla.innerHTML = "<tr><td colspan='4' style='text-align:center;'>No hay ausencias registradas para hoy.</td></tr>";
+                    return;
                 }
+
+                datos.forEach(a => {
+                    let fecha = a.fecha ? new Date(a.fecha).toLocaleDateString("es-CR", {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric"
+                    }) : "Fecha no definida";
+
+                    tabla.innerHTML += `
+                        <tr>
+                            <td><strong>${a.nombre}</strong></td>
+                            <td style="text-transform: capitalize;">${fecha}</td>
+                            <td><span class="badge-motivo">${a.razon}</span></td>
+                            <td style="color: #666; font-size: 0.9rem;">${a.detalle || 'Sin detalle'}</td>
+                        </tr>`;
+                });
+
+            } catch (error) {
+                document.getElementById("tablaAusencias").innerHTML = "<tr><td colspan='4'>Error al conectar con el servidor.</td></tr>";
             }
-        );
-
-        if (!response.ok) {
-            const error = await response.text();
-            console.error(error);
-            document.getElementById("tablaAusencias").innerHTML =
-                "<tr><td colspan='4'>Error cargando datos</td></tr>";
-            return;
         }
 
-        const datos = await response.json();
-        console.log("DATOS:", datos);
-
-        let tabla = document.getElementById("tablaAusencias");
-
-        if(!datos || datos.length === 0){
-            tabla.innerHTML = "<tr><td colspan='4'>No hay ausencias registradas</td></tr>";
-            return;
-        }
-
-        tabla.innerHTML = "";
-
-        datos.forEach(a => {
-
-            let fechaBonita = a.fecha 
-                ? new Date(a.fecha).toLocaleDateString("es-CR", {
-                    weekday: "long",
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric"
-                })
-                : "Sin fecha";
-
-            tabla.innerHTML += `
-            <tr>
-                <td>${a.nombre}</td>
-                <td>${fechaBonita}</td>
-                <td>${a.razon}</td>
-                <td>${a.detalle}</td>
-            </tr>`;
-        });
-
-    } catch (error) {
-        console.error(error);
-        document.getElementById("tablaAusencias").innerHTML =
-            "<tr><td colspan='4'>Error de conexión</td></tr>";
-    }
-}
-
-// 🚀 EJECUTAR
-cargarAusencias();
-
-</script>
-
+        window.onload = cargarAusencias;
+    </script>
 </body>
 </html>
