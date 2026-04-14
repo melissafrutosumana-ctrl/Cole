@@ -122,7 +122,7 @@ td, th {
 
 </form>
 
-<h3>Historial</h3>
+<h3>Historial (Solo tus ausencias)</h3>
 
 <table>
 <thead>
@@ -145,7 +145,8 @@ td, th {
 const SUPABASE_URL = 'https://etdcmuikvtnqfcnlvodh.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0ZGNtdWlrdnRucWZjbmx2b2RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1OTQ1ODcsImV4cCI6MjA5MTE3MDU4N30.8JHWlTxYRSYEkpipqesHVBKn7QomTXJYHp6Nm6SzU4A';
 
-// 🔐 CARGAR DATOS
+
+// 🔐 CARGAR DATOS DEL LOGIN
 function cargarDatosUsuario() {
 
     const nombre = localStorage.getItem('nombre');
@@ -176,14 +177,13 @@ document.getElementById('formMiAusencia').addEventListener('submit', async funct
 
     const fecha = document.getElementById('fechaAusenciaDocente').value;
     const razon = document.getElementById('razonAusencia').value;
+    const detalle = document.getElementById('detalleAusencia').value;
+    const actividad = document.getElementById('actividadRemplazo').value;
 
     if (!razon) {
         alert("Seleccione una razón");
         return;
     }
-
-    const detalle = document.getElementById('detalleAusencia').value;
-    const actividad = document.getElementById('actividadRemplazo').value;
 
     try {
 
@@ -224,45 +224,59 @@ document.getElementById('formMiAusencia').addEventListener('submit', async funct
 });
 
 
-// 📊 TABLA
+// 📊 CARGAR SOLO SUS AUSENCIAS
 async function cargarTablaMiAusencia(){
 
     const usuario = localStorage.getItem('usuario');
-    const rol = localStorage.getItem('rol');
 
-    let url = `${SUPABASE_URL}/rest/v1/ausencias?order=fecha.desc`;
+    try {
 
-    if (rol !== "admin") {
-        url = `${SUPABASE_URL}/rest/v1/ausencias?usuario=eq.${usuario}&order=fecha.desc`;
-    }
+        const response = await fetch(
+            `${SUPABASE_URL}/rest/v1/ausencias?usuario=eq.${encodeURIComponent(usuario)}&order=fecha.desc`,
+            {
+                headers: {
+                    apikey: SUPABASE_KEY,
+                    Authorization: `Bearer ${SUPABASE_KEY}`
+                }
+            }
+        );
 
-    const response = await fetch(url, {
-        headers: {
-            apikey: SUPABASE_KEY,
-            Authorization: `Bearer ${SUPABASE_KEY}`
+        if (!response.ok) {
+            const error = await response.text();
+            console.error(error);
+            document.getElementById('tablaMiAusencia').innerHTML =
+                "<tr><td colspan='4'>Error cargando datos</td></tr>";
+            return;
         }
-    });
 
-    const lista = await response.json();
-    let tabla = document.getElementById('tablaMiAusencia');
+        const lista = await response.json();
+        let tabla = document.getElementById('tablaMiAusencia');
 
-    if(lista.length === 0){
-        tabla.innerHTML = "<tr><td colspan='4'>No hay registros</td></tr>";
-        return;
+        if(!lista || lista.length === 0){
+            tabla.innerHTML = "<tr><td colspan='4'>No tienes ausencias registradas</td></tr>";
+            return;
+        }
+
+        tabla.innerHTML = "";
+
+        lista.forEach(a=>{
+
+            let fechaBonita = new Date(a.fecha).toLocaleDateString("es-CR");
+
+            tabla.innerHTML += `
+            <tr>
+                <td>${fechaBonita}</td>
+                <td>${a.razon}</td>
+                <td>${a.detalle}</td>
+                <td>${a.actividad}</td>
+            </tr>`;
+        });
+
+    } catch (error) {
+        console.error(error);
+        document.getElementById('tablaMiAusencia').innerHTML =
+            "<tr><td colspan='4'>Error de conexión</td></tr>";
     }
-
-    tabla.innerHTML = "";
-
-    lista.forEach(a=>{
-        tabla.innerHTML += `
-        <tr>
-            <td>${a.fecha}</td>
-            <td>${a.razon}</td>
-            <td>${a.detalle}</td>
-            <td>${a.actividad}</td>
-        </tr>
-        `;
-    });
 }
 
 
