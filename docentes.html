@@ -78,7 +78,7 @@ td, th {
 
 <div class="header">
     <img src="escudo sin fondo.png">
-    <h1>Panel de Docentes</h1>
+    <h1 id="saludo">Panel de Docentes</h1>
     <img src="LOGO MEP.png">
 </div>
 
@@ -93,36 +93,61 @@ td, th {
 
 <div class="info-usuario">
 <p><b>Nombre:</b> <span id="nombreUsuario"></span></p>
-<p><b>Email:</b> <span id="emailUsuario"></span></p>
-<p><b>Materia:</b> <span id="materiaUsuario"></span></p>
-<p><b>Usuario:</b> <span id="emailUsuario"></span></p>
-<p><b>Rol:</b> <span id="materiaUsuario"></span></p>
+<p><b>Usuario:</b> <span id="usuario"></span></p>
+<p><b>Rol:</b> <span id="rol"></span></p>
 </div>
 
 <h3>Registrar Ausencia</h3>
-@@ -141,32 +141,30 @@
+
+<form id="formMiAusencia">
+
+<label>Fecha</label>
+<input type="date" id="fechaAusenciaDocente" required>
+
+<label>Razón</label>
+<select id="razonAusencia" required>
+<option value="">Seleccione</option>
+<option>Enfermedad</option>
+<option>Permiso</option>
+<option>Capacitación</option>
+</select>
+
+<label>Detalle</label>
+<textarea id="detalleAusencia"></textarea>
+
+<label>Actividad</label>
+<textarea id="actividadRemplazo"></textarea>
+
+<button type="submit">Registrar</button>
+
+</form>
+
+<h3>Historial</h3>
+
+<table>
+<thead>
+<tr>
+<th>Fecha</th>
+<th>Razón</th>
+<th>Detalle</th>
+<th>Actividad</th>
+</tr>
+</thead>
+
+<tbody id="tablaMiAusencia"></tbody>
+</table>
+
+</div>
 
 <script>
 
-// 🔥 PRUEBA AUTOMÁTICA (QUÍTALO CUANDO TENGAS LOGIN)
-if (!localStorage.getItem("nombreUsuario")) {
-    localStorage.setItem("nombreUsuario", "Docente Prueba");
-    localStorage.setItem("emailUsuario", "docente@mep.go.cr");
-    localStorage.setItem("materiaUsuario", "Informática");
-}
-
-
-// 🔥 CARGAR DATOS
-// 🔐 CARGAR DATOS DEL LOGIN
+// 🔐 CARGAR DATOS DESDE LOGIN (SUPABASE)
 function cargarDatosUsuario() {
 
-    const nombre = localStorage.getItem('nombreUsuario');
-    const email = localStorage.getItem('emailUsuario');
-    const materia = localStorage.getItem('materiaUsuario');
     const nombre = localStorage.getItem('nombre');
     const usuario = localStorage.getItem('usuario');
+    const rol = localStorage.getItem('rol');
 
-    // Si no hay sesión → regresar al login
     if (!nombre || !usuario) {
         alert("⚠️ Debe iniciar sesión primero");
         window.location.href = "index.html";
@@ -130,10 +155,11 @@ function cargarDatosUsuario() {
     }
 
     document.getElementById('nombreUsuario').textContent = nombre;
-    document.getElementById('emailUsuario').textContent = email;
-    document.getElementById('materiaUsuario').textContent = materia;
-    document.getElementById('emailUsuario').textContent = usuario;
-    document.getElementById('materiaUsuario').textContent = "Docente";
+    document.getElementById('usuario').textContent = usuario;
+    document.getElementById('rol').textContent = rol || "profesor";
+
+    // 👋 saludo dinámico
+    document.getElementById('saludo').textContent = "Bienvenido, " + nombre;
 
     cargarTablaMiAusencia();
 }
@@ -141,27 +167,30 @@ function cargarDatosUsuario() {
 cargarDatosUsuario();
 
 
-// 🔥 REGISTRAR AUSENCIA (CORREGIDO)
 // 📝 REGISTRAR AUSENCIA
 document.getElementById('formMiAusencia').addEventListener('submit', function(e){
 
     e.preventDefault();
-@@ -179,8 +177,8 @@
+
+    const fecha = document.getElementById('fechaAusenciaDocente').value;
+    const razon = document.getElementById('razonAusencia').value;
+    const detalle = document.getElementById('detalleAusencia').value;
+    const actividad = document.getElementById('actividadRemplazo').value;
+
     let lista = JSON.parse(localStorage.getItem('ausenciasDocente') || '[]');
 
     lista.push({
-        nombre: localStorage.getItem('nombreUsuario'),
-        materia: localStorage.getItem('materiaUsuario'),
         nombre: localStorage.getItem('nombre'),
         usuario: localStorage.getItem('usuario'),
+        rol: localStorage.getItem('rol'),
         fecha: fecha,
         razon: razon,
         detalle: detalle,
-@@ -189,46 +187,46 @@
+        actividad: actividad
+    });
 
     localStorage.setItem('ausenciasDocente', JSON.stringify(lista));
 
-    alert("✅ Ausencia enviada correctamente");
     alert("✅ Ausencia registrada correctamente");
 
     this.reset();
