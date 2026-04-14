@@ -6,17 +6,21 @@
 
 <style>
 body { margin:0; font-family: Arial; background:#008CD0; }
+
 .header {
     display:flex;
     justify-content:space-between;
+    align-items:center;
     padding:10px;
     color:white;
 }
+
 .container {
     max-width:900px;
     margin:40px auto;
     background:white;
     padding:20px;
+    border-radius:10px;
 }
 </style>
 </head>
@@ -24,7 +28,7 @@ body { margin:0; font-family: Arial; background:#008CD0; }
 <body>
 
 <div class="header">
-    <h2>Panel de Docentes</h2>
+    <h2 id="saludo">Panel de Docentes</h2>
     <button onclick="cerrarSesion()">Cerrar Sesión</button>
 </div>
 
@@ -52,14 +56,17 @@ const rol = localStorage.getItem('rol');
 
 // 🔴 SI NO HAY SESIÓN
 if (!nombre || !usuario) {
-    alert("Debe iniciar sesión");
+    alert("⚠️ Debe iniciar sesión");
     window.location.href = "index.html";
 }
 
-// MOSTRAR DATOS
+// ✅ MOSTRAR DATOS
 document.getElementById('nombreUsuario').textContent = nombre;
 document.getElementById('usuario').textContent = usuario;
-document.getElementById('rol').textContent = rol;
+document.getElementById('rol').textContent = rol || "profesor";
+
+// 👋 SALUDO PERSONALIZADO
+document.getElementById('saludo').textContent = "Bienvenido, " + nombre;
 
 // 👑 MOSTRAR PANEL ADMIN
 if (rol === "admin") {
