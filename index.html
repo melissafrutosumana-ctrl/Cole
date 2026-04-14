@@ -8,29 +8,37 @@
 
     <style>
         :root {
-            --verde-oscuro: #1b5e20;
-            --verde-claro: #2e7d32;
-            --gris-fondo: #f1f5f9;
-            --blanco: #ffffff;
-            --texto-oscuro: #1e293b;
-            --borde: #e2e8f0;
+            /* Definimos el esquema de color VERDE OSCURO institucional */
+            --verde-base: #1b5e20; 
+            --verde-oscuro-hover: #144618;
+            --verde-tabla-cabecera: #1b5e20; /* Mismo color base para la tabla */
+            --gris-fondo-pagina: #111111; /* Un gris muy oscuro o negro para el fondo de página */
+            
+            --verde-mep: #008CD0; /* Azul del MEP, lo usaremos solo para acentos como badges */
+            
+            --gris-tabla-impar: #222222;
+            --gris-tabla-par: #1a1a1a;
+            --texto-principal: #ffffff;
+            --texto-suave: #aaaaaa;
+            --borde-suave: #333333;
         }
 
         body {
             margin: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--gris-fondo);
-            color: var(--texto-oscuro);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--gris-fondo-pagina);
+            color: var(--texto-principal);
         }
 
-        /* HEADER VERDE OSCURO */
+        /* HEADER TOTALMENTE VERDE OSCURO */
         .header {
-            background-color: var(--verde-oscuro);
-            padding: 40px 20px;
+            background-color: var(--verde-base);
+            padding: 30px 20px;
             color: white;
             text-align: center;
             position: relative;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            z-index: 10;
         }
 
         .header-logos {
@@ -41,17 +49,9 @@
             margin-bottom: 20px;
         }
 
-        /* CORRECCIÓN LOGO MEP: Forzado a blanco para contraste en fondo oscuro */
-        .logo-mep { 
-            height: 60px; 
-            filter: brightness(0) invert(1); /* Esto lo hace blanco sólido */
-            opacity: 1;
-        }
-
-        /* Escudo sin fondo suele ser colorido, lo dejamos natural */
-        .logo-escudo { 
-            height: 95px; 
-        }
+        /* AJUSTE LOGOS: Para fondo oscuro, ambos se vuelven blancos o mantienen contraste */
+        .logo-mep { height: 60px; filter: brightness(0) invert(1); } /* MEP -> Blanco */
+        .logo-escudo { height: 95px; } /* Escudo natural tiene contraste */
 
         .header h1 {
             margin: 0;
@@ -59,6 +59,7 @@
             font-weight: 700;
         }
 
+        /* BOTONES DE CABECERA */
         .nav-actions {
             position: absolute;
             right: 40px;
@@ -81,7 +82,7 @@
 
         .btn-login:hover {
             background-color: white;
-            color: var(--verde-oscuro);
+            color: var(--verde-base);
         }
 
         .container {
@@ -90,6 +91,7 @@
             padding: 0 20px;
         }
 
+        /* CUADRICULA SUPERIOR (STEAM Y CARRUSEL) */
         .grid-superior {
             display: grid;
             grid-template-columns: 320px 1fr;
@@ -98,20 +100,22 @@
         }
 
         .card-steam {
-            background: var(--blanco);
+            background: #1a1a1a; /* Fondo muy oscuro para la tarjeta */
             padding: 40px 20px;
             border-radius: 15px;
             text-align: center;
-            border: 1px solid var(--borde);
+            border: 1px solid var(--borde-suave);
         }
 
         .card-steam img { width: 130px; margin-bottom: 20px; }
+        .card-steam h3 { color: var(--verde-primario); }
+        .card-steam p { color: var(--texto-suave); }
 
         .carousel-box {
-            background: var(--blanco);
+            background: #1a1a1a;
             padding: 10px;
             border-radius: 15px;
-            border: 1px solid var(--borde);
+            border: 1px solid var(--borde-suave);
         }
 
         .carousel {
@@ -123,15 +127,17 @@
         .slides { display: flex; transition: transform 0.8s ease; height: 100%; }
         .slides img { width: 100%; min-width: 100%; object-fit: cover; }
 
+        /* TÍTULOS DE SECCIÓN */
         .titulo-seccion {
             font-size: 1.7rem;
             margin-bottom: 35px;
-            color: var(--verde-oscuro);
-            border-bottom: 3px solid var(--verde-oscuro);
+            color: white;
+            border-bottom: 3px solid var(--verde-base);
             display: inline-block;
             padding-bottom: 5px;
         }
 
+        /* COMUNICADOS */
         .comunicados-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -140,38 +146,62 @@
         }
 
         .comunicado-card {
-            background: var(--blanco);
+            background: #1a1a1a;
             padding: 25px;
             border-radius: 12px;
-            border-left: 6px solid var(--verde-oscuro);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-left: 6px solid var(--verde-base);
+            border: 1px solid var(--borde-suave);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        .comunicado-card .meta { font-size: 0.75rem; color: var(--verde-claro); font-weight: 700; }
+        .comunicado-card .meta { font-size: 0.75rem; color: var(--verde-claro); font-weight: 700; text-transform: uppercase; }
+        .comunicado-card h3 { margin: 12px 0; font-size: 1.25rem; color: white; }
+        .comunicado-card p { color: var(--texto-suave); }
 
+        /* TABLA DE AUSENCIAS TOTALMENTE REESCRITA */
         .tabla-container {
-            background: var(--blanco);
+            background: #1a1a1a;
             border-radius: 12px;
-            border: 1px solid var(--borde);
+            border: 1px solid var(--borde-suave);
             overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
-        table { width: 100%; border-collapse: collapse; }
-        th { text-align: left; padding: 18px; background: #f8fafc; font-size: 0.85rem; }
-        td { padding: 18px; border-bottom: 1px solid var(--borde); }
+        table { width: 100%; border-collapse: collapse; color: var(--texto-principal); }
+        
+        /* CABECERA DE LA TABLA: VERDE OSCURO */
+        th { 
+            text-align: left; 
+            padding: 18px; 
+            background: var(--verde-tabla-cabecera); 
+            color: white; 
+            font-size: 0.85rem; 
+            border-bottom: 2px solid var(--borde-suave);
+            text-transform: uppercase;
+        }
+        
+        /* FILAS DE LA TABLA CON RANGO DE GRISES OSCUROS */
+        tbody td { padding: 18px; border-bottom: 1px solid var(--borde-suave); }
+        tbody tr { background-color: var(--gris-tabla-par); }
+        tbody tr:nth-child(even) { background-color: var(--gris-tabla-impar); }
+        
+        /* EFECTO HOVER PARA INTERACTIVIDAD */
+        tbody tr:hover td { background-color: #2a2a2a; }
 
+        /* BADGE MOTIVO */
         .badge-motivo {
-            background: #f1f5f9;
+            background: #2a2a2a;
             padding: 5px 12px;
             border-radius: 20px;
             font-size: 0.75rem;
             font-weight: 700;
-            color: var(--verde-oscuro);
+            color: #eeeeee;
         }
 
         @media (max-width: 900px) {
             .grid-superior { grid-template-columns: 1fr; }
             .nav-actions { position: static; transform: none; margin-top: 30px; text-align: center; }
+            .header h1 { font-size: 1.7rem; }
         }
     </style>
 </head>
