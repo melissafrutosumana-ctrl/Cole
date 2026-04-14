@@ -8,174 +8,176 @@
 
     <style>
         :root {
-            --verde-primario: #1b5e20;
-            --verde-acento: #2e7d32;
-            --azul-mep: #0056b3;
-            --gris-fondo: #f8fafc;
+            --verde-oscuro: #1b5e20;
+            --verde-claro: #2e7d32;
+            --azul-mep: #008CD0;
+            --gris-fondo: #f1f5f9;
             --blanco: #ffffff;
             --texto-oscuro: #1e293b;
-            --texto-suave: #64748b;
             --borde: #e2e8f0;
         }
 
         body {
             margin: 0;
-            font-family: 'Inter', 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--gris-fondo);
             color: var(--texto-oscuro);
-            line-height: 1.6;
         }
 
-        /* HEADER INSTITUCIONAL */
+        /* HEADER TOTALMENTE VERDE OSCURO */
         .header {
-            background: var(--blanco);
-            padding: 30px 20px;
-            color: var(--verde-primario);
+            background-color: var(--verde-oscuro);
+            padding: 40px 20px;
+            color: white;
             text-align: center;
             position: relative;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            border-bottom: 4px solid var(--verde-primario);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
         .header-logos {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 40px;
-            margin-bottom: 15px;
+            gap: 50px;
+            margin-bottom: 20px;
         }
 
-        /* Logos corregidos sin filtros que los vuelvan blancos */
-        .logo-mep { height: 65px; width: auto; }
-        .logo-escudo { height: 85px; width: auto; }
+        /* Ajuste de logos para fondo oscuro */
+        .logo-mep { height: 60px; filter: brightness(0) invert(1); }
+        .logo-escudo { height: 90px; }
 
         .header h1 {
             margin: 0;
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--texto-oscuro);
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
-        /* NAVEGACIÓN ACCIONES */
+        /* BOTÓN ACCESO PERSONAL CORREGIDO */
         .nav-actions {
             position: absolute;
-            right: 30px;
+            right: 40px;
             top: 50%;
             transform: translateY(-50%);
         }
 
         .btn-login {
-            padding: 10px 24px;
-            border-radius: 8px;
-            background: var(--verde-primario);
+            padding: 12px 25px;
+            border-radius: 6px;
+            background-color: transparent;
             color: white;
             text-decoration: none;
             font-weight: 600;
             font-size: 0.85rem;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-transform: uppercase;
+            border: 2px solid white;
+            transition: all 0.3s ease;
         }
 
-        .btn-login:hover { background: var(--verde-acento); transform: translateY(-2px); }
+        .btn-login:hover {
+            background-color: white;
+            color: var(--verde-oscuro);
+            transform: translateY(-2px);
+        }
 
         .container {
             max-width: 1100px;
-            margin: 40px auto;
-            padding: 0 25px;
+            margin: 50px auto;
+            padding: 0 20px;
         }
 
+        /* CUADRICULA SUPERIOR */
         .grid-superior {
             display: grid;
             grid-template-columns: 320px 1fr;
             gap: 30px;
-            margin-bottom: 50px;
+            margin-bottom: 60px;
         }
 
         .card-steam {
             background: var(--blanco);
-            padding: 30px;
+            padding: 40px 20px;
             border-radius: 15px;
             text-align: center;
             border: 1px solid var(--borde);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
         }
 
-        .card-steam img { width: 120px; margin-bottom: 20px; }
+        .card-steam img { width: 130px; margin-bottom: 20px; }
 
         .carousel-box {
             background: var(--blanco);
             padding: 10px;
             border-radius: 15px;
             border: 1px solid var(--borde);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
         }
 
         .carousel {
             overflow: hidden;
             border-radius: 10px;
-            height: 400px;
+            height: 420px;
         }
 
         .slides { display: flex; transition: transform 0.8s ease; height: 100%; }
         .slides img { width: 100%; min-width: 100%; object-fit: cover; }
 
+        /* TÍTULOS DE SECCIÓN */
         .titulo-seccion {
-            font-size: 1.6rem;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: var(--verde-primario);
-        }
-
-        .titulo-seccion::before {
-            content: '';
-            width: 5px;
-            height: 25px;
-            background: var(--verde-primario);
-            border-radius: 2px;
+            font-size: 1.7rem;
+            margin-bottom: 35px;
+            color: var(--verde-oscuro);
+            border-bottom: 3px solid var(--verde-oscuro);
+            display: inline-block;
+            padding-bottom: 5px;
         }
 
         /* COMUNICADOS */
         .comunicados-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 50px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
         }
 
         .comunicado-card {
             background: var(--blanco);
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid var(--borde);
-            border-top: 5px solid var(--azul-mep);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 6px solid var(--verde-oscuro);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
 
-        .comunicado-card .meta { font-size: 0.7rem; color: var(--texto-suave); font-weight: bold; }
-        .comunicado-card h3 { margin: 10px 0; font-size: 1.1rem; }
+        .comunicado-card .meta { font-size: 0.75rem; color: var(--verde-claro); font-weight: 700; text-transform: uppercase; }
+        .comunicado-card h3 { margin: 12px 0; font-size: 1.25rem; color: var(--texto-oscuro); }
 
-        /* TABLA */
+        /* TABLA DE AUSENCIAS */
         .tabla-container {
             background: var(--blanco);
             border-radius: 12px;
             border: 1px solid var(--borde);
             overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
         }
 
         table { width: 100%; border-collapse: collapse; }
-        th { text-align: left; padding: 15px; background: #f1f5f9; font-size: 0.8rem; text-transform: uppercase; }
-        td { padding: 15px; border-bottom: 1px solid var(--borde); }
+        th { text-align: left; padding: 18px; background: #f8fafc; color: var(--texto-oscuro); font-size: 0.85rem; border-bottom: 2px solid var(--borde); }
+        td { padding: 18px; border-bottom: 1px solid var(--borde); }
+        tr:hover { background-color: #fdfdfd; }
 
         .badge-motivo {
             background: #f1f5f9;
-            padding: 4px 10px;
-            border-radius: 4px;
+            padding: 5px 12px;
+            border-radius: 20px;
             font-size: 0.75rem;
-            font-weight: bold;
+            font-weight: 700;
+            color: var(--verde-oscuro);
         }
 
         @media (max-width: 900px) {
             .grid-superior { grid-template-columns: 1fr; }
-            .nav-actions { position: static; transform: none; margin-top: 20px; text-align: center; }
+            .nav-actions { position: static; transform: none; margin-top: 30px; }
+            .header h1 { font-size: 1.7rem; }
         }
     </style>
 </head>
@@ -184,8 +186,8 @@
 
     <header class="header">
         <div class="header-logos">
-            <img src="LOGO MEP.png" class="logo-mep" alt="Logo MEP">
-            <img src="escudo sin fondo.png" class="logo-escudo" alt="Escudo CTP">
+            <img src="LOGO MEP.png" class="logo-mep" alt="MEP">
+            <img src="escudo sin fondo.png" class="logo-escudo" alt="CTP Matapalo">
         </div>
         <h1>Colegio Técnico Profesional de Matapalo</h1>
         <div class="nav-actions">
@@ -198,7 +200,7 @@
             <section class="card-steam">
                 <a href="galeria.html"><img src="steam.png" alt="STEAM"></a>
                 <h3>Modelo STEAM</h3>
-                <p>Educación técnica de vanguardia enfocada en ciencia y tecnología.</p>
+                <p>Integración de Ciencia, Tecnología y Arte en la formación técnica profesional.</p>
             </section>
 
             <section class="carousel-box">
@@ -213,24 +215,24 @@
         <section>
             <h2 class="titulo-seccion">Comunicados Oficiales</h2>
             <div class="comunicados-grid" id="contenedorComunicados">
-                <p style="text-align: center; grid-column: 1/-1;">Cargando información reciente...</p>
+                <p style="text-align: center; grid-column: 1/-1; padding: 40px;">Buscando anuncios oficiales...</p>
             </div>
         </section>
 
         <section>
-            <h2 class="titulo-seccion">Personal Ausente Hoy</h2>
+            <h2 class="titulo-seccion">Reporte de Ausencias</h2>
             <div class="tabla-container">
                 <table>
                     <thead>
                         <tr>
-                            <th>Docente</th>
-                            <th>Período</th>
+                            <th>Nombre del Docente</th>
+                            <th>Estado</th>
                             <th>Motivo</th>
-                            <th>Observaciones</th>
+                            <th>Indicaciones</th>
                         </tr>
                     </thead>
                     <tbody id="tablaAusencias">
-                        <tr><td colspan="4" style="text-align:center; padding: 30px;">Verificando asistencia...</td></tr>
+                        <tr><td colspan="4" style="text-align:center; padding: 40px;">Sincronizando registros...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -260,26 +262,25 @@
         async function cargarComunicados() {
             const contenedor = document.getElementById("contenedorComunicados");
             try {
-                // Obtenemos los últimos 6 comunicados sin filtro estricto de 24h para asegurar que se vea algo
                 const res = await fetch(`${SUPABASE_URL}/rest/v1/comunicados?select=*&order=creado_en.desc&limit=6`, { headers });
                 const datos = await res.json();
 
                 if (!datos || datos.length === 0) {
-                    contenedor.innerHTML = "<p style='grid-column:1/-1; text-align:center; color:#888;'>No hay comunicados disponibles.</p>";
+                    contenedor.innerHTML = "<p style='grid-column:1/-1; text-align:center; color:#666;'>No hay comunicados registrados recientemente.</p>";
                     return;
                 }
 
                 contenedor.innerHTML = "";
                 datos.forEach(c => {
                     contenedor.innerHTML += `
-                        <div class="comunicado-card" style="border-top-color: ${c.color_borde || '#0056b3'}">
-                            <span class="meta">${c.autor}</span>
+                        <div class="comunicado-card">
+                            <span class="meta">${c.autor || 'Dirección'}</span>
                             <h3>${c.titulo}</h3>
                             <p>${c.contenido}</p>
                         </div>`;
                 });
             } catch (e) { 
-                contenedor.innerHTML = "<p>Error al cargar comunicados.</p>";
+                contenedor.innerHTML = "<p>Error al conectar con la base de datos.</p>";
             }
         }
 
@@ -288,13 +289,12 @@
             const hoy = new Date().toISOString().split('T')[0];
 
             try {
-                // Filtro: fecha_inicio <= hoy AND fecha_fin >= hoy
                 const url = `${SUPABASE_URL}/rest/v1/ausencias?fecha=lte.${hoy}&fecha_fin=gte.${hoy}&select=*`;
                 const res = await fetch(url, { headers });
                 const datos = await res.json();
 
                 if (!datos || datos.length === 0) {
-                    tabla.innerHTML = "<tr><td colspan='4' style='text-align:center; padding: 20px;'>No se reportan ausencias para hoy.</td></tr>";
+                    tabla.innerHTML = "<tr><td colspan='4' style='text-align:center; padding: 40px;'>No se reportan ausencias el día de hoy.</td></tr>";
                     return;
                 }
 
@@ -303,13 +303,13 @@
                     tabla.innerHTML += `
                         <tr>
                             <td><strong>${a.nombre}</strong></td>
-                            <td style="color:#d97706; font-weight:600;">${a.fecha === a.fecha_fin ? 'Hoy' : 'Periodo activo'}</td>
+                            <td style="color:#d97706; font-weight:700;">Activa</td>
                             <td><span class="badge-motivo">${a.razon}</span></td>
-                            <td><small>${a.actividad || 'Sin indicaciones'}</small></td>
+                            <td><small>${a.actividad || 'Seguir instrucciones del planeamiento.'}</small></td>
                         </tr>`;
                 });
             } catch (e) { 
-                tabla.innerHTML = "<tr><td colspan='4' style='text-align:center;'>Error de conexión.</td></tr>";
+                tabla.innerHTML = "<tr><td colspan='4' style='text-align:center;'>Error al cargar asistencia.</td></tr>";
             }
         }
 
