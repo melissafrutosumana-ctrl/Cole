@@ -203,25 +203,27 @@
         </div>
 
         <section>
-            <h2 class="titulo-seccion">Comunicados Recientes (Últimas 24h)</h2>
+            <h2 class="titulo-seccion">Comunicados Recientes</h2>
             <div class="comunicados-grid" id="contenedorComunicados">
                 <p style="text-align: center; grid-column: 1/-1;">Buscando anuncios...</p>
             </div>
         </section>
 
         <section>
-            <h2 class="titulo-seccion">Control de Ausencias</h2>
+            <h2 class="titulo-seccion">Personal Ausente Hoy</h2>
             <div class="tabla-container">
                 <table>
                     <thead>
                         <tr>
                             <th>Docente</th>
-                            <th>Día y Fecha</th>
+                            <th>Período</th>
                             <th>Motivo</th>
-                            <th>Observaciones</th>
+                            <th>Actividad / Observaciones</th>
                         </tr>
                     </thead>
-                    <tbody id="tablaAusencias"></tbody>
+                    <tbody id="tablaAusencias">
+                        <tr><td colspan="4" style="text-align:center;">Cargando información...</td></tr>
+                    </tbody>
                 </table>
             </div>
         </section>
@@ -231,39 +233,39 @@
         // CARRUSEL
         let idx = 0;
         setInterval(() => {
-            idx = (idx + 1) % 5;
-            document.getElementById("slides").style.transform = `translateX(-${idx * 100}%)`;
+            const slides = document.getElementById("slides");
+            if(slides) {
+                idx = (idx + 1) % 5;
+                slides.style.transform = `translateX(-${idx * 100}%)`;
+            }
         }, 5000);
 
         // CONFIG
         const SUPABASE_URL = 'https://etdcmuikvtnqfcnlvodh.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0ZGNtdWlrdnRucWZjbmx2b2RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1OTQ1ODcsImV4cCI6MjA5MTE3MDU4N30.8JHWlTxYRSYEkpipqesHVBKn7QomTXJYHp6Nm6SzU4A';
 
-        // CARGAR COMUNICADOS (Filtrados a 24 horas)
+        // CARGAR COMUNICADOS (Borrador lógico: últimas 24h)
         async function cargarComunicados() {
             const contenedor = document.getElementById("contenedorComunicados");
-            
-            // 🕒 Calculamos el tiempo de corte (hace 24 horas)
             const tiempoCorte = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
 
             try {
-                // Filtro "gt" (Greater Than) sobre la columna creado_en
                 const res = await fetch(`${SUPABASE_URL}/rest/v1/comunicados?creado_en=gt.${tiempoCorte}&order=creado_en.desc`, {
                     headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` }
                 });
                 const datos = await res.json();
 
-                if (datos.length === 0) {
-                    contenedor.innerHTML = "<p style='grid-column: 1/-1; text-align:center; color:#888;'>No hay comunicados activos en este momento.</p>";
+                if (!datos.length) {
+                    contenedor.innerHTML = "<p style='grid-column: 1/-1; text-align:center; color:#888;'>No hay comunicados recientes.</p>";
                     return;
                 }
 
                 contenedor.innerHTML = "";
                 datos.forEach(c => {
-                    const fecha = new Date(c.creado_en).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    const hora = new Date(c.creado_en).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                     contenedor.innerHTML += `
                         <div class="comunicado-card" style="border-left: 6px solid ${c.color_borde}">
-                            <span class="meta">Hoy a las ${fecha} • Por: ${c.autor}</span>
+                            <span class="meta">Publicado hoy a las ${hora} • Por: ${c.autor}</span>
                             <h3>${c.titulo}</h3>
                             <p>${c.contenido}</p>
                         </div>`;
@@ -271,28 +273,50 @@
             } catch (e) { console.error(e); }
         }
 
-        // CARGAR AUSENCIAS
+        // CARGAR AUSENCIAS (Filtro por rango de fechas: solo hoy)
         async function cargarAusencias() {
             const tabla = document.getElementById("tablaAusencias");
+            const hoy = new Date().toISOString().split('T')[0]; // Formato YYYY-MM-DD
+
             try {
-                const res = await fetch(`${SUPABASE_URL}/rest/v1/ausencias?order=fecha.desc&limit=10`, {
+                // Filtramos: fecha_inicio <= hoy Y fecha_fin >= hoy
+                const url = `${SUPABASE_URL}/rest/v1/ausencias?fecha=lte.${hoy}&fecha_fin=gte.${hoy}&order=fecha.asc`;
+                
+                const res = await fetch(url, {
                     headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` }
                 });
                 const datos = await res.json();
-                tabla.innerHTML = datos.length ? "" : "<tr><td colspan='4'>Sin registros.</td></tr>";
+
+                if (!datos.length) {
+                    tabla.innerHTML = "<tr><td colspan='4' style='text-align:center;'>✅ Todo el personal se encuentra en la institución.</td></tr>";
+                    return;
+                }
+
+                tabla.innerHTML = "";
                 datos.forEach(a => {
+                    const textoPeriodo = (a.fecha === a.fecha_fin) ? "Solo hoy" : `Del ${a.fecha} al ${a.fecha_fin}`;
+                    
                     tabla.innerHTML += `
                         <tr>
                             <td><strong>${a.nombre}</strong></td>
-                            <td>${a.fecha}</td>
+                            <td>${textoPeriodo}</td>
                             <td><span class="badge-motivo">${a.razon}</span></td>
-                            <td>${a.detalle || '-'}</td>
+                            <td>
+                                <b>${a.detalle || ''}</b><br>
+                                <small>${a.actividad || 'Sin instrucciones adicionales.'}</small>
+                            </td>
                         </tr>`;
                 });
-            } catch (e) { console.error(e); }
+            } catch (e) { 
+                console.error(e);
+                tabla.innerHTML = "<tr><td colspan='4' style='text-align:center; color:red;'>Error al cargar datos.</td></tr>";
+            }
         }
 
-        window.onload = () => { cargarComunicados(); cargarAusencias(); };
+        window.onload = () => { 
+            cargarComunicados(); 
+            cargarAusencias(); 
+        };
     </script>
 </body>
 </html>
