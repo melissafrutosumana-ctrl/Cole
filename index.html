@@ -16,8 +16,6 @@
             --texto-cuerpo: #333333;
             --texto-gris: #666666;
             --borde: #d1d9d1;
-            /* Nuevo color para la cabecera */
-            --cabecera-dark: #212121; 
         }
 
         body {
@@ -28,9 +26,9 @@
             line-height: 1.6;
         }
 
-        /* HEADER GRIS OSCURO */
+        /* HEADER VERDE OSCURO INSTITUCIONAL */
         .header {
-            background-color: var(--cabecera-dark);
+            background-color: var(--verde-base);
             padding: 15px 0;
             color: white;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
@@ -51,7 +49,7 @@
             gap: 20px;
         }
 
-        /* Filtro para que el logo se vea blanco sobre el fondo oscuro */
+        /* El filtro vuelve blanco el logo (siempre que el PNG sea transparente) */
         .logo-mep { 
             height: 48px; 
             filter: brightness(0) invert(1); 
@@ -69,7 +67,6 @@
             font-size: 0.75rem;
             letter-spacing: 0.5px;
             line-height: 1.2;
-            opacity: 0.9;
         }
 
         .nav-right {
@@ -93,17 +90,16 @@
             font-weight: 600;
             font-size: 0.7rem;
             text-transform: uppercase;
-            border: 1px solid rgba(255,255,255,0.6);
+            border: 1px solid rgba(255,255,255,0.7);
             transition: 0.3s;
         }
 
         .btn-login:hover {
             background-color: white;
-            color: var(--cabecera-dark);
-            border-color: white;
+            color: var(--verde-base);
         }
 
-        /* BARRA DE TÍTULO PRINCIPAL */
+        /* BARRA DE TÍTULO */
         .main-title-bar {
             background: white;
             padding: 25px 0;
@@ -118,7 +114,7 @@
             font-weight: 800;
         }
 
-        /* CONTENIDO PRINCIPAL */
+        /* CONTENIDO */
         .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
 
         .grid-superior { 
@@ -134,7 +130,6 @@
             border-radius: 12px; 
             text-align: center; 
             border: 1px solid var(--borde);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
         }
 
         .card-steam img { width: 130px; margin-bottom: 15px; }
@@ -174,7 +169,7 @@
             transition: 0.3s;
         }
 
-        .comunicado-card:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.05); }
+        .comunicado-card:hover { transform: translateY(-3px); }
 
         .comunicado-card::before { 
             content: ""; 
@@ -193,7 +188,6 @@
         @media (max-width: 900px) {
             .header-container { flex-direction: column; gap: 20px; text-align: center; }
             .grid-superior { grid-template-columns: 1fr; }
-            .nav-right { flex-direction: column; gap: 15px; }
         }
     </style>
 </head>
@@ -258,7 +252,7 @@
                         </tr>
                     </thead>
                     <tbody id="tablaAusencias">
-                        <tr><td colspan="4" style="text-align:center; padding: 30px;">Actualizando datos de asistencia...</td></tr>
+                        <tr><td colspan="4" style="text-align:center; padding: 30px;">Actualizando datos...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -266,7 +260,6 @@
     </main>
 
     <script>
-        // LÓGICA DEL CARRUSEL
         let idx = 0;
         setInterval(() => {
             const slides = document.getElementById("slides");
@@ -276,27 +269,19 @@
             }
         }, 5000);
 
-        // CONFIGURACIÓN SUPABASE
         const SUPABASE_URL = 'https://etdcmuikvtnqfcnlvodh.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0ZGNtdWlrdnRucWZjbmx2b2RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1OTQ1ODcsImV4cCI6MjA5MTE3MDU4N30.8JHWlTxYRSYEkpipqesHVBKn7QomTXJYHp6Nm6SzU4A';
-        const headers = { 
-            "apikey": SUPABASE_KEY, 
-            "Authorization": `Bearer ${SUPABASE_KEY}`, 
-            "Content-Type": "application/json" 
-        };
+        const headers = { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}`, "Content-Type": "application/json" };
 
-        // CARGAR COMUNICADOS
         async function cargarComunicados() {
             const contenedor = document.getElementById("contenedorComunicados");
             try {
                 const res = await fetch(`${SUPABASE_URL}/rest/v1/comunicados?select=*&order=creado_en.desc&limit=6`, { headers });
                 const datos = await res.json();
-                
                 if (!datos || datos.length === 0) {
                     contenedor.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>No hay anuncios recientes.</p>";
                     return;
                 }
-
                 contenedor.innerHTML = "";
                 datos.forEach(c => {
                     contenedor.innerHTML += `
@@ -306,24 +291,19 @@
                             <p style="font-size:0.9rem;">${c.contenido}</p>
                         </article>`;
                 });
-            } catch (e) { 
-                contenedor.innerHTML = "<p>Error al cargar comunicados.</p>"; 
-            }
+            } catch (e) { contenedor.innerHTML = "<p>Error al cargar comunicados.</p>"; }
         }
 
-        // CARGAR ASISTENCIA
         async function cargarAusencias() {
             const tabla = document.getElementById("tablaAusencias");
             const hoy = new Date().toISOString().split('T')[0];
             try {
                 const res = await fetch(`${SUPABASE_URL}/rest/v1/ausencias?fecha=lte.${hoy}&fecha_fin=gte.${hoy}&select=*`, { headers });
                 const datos = await res.json();
-
                 if (!datos || datos.length === 0) {
-                    tabla.innerHTML = "<tr><td colspan='4' style='text-align:center; padding:20px; color:#666;'>No hay ausencias reportadas para el día de hoy.</td></tr>";
+                    tabla.innerHTML = "<tr><td colspan='4' style='text-align:center; padding:20px; color:#666;'>No hay ausencias hoy.</td></tr>";
                     return;
                 }
-
                 tabla.innerHTML = "";
                 datos.forEach(a => {
                     tabla.innerHTML += `
@@ -331,19 +311,13 @@
                             <td><strong>${a.nombre}</strong></td>
                             <td style="color:#c62828; font-weight:bold;">Ausente</td>
                             <td><span style="background:#ffebee; color:#c62828; padding:3px 8px; border-radius:4px; font-size:0.75rem;">${a.razon}</span></td>
-                            <td><small>${a.actividad || 'Ver indicaciones en el aula'}</small></td>
+                            <td><small>${a.actividad || 'Sin observaciones'}</small></td>
                         </tr>`;
                 });
-            } catch (e) { 
-                tabla.innerHTML = "<tr><td colspan='4'>Error de conexión con el sistema de asistencia.</td></tr>"; 
-            }
+            } catch (e) { tabla.innerHTML = "<tr><td colspan='4'>Error de conexión.</td></tr>"; }
         }
 
-        // INICIALIZACIÓN
-        window.onload = () => { 
-            cargarComunicados(); 
-            cargarAusencias(); 
-        };
+        window.onload = () => { cargarComunicados(); cargarAusencias(); };
     </script>
 </body>
 </html>
