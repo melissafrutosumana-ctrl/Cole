@@ -15,7 +15,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #6fcf97;
+    background: linear-gradient(90deg, #2ecc71, #27ae60);
     padding: 10px 20px;
     color: white;
 }
@@ -25,9 +25,9 @@ body {
     width: 60%;
 }
 
-.center img {
-    width: 100px;
-}
+/* LOGOS */
+.logo-mep { width: 220px; }
+.logo-escudo { width: 100px; }
 
 .right {
     display: flex;
@@ -41,7 +41,7 @@ body {
     color: white;
     border-radius: 8px;
     font-weight: bold;
-    transition: all 0.3s ease;
+    transition: 0.3s;
 }
 
 .btn-registro {
@@ -54,15 +54,13 @@ body {
 
 .btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-/* SECCIÓN */
+/* CONTENEDOR */
 .seccion-blanca {
     padding: 30px;
 }
 
-/* CONTENEDOR */
 .contenedor {
     display: flex;
     justify-content: center;
@@ -70,44 +68,35 @@ body {
     gap: 40px;
 }
 
-/* LOGO */
 .steam img {
     width: 200px;
 }
 
 /* 🎠 CARRUSEL PRO */
 .carousel-container {
-    width: 550px;
+    width: 600px;
     margin: auto;
-    text-align: center;
 }
 
 .carousel {
-    position: relative;
-    width: 100%;
-    height: 360px;
-    border-radius: 15px;
     overflow: hidden;
-    background: #f4f6f7;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
 }
 
-/* IMÁGENES PERFECTAS */
+.slides {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
 .slides img {
-    position: absolute;
     width: 100%;
-    height: 100%;
-    object-fit: contain;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
-}
-
-.slides img.active {
-    opacity: 1;
+    height: 380px;
+    object-fit: cover;
 }
 
 /* BOTONES */
-.prev, .next {
+.nav-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -115,24 +104,15 @@ body {
     border: none;
     color: white;
     padding: 12px;
-    font-size: 20px;
     border-radius: 50%;
     cursor: pointer;
 }
 
-.prev:hover, .next:hover {
-    background: #27ae60;
-}
+.prev { left: 10px; }
+.next { right: 10px; }
 
-.prev { left: 15px; }
-.next { right: 15px; }
-
-/* ANUNCIOS */
-.carousel-container h2 {
-    background: linear-gradient(90deg, #27ae60, #2ecc71);
-    color: white;
-    padding: 10px;
-    border-radius: 8px;
+.carousel-wrapper {
+    position: relative;
 }
 
 /* TABLA */
@@ -140,13 +120,7 @@ body {
     margin-top: 50px;
     padding: 25px;
     border-radius: 12px;
-    background: #ffffff;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-}
-
-.tabla-ausencias h2 {
-    text-align: center;
-    color: #27ae60;
+    background: #fff;
 }
 
 table {
@@ -155,18 +129,14 @@ table {
 }
 
 th {
-    background: linear-gradient(90deg, #27ae60, #2ecc71);
+    background: #27ae60;
     color: white;
-    padding: 12px;
+    padding: 10px;
 }
 
 td {
-    padding: 12px;
-    border-bottom: 1px solid #eee;
-}
-
-tr:hover {
-    background: #f1fdf6;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
 }
 
 /* RESPONSIVE */
@@ -178,10 +148,6 @@ tr:hover {
     .carousel-container {
         width: 95%;
     }
-
-    .carousel {
-        height: 250px;
-    }
 }
 </style>
 </head>
@@ -190,11 +156,12 @@ tr:hover {
 
 <!-- HEADER -->
 <div class="header">
+
     <div></div>
 
     <div class="center">
-        <img src="LOGO MEP.png">
-        <img src="escudo sin fondo.png">
+        <img src="LOGO MEP.png" class="logo-mep">
+        <img src="escudo sin fondo.png" class="logo-escudo">
         <h1>Colegio Técnico Profesional de Matapalo</h1>
     </div>
 
@@ -202,99 +169,112 @@ tr:hover {
         <a href="registro-docentes.html" class="btn btn-registro">Registro Docente</a>
         <a href="registrarme.html" class="btn btn-login">Iniciar Sesión</a>
     </div>
+
 </div>
 
-<!-- SECCIÓN -->
+<!-- CONTENIDO -->
 <div class="seccion-blanca">
 
-    <div class="contenedor">
+<div class="contenedor">
 
-        <!-- LOGO -->
-        <div class="steam">
-            <a href="galeria.html"><img src="steam.png"></a>
+<!-- LOGO -->
+<div class="steam">
+    <a href="galeria.html"><img src="steam.png"></a>
+</div>
+
+<!-- CARRUSEL PRO -->
+<div class="carousel-container">
+
+<h2 style="text-align:center;">Anuncios del Colegio</h2>
+
+<div class="carousel-wrapper">
+
+    <button class="nav-btn prev" onclick="mover(-1)">❮</button>
+    <button class="nav-btn next" onclick="mover(1)">❯</button>
+
+    <div class="carousel">
+        <div class="slides" id="slides">
+            <img src="1.jpeg">
+            <img src="2.jpeg">
+            <img src="3.jpeg">
+            <img src="4.jpeg">
+            <img src="5.jpeg">
         </div>
-
-        <!-- CARRUSEL -->
-        <div class="carousel-container">
-            <h2>Anuncios del Colegio</h2>
-
-            <div class="carousel" id="carousel1">
-                <div class="slides">
-                    <img src="1.jpeg" class="active">
-                    <img src="2.jpeg">
-                    <img src="3.jpeg">
-                    <img src="4.jpeg">
-                    <img src="5.jpeg">
-                </div>
-
-                <button class="prev" onclick="cambiar(-1)">❮</button>
-                <button class="next" onclick="cambiar(1)">❯</button>
-            </div>
-        </div>
-
     </div>
 
-    <!-- TABLA -->
-    <div class="tabla-ausencias">
-        <h2>Ausencias de Docentes</h2>
+</div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Docente</th>
-                    <th>Materia</th>
-                    <th>Fecha</th>
-                    <th>Razón</th>
-                    <th>Detalle</th>
-                </tr>
-            </thead>
-            <tbody id="tablaAusencias"></tbody>
-        </table>
-    </div>
+</div>
+
+</div>
+
+<!-- TABLA -->
+<div class="tabla-ausencias">
+<h2 style="text-align:center;">Ausencias de Docentes</h2>
+
+<table>
+<thead>
+<tr>
+<th>Docente</th>
+<th>Materia</th>
+<th>Fecha</th>
+<th>Razón</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody id="tablaAusencias"></tbody>
+</table>
+
+</div>
 
 </div>
 
 <script>
 
-// CARRUSEL
+// 🎠 CARRUSEL PRO
 let index = 0;
-let slides = document.querySelectorAll("#carousel1 .slides img");
+const slides = document.getElementById("slides");
 
-function mostrar(i) {
-    slides.forEach(img => img.classList.remove("active"));
-    slides[i].classList.add("active");
-}
-
-function cambiar(direccion) {
+function mover(direccion){
+    const total = slides.children.length;
     index += direccion;
-    if (index < 0) index = slides.length - 1;
-    if (index >= slides.length) index = 0;
-    mostrar(index);
+
+    if(index < 0) index = total - 1;
+    if(index >= total) index = 0;
+
+    slides.style.transform = `translateX(-${index * 100}%)`;
 }
 
-let intervalo = setInterval(() => cambiar(1), 4000);
+// AUTO
+setInterval(() => mover(1), 4000);
 
-let carrusel = document.getElementById("carousel1");
+// SWIPE
+let startX = 0;
 
-carrusel.addEventListener("mouseenter", () => clearInterval(intervalo));
-carrusel.addEventListener("mouseleave", () => {
-    intervalo = setInterval(() => cambiar(1), 4000);
+slides.addEventListener("touchstart", e => {
+    startX = e.touches[0].clientX;
 });
 
-// TABLA AUSENCIAS
-function cargarAusencias() {
+slides.addEventListener("touchend", e => {
+    let endX = e.changedTouches[0].clientX;
+    if(startX > endX) mover(1);
+    else mover(-1);
+});
 
-    let ausencias = JSON.parse(localStorage.getItem("ausenciasDocente") || "[]");
+
+// TABLA
+function cargarAusencias(){
+    let datos = JSON.parse(localStorage.getItem("ausenciasDocente") || "[]");
     let tabla = document.getElementById("tablaAusencias");
 
-    if (ausencias.length === 0) {
-        tabla.innerHTML = "<tr><td colspan='5'>No hay ausencias</td></tr>";
+    if(datos.length === 0){
+        tabla.innerHTML = "<tr><td colspan='5'>No hay datos</td></tr>";
         return;
     }
 
     tabla.innerHTML = "";
 
-    ausencias.forEach(a => {
+    datos.forEach(a=>{
         tabla.innerHTML += `
         <tr>
             <td>${a.nombre || "Docente"}</td>
@@ -302,8 +282,7 @@ function cargarAusencias() {
             <td>${a.fecha}</td>
             <td>${a.razon}</td>
             <td>${a.detalle}</td>
-        </tr>
-        `;
+        </tr>`;
     });
 }
 
