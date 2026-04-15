@@ -29,12 +29,13 @@
 
         body {
             margin: 0;
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: var(--fondo);
             color: var(--texto-cuerpo);
+            line-height: 1.6;
         }
 
-        /* HEADER IGUAL AL INDEX */
+        /* HEADER CONSISTENTE */
         .header {
             background-color: var(--crema);
             padding: 15px 0;
@@ -61,6 +62,11 @@
         .logo-mep {
             height: 50px;
             object-fit: contain;
+            transition: transform 0.3s;
+        }
+
+        .logo-mep:hover {
+            transform: scale(1.05);
         }
 
         .divider {
@@ -87,139 +93,200 @@
         .logo-escudo {
             height: 85px;
             filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.3));
+            transition: transform 0.3s;
+        }
+
+        .logo-escudo:hover {
+            transform: scale(1.02);
         }
 
         /* NAVBAR MEJORADO */
         .navbar {
-            background: var(--verde-base);
-            padding: 12px 40px;
+            background: linear-gradient(90deg, var(--verde-base) 0%, var(--verde-claro) 100%);
+            padding: 15px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             color: var(--crema);
-            border-bottom: 2px solid var(--verde-claro);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .navbar-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-weight: 500;
+        }
+
+        .navbar-info span {
+            opacity: 0.9;
         }
 
         /* CONTAINER */
         .container {
-            max-width: 950px;
-            margin: 30px auto;
-            padding: 25px;
-            background: var(--crema);
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border: 1px solid var(--borde);
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
         }
 
+        /* INFO USUARIO */
         .info-usuario {
-            background: var(--fondo);
-            padding: 20px;
+            background: var(--blanco);
+            padding: 30px;
             border-left: 5px solid var(--verde-claro);
-            border-radius: 8px;
-            margin-bottom: 25px;
+            border-radius: 10px;
+            margin-bottom: 40px;
             display: flex;
             justify-content: space-around;
             align-items: center;
             flex-wrap: wrap;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             border: 1px solid var(--borde);
         }
 
         .info-item {
             text-align: center;
-            margin: 10px;
+            margin: 10px 20px;
+            flex: 1;
+            min-width: 150px;
         }
 
         .info-item b {
             color: var(--verde-base);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
             display: block;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
         }
 
         .info-item span {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--texto-cuerpo);
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--verde-base);
         }
 
         /* SECCIÓN ADMIN */
         #seccionAdmin {
             display: none;
-            background: var(--fondo);
-            padding: 20px;
-            border-radius: 8px;
-            border: 2px solid var(--dorado);
-            margin-bottom: 30px;
+            background: linear-gradient(135deg, rgba(230, 126, 34, 0.1) 0%, rgba(230, 126, 34, 0.05) 100%);
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid var(--dorado);
+            margin-bottom: 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
         #seccionAdmin h3 {
-            color: var(--dorado);
+            color: #e67e22;
             margin-top: 0;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
         }
 
+        /* FORMULARIOS */
         form {
             display: grid;
-            gap: 15px;
+            gap: 20px;
             background: var(--blanco);
-            padding: 20px;
-            border-radius: 8px;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             border: 1px solid var(--borde);
         }
 
         .row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 20px;
         }
 
+        /* LABELS */
         label {
-            font-weight: bold;
+            font-weight: 700;
             font-size: 0.85rem;
             color: var(--verde-base);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: block;
+            margin-bottom: 8px;
         }
 
+        /* TÍTULOS */
         h3 {
             color: var(--verde-base);
-            margin-top: 30px;
-            margin-bottom: 15px;
+            font-size: 1.4rem;
+            margin-top: 50px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
+        h3:first-child {
+            margin-top: 0;
+        }
+
+        /* INPUTS */
         input, select, textarea {
             width: 100%;
-            padding: 12px;
+            padding: 12px 14px;
             border: 1px solid var(--borde);
             border-radius: 6px;
             box-sizing: border-box;
             font-size: 0.95rem;
             background: var(--blanco);
             color: var(--texto-cuerpo);
+            transition: border-color 0.3s, box-shadow 0.3s;
+            font-family: inherit;
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #bbb;
         }
 
         input:focus, textarea:focus, select:focus {
             outline: none;
             border-color: var(--verde-claro);
-            box-shadow: 0 0 5px rgba(10, 76, 35, 0.2);
+            box-shadow: 0 0 0 3px rgba(10, 76, 35, 0.1);
         }
 
+        /* BOTONES */
         button {
-            padding: 12px 20px;
+            padding: 12px 24px;
             background: var(--verde-claro);
             color: white;
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
+            font-weight: 700;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
         button:hover {
             background: var(--verde-base);
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(10, 76, 35, 0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .btn-admin {
             background: var(--dorado);
             color: var(--verde-base);
+            width: 100%;
         }
 
         .btn-admin:hover {
@@ -229,8 +296,13 @@
         .btn-cerrar {
             background: var(--rojo);
             color: white;
-            padding: 8px 15px;
+            padding: 10px 18px;
             font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .btn-cerrar:hover {
+            background: #c91f1f;
         }
 
         .btn-eliminar {
@@ -238,15 +310,21 @@
             color: white;
             padding: 6px 12px;
             font-size: 0.8rem;
+            margin: 0;
+        }
+
+        .btn-eliminar:hover {
+            background: #ff5252;
         }
 
         /* TABLAS */
         .tabla-container {
-            background: var(--crema);
+            background: var(--blanco);
             border-radius: 10px;
-            border: 2px solid var(--verde-base);
+            border: 1px solid var(--borde);
             overflow: hidden;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
         table {
@@ -261,7 +339,10 @@
             text-align: left;
             padding: 15px;
             border-bottom: 2px solid var(--verde-claro);
-            font-weight: bold;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
         }
 
         td {
@@ -271,18 +352,152 @@
         }
 
         tbody tr:hover {
-            background: var(--fondo);
+            background: rgba(10, 76, 35, 0.03);
+        }
+
+        /* BADGES */
+        .badge-rol {
+            background: rgba(10, 76, 35, 0.12);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--verde-base);
+            border: 1px solid var(--verde-claro);
+            display: inline-block;
+            letter-spacing: 0.5px;
+        }
+
+        /* HR */
+        hr {
+            margin: 40px 0;
+            border: 0;
+            border-top: 1px solid var(--borde);
+        }
+
+        .overflow-auto {
+            overflow-x: auto;
+            margin-bottom: 0;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .header-container {
+                flex-wrap: wrap;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .row {
+                grid-template-columns: 1fr;
+            }
+
+            .info-usuario {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+            }
+
+            .info-item {
+                padding: 15px 0;
+                margin: 0;
+                border-bottom: 1px solid var(--borde);
+            }
+
+            .info-item:last-child {
+                border-bottom: none;
+            }
+
+            .navbar {
+                padding: 15px 20px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .navbar-info {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .btn-cerrar {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header-logos-left {
+                gap: 10px;
+            }
+
+            .logo-mep {
+                height: 40px;
+            }
+
+            .logo-escudo {
+                height: 60px;
+            }
+
+            h3 {
+                font-size: 1.1rem;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+
+            form {
+                padding: 15px;
+            }
+
+            button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0;
+        }
+
+        th {
+            background: var(--verde-base);
+            color: white;
+            text-align: left;
+            padding: 15px;
+            border-bottom: 2px solid var(--verde-claro);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--borde);
+            color: var(--texto-cuerpo);
+        }
+
+        tbody tr:hover {
+            background: rgba(10, 76, 35, 0.03);
         }
 
         .badge-rol {
-            background: rgba(10, 76, 35, 0.1);
-            padding: 4px 12px;
+            background: rgba(10, 76, 35, 0.12);
+            padding: 6px 16px;
             border-radius: 20px;
-            font-weight: bold;
+            font-weight: 700;
             font-size: 0.85rem;
-            text-transform: capitalize;
+            text-transform: uppercase;
             color: var(--verde-base);
             border: 1px solid var(--verde-claro);
+            display: inline-block;
+            letter-spacing: 0.5px;
         }
 
         hr {
@@ -293,17 +508,34 @@
 
         @media (max-width: 900px) {
             .header-container {
-                flex-direction: column;
+                flex-wrap: wrap;
                 gap: 20px;
                 text-align: center;
             }
             .row {
                 grid-template-columns: 1fr;
             }
+            .info-usuario {
+                flex-direction: column;
+            }
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .logo-mep {
+                height: 40px;
+            }
+            .logo-escudo {
+                height: 60px;
+            }
         }
     </style>
-</head>
-
+</head> class="navbar-info">
+        <span><i class="fas fa-clipboard-list"></i> Sesión:
 <body>
 
 <header class="header">
@@ -345,41 +577,20 @@
         <div class="info-item">
             <b><i class="fas fa-briefcase"></i> Perfil</b>
             <span id="rol">---</span>
-        </div>
-    </div>
-
-    <div id="seccionAdmin">
-        <h3 style="color: #e67e22; margin-top: 0;"><i class="fas fa-megaphone"></i> Publicar Comunicado Oficial</h3>
-        <form id="formComunicado">
-            <input type="text" id="tituloCom" placeholder="Título del comunicado (Ej: Cambio de horario)" required>
-            <textarea id="contenidoCom" rows="2" placeholder="Escriba el mensaje detallado aquí..." required></textarea>
-            <select id="colorCom">
-                <option value="#27ae60"><i class="fas fa-circle"></i> Informativo (Verde)</option>
-                <option value="#3498db"><i class="fas fa-circle"></i> General (Azul)</option>
-                <option value="#f39c12"><i class="fas fa-circle"></i> Importante (Naranja)</option>
-                <option value="#e74c3c"><i class="fas fa-circle"></i> Urgente (Rojo)</option>
-            </select>
-            <button type="submit" class="btn-admin" id="btnPublicar"><i class="fas fa-paper-plane"></i> Publicar Comunicado ahora</button>
-        </form>
-    </div>
-
-    <h3>📝 Registrar Nueva Ausencia</h3>
-    <form id="formMiAusencia">
-        <div class="row">
-            <div>
-                <label>📅 Fecha de Inicio</label>
+        </div><i class="fas fa-calendar-alt"></i> Fecha de Inicio</label>
                 <input type="date" id="fechaInicio" required>
             </div>
             <div>
-                <label>🏁 Fecha de Finalización</label>
+                <label><i class="fas fa-calendar-check"></i> Fecha de Finalización</label>
                 <input type="date" id="fechaFin" required>
             </div>
         </div>
 
         <div class="row">
             <div>
-                <label>❓ Motivo de la Ausencia</label>
+                <label><i class="fas fa-list-ul"></i> Motivo de la Ausencia</label>
                 <select id="razonAusencia" required>
+                    <option value="">-- Seleccionar motivo --</option>
                     <option value="Enfermedad">Enfermedad / Incapacidad</option>
                     <option value="Permiso">Permiso Personal</option>
                     <option value="Capacitación">Capacitación MEP</option>
@@ -388,7 +599,29 @@
                 </select>
             </div>
             <div>
-                <label>🔍 Detalle Breve</label>
+                <label><i class="fas fa-clipboard"></i> Detalle Breve</label>
+                <input type="text" id="detalleAusencia" placeholder="Ej: Cita en la Caja">
+            </div>
+        </div>
+
+        <div>
+            <label><i class="fas fa-book"></i> Trabajo para los Estudiantes</label>
+            <textarea id="actividadRemplazo" rows="3" placeholder="Describa la práctica o actividad que deben realizar los grupos..."></textarea>
+        </div>
+        <button type="submit" id="btnGuardar"><i class="fas fa-save"></i>
+        <div class="row">
+            <div>var(--borde);">
+
+    <h3><i class="fas fa-history"></i> Mi Historial Reciente</h3>
+    <div class="overflow-auto">
+        <div class="tabla-container">
+        <table id="tablaHistorial">
+            <thead>
+                <tr>
+                    <th><i class="fas fa-calendar"></i> Desde</th>
+                    <th><i class="fas fa-calendar-check"></i> Hasta</th>
+                    <th><i class="fas fa-info-circle"></i> Motivo y Actividad</th>
+                    <th><i class="fas fa-cog"></i>Detalle Breve</label>
                 <input type="text" id="detalleAusencia" placeholder="Ej: Cita en la Caja">
             </div>
         </div>
