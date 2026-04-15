@@ -114,13 +114,6 @@
             font-weight: 800;
         }
 
-        .main-title-bar {
-            background: var(--blanco);
-            border-bottom: 3px solid var(--verde-base);
-            padding: 25px 0;
-            text-align: center;
-        }
-
         /* CONTENIDO */
         .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
 
@@ -203,6 +196,7 @@
         }
 
         .tabla-container { background: var(--blanco); border-radius: 10px; border: 2px solid var(--verde-base); overflow: hidden; }
+        .tabla-scroll { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; }
         th { text-align: left; padding: 15px; background: var(--verde-base); color: white; font-weight: bold; }
         tbody tr { border-bottom: 1px solid var(--borde); }
@@ -212,6 +206,21 @@
         @media (max-width: 900px) {
             .header-container { flex-direction: column; gap: 20px; text-align: center; }
             .grid-superior { grid-template-columns: 1fr; }
+            .nav-right { width: 100%; justify-content: center; }
+            .carousel { height: 300px; }
+        }
+
+        @media (max-width: 600px) {
+            .logo-mep { height: 40px; }
+            .logo-escudo { height: 60px; }
+            .main-title-bar h1 { font-size: 1.3rem; padding: 0 12px; }
+            .container { margin: 24px auto; padding: 0 14px; }
+            .card-steam { padding: 22px; }
+            .comunicados-grid { grid-template-columns: 1fr; }
+            .titulo-seccion { font-size: 1.15rem; margin-bottom: 16px; }
+            th, tbody td { padding: 10px; font-size: 0.86rem; }
+            .btn-login { padding: 8px 12px; font-size: 0.65rem; }
+            .carousel { height: 240px; }
         }
     </style>
 </head>
@@ -250,7 +259,7 @@
             <section class="carousel-box">
                 <div class="carousel">
                     <div class="slides" id="slides">
-                        <img src="1.jpeg"> <img src="2.jpeg"> <img src="3.jpeg"> <img src="4.jpeg"> <img src="5.jpeg">
+                        <img src="1.jpeg" alt="Actividad institucional 1"> <img src="2.jpeg" alt="Actividad institucional 2"> <img src="3.jpeg" alt="Actividad institucional 3"> <img src="4.jpeg" alt="Actividad institucional 4"> <img src="5.jpeg" alt="Actividad institucional 5">
                     </div>
                 </div>
             </section>
@@ -265,6 +274,7 @@
 
         <section style="margin-top: 50px;">
             <h2 class="titulo-seccion">Reporte de Asistencia Docente</h2>
+            <div class="tabla-scroll">
             <div class="tabla-container">
                 <table>
                     <thead>
@@ -279,6 +289,7 @@
                         <tr><td colspan="4" style="text-align:center; padding: 30px;">Actualizando datos...</td></tr>
                     </tbody>
                 </table>
+            </div>
             </div>
         </section>
     </main>
@@ -315,7 +326,10 @@
                             <p style="font-size:0.9rem;">${c.contenido}</p>
                         </article>`;
                 });
-            } catch (e) { contenedor.innerHTML = "<p>Error al cargar comunicados.</p>"; }
+            } catch (e) {
+                console.error(e);
+                contenedor.innerHTML = "<p>Error al cargar comunicados.</p>";
+            }
         }
 
         async function cargarAusencias() {
@@ -338,7 +352,10 @@
                             <td><small>${a.actividad || 'Sin observaciones'}</small></td>
                         </tr>`;
                 });
-            } catch (e) { tabla.innerHTML = "<tr><td colspan='4'>Error de conexión.</td></tr>"; }
+            } catch (e) {
+                console.error(e);
+                tabla.innerHTML = "<tr><td colspan='4'>Error de conexión.</td></tr>";
+            }
         }
 
         window.onload = () => { cargarComunicados(); cargarAusencias(); };

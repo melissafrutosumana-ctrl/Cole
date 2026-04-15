@@ -6,6 +6,17 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
+:root {
+    --verde-base: #0a4c23;
+    --verde-claro: #1a6b3a;
+    --crema: #f5f1e8;
+    --fondo: #ebe5d9;
+    --blanco: #ffffff;
+    --texto-cuerpo: #333333;
+    --texto-gris: #5a5a5a;
+    --borde: #d4ccc0;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -13,19 +24,23 @@
 }
 
 body {
-    background: #ebe5d9;
+    background:
+        radial-gradient(circle at top right, rgba(26, 107, 58, 0.1), transparent 40%),
+        radial-gradient(circle at bottom left, rgba(10, 76, 35, 0.08), transparent 38%),
+        #ebe5d9;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
     margin: 0;
     padding: 0;
+    color: var(--texto-cuerpo);
 }
 
 .header {
-    background-color: #f5f1e8;
+    background-color: var(--crema);
     padding: 15px 0;
-    color: #0a4c23;
+    color: var(--verde-base);
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    border-bottom: 3px solid #0a4c23;
+    border-bottom: 3px solid var(--verde-base);
 }
 
 .header-container {
@@ -60,7 +75,7 @@ body {
     font-size: 0.75rem;
     letter-spacing: 0.5px;
     line-height: 1.2;
-    color: #0a4c23;
+    color: var(--verde-base);
 }
 
 .nav-right {
@@ -78,8 +93,28 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: calc(100vh - 120px);
-    padding: 40px 20px;
+    min-height: calc(100vh - 190px);
+    padding: 35px 20px 45px;
+}
+
+.main-title-bar {
+    background: var(--blanco);
+    border-bottom: 3px solid var(--verde-base);
+    padding: 22px 0;
+    text-align: center;
+}
+
+.main-title-bar h1 {
+    margin: 0;
+    color: var(--verde-base);
+    font-size: 1.65rem;
+    font-weight: 800;
+}
+
+.main-title-bar p {
+    margin-top: 8px;
+    color: var(--texto-gris);
+    font-size: 0.95rem;
 }
 
 .login-wrapper {
@@ -120,11 +155,14 @@ body {
 }
 
 .login-container {
-    background: white;
+    background: var(--blanco);
     border-radius: 12px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    box-shadow: 0 16px 32px rgba(10, 76, 35, 0.14);
+    border: 1px solid var(--borde);
     padding: 40px;
     animation: slideUp 0.5s ease-out;
+    width: 100%;
+    max-width: 440px;
 }
 
 @keyframes slideUp {
@@ -147,7 +185,7 @@ body {
     position: absolute;
     left: 14px;
     top: 14px;
-    color: #0a4c23;
+    color: var(--verde-base);
     font-size: 18px;
     z-index: 1;
 }
@@ -155,11 +193,11 @@ body {
 input {
     width: 100%;
     padding: 12px 12px 12px 45px;
-    border: 2px solid #e0e0e0;
+    border: 1px solid var(--borde);
     border-radius: 8px;
     font-size: 15px;
     transition: all 0.3s ease;
-    background: #f8f8f8;
+    background: var(--blanco);
     color: #333;
 }
 
@@ -169,8 +207,8 @@ input::placeholder {
 
 input:focus {
     outline: none;
-    border-color: #0a4c23;
-    background: white;
+    border-color: var(--verde-claro);
+    background: var(--blanco);
     box-shadow: 0 0 0 3px rgba(10, 76, 35, 0.1);
 }
 
@@ -194,7 +232,7 @@ button {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    background: linear-gradient(135deg, #0a4c23 0%, #1a6b3a 100%);
+    background: linear-gradient(135deg, var(--verde-base) 0%, var(--verde-claro) 100%);
     color: white;
 }
 
@@ -245,6 +283,32 @@ button:active {
 }
 
 @media (max-width: 600px) {
+    .header-container {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .nav-right {
+        gap: 12px;
+    }
+
+    .logo-mep {
+        height: 40px;
+    }
+
+    .logo-escudo {
+        height: 60px;
+    }
+
+    .main-title-bar h1 {
+        font-size: 1.3rem;
+    }
+
+    .main-title-bar p {
+        padding: 0 14px;
+    }
+
     .login-container {
         padding: 30px 20px;
     }
@@ -279,6 +343,11 @@ button:active {
         </div>
     </div>
 </header>
+
+<section class="main-title-bar">
+    <h1>Acceso del Personal</h1>
+    <p>Ingrese con su usuario institucional para administrar ausencias y comunicados.</p>
+</section>
 
 <div class="login-page">
 
@@ -346,7 +415,7 @@ form.addEventListener('submit', async (e) => {
             mensaje.className = "mensaje exito show";
 
             setTimeout(() => {
-                window.location.href = "docentes.html";
+                globalThis.location.href = "docentes.html";
             }, 1500);
 
         } else {
