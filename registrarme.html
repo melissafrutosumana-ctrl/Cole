@@ -399,7 +399,7 @@ button:active {
             </div>
 
             <div class="btn-container">
-                <button type="submit"><i class="fas fa-sign-in-alt"></i> INGRESAR</button>
+                <button type="submit" id="btnIngresar"><i class="fas fa-sign-in-alt"></i> INGRESAR</button>
             </div>
         </form>
 
@@ -415,12 +415,16 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
 const form = document.getElementById('loginForm');
 const mensaje = document.getElementById('mensaje');
+const btnIngresar = document.getElementById('btnIngresar');
 
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const usuario = document.getElementById('usuario').value;
     const password = document.getElementById('password').value;
+
+    btnIngresar.disabled = true;
+    btnIngresar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> CARGANDO...';
 
     try {
 
@@ -446,7 +450,7 @@ form.addEventListener('submit', async (e) => {
             localStorage.setItem("nombre", user.nombre_completo);
             localStorage.setItem("rol", user.rol);
 
-            mensaje.textContent = "✅ Bienvenido " + user.nombre_completo;
+            mensaje.innerHTML = "✅ Bienvenido " + user.nombre_completo;
             mensaje.className = "mensaje exito show";
 
             setTimeout(() => {
@@ -454,14 +458,17 @@ form.addEventListener('submit', async (e) => {
             }, 1500);
 
         } else {
-            mensaje.textContent = "❌ Usuario o contraseña incorrectos";
+            mensaje.innerHTML = "❌ Usuario o contraseña incorrectos";
             mensaje.className = "mensaje error show";
         }
 
     } catch (error) {
-        mensaje.textContent = "❌ Error de conexión";
+        mensaje.innerHTML = "❌ Error de conexión";
         mensaje.className = "mensaje error show";
         console.error(error);
+    } finally {
+        btnIngresar.disabled = false;
+        btnIngresar.innerHTML = '<i class="fas fa-sign-in-alt"></i> INGRESAR';
     }
 });
 

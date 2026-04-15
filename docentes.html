@@ -698,6 +698,11 @@
     <hr>
 
     <h3><i class="fas fa-history"></i> Mi Historial Reciente</h3>
+    <div style="margin-bottom: 15px; position: relative;">
+        <i class="fas fa-search" style="position: absolute; left: 15px; top: 12px; color: var(--texto-gris);"></i>
+        <input type="text" id="busquedaHistorial" onkeyup="filtrarTabla()" placeholder="Buscar por motivo, actividad o fecha..." style="width: 100%; padding: 12px 15px 12px 40px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); font-size: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+    </div>
+    
     <div class="overflow-auto">
         <div class="tabla-container">
         <table id="tablaHistorial">
@@ -722,6 +727,11 @@
 </div>
 
 <script>
+// 🔒 VERIFICACIÓN DE SESIÓN INMEDIATA
+if (!localStorage.getItem('usuario') || !localStorage.getItem('nombre')) {
+    window.location.href = "registrarme.html";
+}
+
 const SUPABASE_URL = 'https://iowxlwnosyyqetbvvmuk.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlvd3hsd25vc3l5cWV0YnZ2bXVrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxOTk4NDYsImV4cCI6MjA5MTc3NTg0Nn0.VZ5VMu0z4nlsZ0hKvDSk4IUluA1yGx9eQCCXzDc5HmU';
 const headers = { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}`, "Content-Type": "application/json" };
@@ -878,6 +888,32 @@ function cerrarSesion() {
 }
 
 window.onload = inicializar;
+
+// 🔎 FUNCIONALIDAD DE BUSQUEDA EN TABLA
+function filtrarTabla() {
+    let input = document.getElementById("busquedaHistorial");
+    let filter = input.value.toUpperCase();
+    let table = document.getElementById("tablaHistorial");
+    let tr = table.getElementsByTagName("tr");
+
+    for (let i = 1; i < tr.length; i++) { // Start at 1 to skip <thead>
+        let tdMotivo = tr[i].getElementsByTagName("td")[2]; 
+        let tdDesde = tr[i].getElementsByTagName("td")[0];
+        let tdHasta = tr[i].getElementsByTagName("td")[1];
+        
+        if (tdMotivo || tdDesde || tdHasta) {
+            let textMotivo = tdMotivo.textContent || tdMotivo.innerText;
+            let textDesde = tdDesde.textContent || tdDesde.innerText;
+            let textHasta = tdHasta.textContent || tdHasta.innerText;
+            
+            if (textMotivo.toUpperCase().indexOf(filter) > -1 || textDesde.toUpperCase().indexOf(filter) > -1 || textHasta.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }       
+    }
+}
 
 // ANIMACION DE OCULTAMIENTO EN CELULAR AL BAJAR
 let lastScrollY = window.scrollY;

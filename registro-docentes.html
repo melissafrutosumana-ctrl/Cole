@@ -352,7 +352,7 @@
                 <textarea id="materia" name="materia" rows="3" placeholder="Describe tu materia o especialidad..."></textarea>
             </div>
 
-            <button type="submit"><i class="fas fa-check"></i> REGISTRARSE</button>
+            <button type="submit" id="btnRegistrar"><i class="fas fa-check"></i> REGISTRARSE</button>
 
             <a href="registrarme.html"><i class="fas fa-arrow-left"></i> Volver al Login</a>
 
@@ -378,6 +378,7 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const materia = document.getElementById('materia').value;
+            const btnRegistrar = document.getElementById('btnRegistrar');
 
             /* 🔥 VALIDACIÓN CORREO MEP */
             if (!email.endsWith("@mep.go.cr")) {
@@ -385,6 +386,9 @@
                 mensajeDiv.className = 'mensaje error show';
                 return;
             }
+
+            btnRegistrar.disabled = true;
+            btnRegistrar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> CARGANDO...';
 
             try {
                 const response = await fetch(
@@ -405,13 +409,13 @@
                 );
 
                 if (response.ok) {
-                    mensajeDiv.textContent = '✅ ¡Datos guardados correctamente!';
-                    mensajeDiv.className = 'mensaje éxito show';
+                    mensajeDiv.innerHTML = '✅ ¡Guardado! Redirigiendo...';
+                    mensajeDiv.className = 'mensaje exito show';
                     form.reset();
 
                     setTimeout(() => {
-                        mensajeDiv.classList.remove('show');
-                    }, 3000);
+                        window.location.href = "registrarme.html";
+                    }, 2000);
                 } else {
                     const errorData = await response.json().catch(() => ({}));
                     const errorMsg = errorData.message || errorData.error || `Error ${response.status}`;
@@ -419,9 +423,12 @@
                 }
 
             } catch (error) {
-                mensajeDiv.textContent = '❌ Error: ' + error.message;
+                mensajeDiv.innerHTML = '❌ Error: ' + error.message;
                 mensajeDiv.className = 'mensaje error show';
                 console.error(error);
+            } finally {
+                btnRegistrar.disabled = false;
+                btnRegistrar.innerHTML = '<i class="fas fa-check"></i> REGISTRARSE';
             }
         });
     </script>
