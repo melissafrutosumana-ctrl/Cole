@@ -363,22 +363,22 @@
         </form>
     </div>
 
-    <h3><i class="fas fa-file-alt"></i> Registrar Nueva Ausencia</h3>
+    <h3>📝 Registrar Nueva Ausencia</h3>
     <form id="formMiAusencia">
         <div class="row">
             <div>
-                <label><i class="fas fa-calendar-alt"></i> Fecha de Inicio</label>
+                <label>📅 Fecha de Inicio</label>
                 <input type="date" id="fechaInicio" required>
             </div>
             <div>
-                <label><i class="fas fa-flag-checkered"></i> Fecha de Finalización</label>
+                <label>🏁 Fecha de Finalización</label>
                 <input type="date" id="fechaFin" required>
             </div>
         </div>
 
         <div class="row">
             <div>
-                <label><i class="fas fa-question-circle"></i> Motivo de la Ausencia</label>
+                <label>❓ Motivo de la Ausencia</label>
                 <select id="razonAusencia" required>
                     <option value="Enfermedad">Enfermedad / Incapacidad</option>
                     <option value="Permiso">Permiso Personal</option>
@@ -388,30 +388,30 @@
                 </select>
             </div>
             <div>
-                <label><i class="fas fa-search"></i> Detalle Breve</label>
+                <label>🔍 Detalle Breve</label>
                 <input type="text" id="detalleAusencia" placeholder="Ej: Cita en la Caja">
             </div>
         </div>
 
         <div>
-            <label><i class="fas fa-book-reader"></i> Trabajo para los Estudiantes</label>
+            <label>📚 Trabajo para los Estudiantes</label>
             <textarea id="actividadRemplazo" rows="2" placeholder="Describa la práctica o actividad que deben realizar los grupos..."></textarea>
         </div>
-        <button type="submit" id="btnGuardar"><i class="fas fa-save"></i> Registrar Período de Ausencia</button>
+        <button type="submit" id="btnGuardar">💾 Registrar Período de Ausencia</button>
     </form>
 
     <hr style="margin: 40px 0; border: 0; border-top: 1px solid #eee;">
 
-    <h3><i class="fas fa-history"></i> Mi Historial Reciente</h3>
+    <h3>📋 Mi Historial Reciente</h3>
     <div style="overflow-x:auto;">
         <div class="tabla-container">
         <table id="tablaHistorial">
             <thead>
                 <tr>
-                    <th><i class="fas fa-calendar-alt"></i> Desde</th>
-                    <th><i class="fas fa-flag-checkered"></i> Hasta</th>
-                    <th><i class="fas fa-info-circle"></i> Motivo y Actividad</th>
-                    <th><i class="fas fa-cog"></i> Acción</th>
+                    <th>📅 Desde</th>
+                    <th>🏁 Hasta</th>
+                    <th>ℹ️ Motivo y Actividad</th>
+                    <th>⚙️ Acción</th>
                 </tr>
             </thead>
             <tbody id="cuerpoTabla">
@@ -448,12 +448,35 @@ function inicializar() {
     if (rol === 'admin') {
         document.getElementById('seccionAdmin').style.display = 'block';
         document.getElementById('rolBadge').style.background = '#e67e22';
+
+        // Evento para formulario de comunicados
+        document.getElementById('formComunicado').addEventListener('submit', async function(e){
+            e.preventDefault();
+            const btn = document.getElementById('btnPublicar');
+            btn.disabled = true;
+            const datos = {
+                titulo: document.getElementById('tituloCom').value,
+                contenido: document.getElementById('contenidoCom').value,
+                color_borde: document.getElementById('colorCom').value,
+                autor: localStorage.getItem('nombre')
+            };
+            try {
+                const res = await fetch(`${SUPABASE_URL}/rest/v1/comunicados`, { method: "POST", headers, body: JSON.stringify(datos) });
+                if(res.ok) {
+                    alert("✅ Comunicado publicado en la página de inicio.");
+                    this.reset();
+                } else {
+                    const error = await res.json();
+                    alert("❌ Error: " + (error.message || res.statusText));
+                }
+            } catch (e) { alert("Error al publicar: " + e.message); }
+            btn.disabled = false;
+        });
     }
 
     cargarHistorial();
 }
 
-// --- GUARDAR AUSENCIA ---
 document.getElementById('formMiAusencia').addEventListener('submit', async function(e){
     e.preventDefault();
     const btn = document.getElementById('btnGuardar');
@@ -492,7 +515,7 @@ async function cargarHistorial() {
     const tbody = document.getElementById('cuerpoTabla');
 
     try {
-        const res = await fetch(`${SUPABASE_URL}/rest/v1/ausencias?usuario=eq.${user}&order=fecha.desc`, { headers });
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/ausencias?usuario=eq.${encodeURIComponent(user)}&order=fecha.desc`, { headers });
         const datos = await res.json();
         
         tbody.innerHTML = "";
@@ -516,15 +539,7 @@ async function cargarHistorial() {
     } catch (e) { tbody.innerHTML = "<tr><td colspan='4'>Error al cargar el historial.</td></tr>"; }
 }
 
-async function eliminarAusencia(id) {
-    if(!confirm("¿Desea borrar este registro de ausencia permanentemente?")) return;
-    try {
-        await fetch(`${SUPABASE_URL}/rest/v1/ausencias?id=eq.${id}`, { method: "DELETE", headers });
-        cargarHistorial();
-    } catch (e) { alert("No se pudo eliminar el registro."); }
-}
-
-document.getElementById('formComunicado').addEventListener('submit', async function(e){
+document.getElementById('formComunicado')?.addEventListener('submit', async function(e){
     e.preventDefault();
     const btn = document.getElementById('btnPublicar');
     btn.disabled = true;
@@ -536,11 +551,14 @@ document.getElementById('formComunicado').addEventListener('submit', async funct
     };
     try {
         const res = await fetch(`${SUPABASE_URL}/rest/v1/comunicados`, { method: "POST", headers, body: JSON.stringify(datos) });
-        if(res.ok) { 
-            alert("✅ Comunicado publicado en la página de inicio."); 
-            this.reset(); 
+        if(res.ok) {
+            alert("✅ Comunicado publicado en la página de inicio.");
+            this.reset();
+        } else {
+            const error = await res.json();
+            alert("❌ Error: " + (error.message || res.statusText));
         }
-    } catch (e) { alert("Error al publicar."); }
+    } catch (e) { alert("Error al publicar: " + e.message); }
     btn.disabled = false;
 });
 
