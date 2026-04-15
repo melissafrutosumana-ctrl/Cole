@@ -189,6 +189,7 @@
             height: 220px;
             object-fit: cover;
             transition: transform 0.35s ease;
+            cursor: pointer;
         }
 
         .item:hover img,
@@ -260,6 +261,71 @@
                 padding: 0 16px;
             }
         }
+        /* MODAL LIGHTBOX */
+        .modal-lightbox {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-lightbox.show {
+            opacity: 1;
+        }
+
+        .modal-content-lightbox {
+            margin: auto;
+            display: block;
+            width: auto;
+            max-width: 90%;
+            max-height: 85vh;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            object-fit: contain;
+        }
+
+        .modal-lightbox.show .modal-content-lightbox {
+            transform: scale(1);
+        }
+
+        .close-lightbox {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .close-lightbox:hover,
+        .close-lightbox:focus {
+            color: var(--dorado);
+            text-decoration: none;
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 600px) {
+            .close-lightbox {
+                top: 15px;
+                right: 20px;
+                font-size: 35px;
+            }
+        }
     </style>
 </head>
 
@@ -316,6 +382,41 @@
 
     </div>
     </div>
+
+    <!-- MODAL PARA GALERÍA (LIGHTBOX) -->
+    <div id="imageModal" class="modal-lightbox">
+        <span class="close-lightbox">&times;</span>
+        <img class="modal-content-lightbox" id="modalImg">
+    </div>
+
+    <script>
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImg");
+        const items = document.querySelectorAll(".item img");
+        const span = document.getElementsByClassName("close-lightbox")[0];
+
+        items.forEach(img => {
+            img.addEventListener('click', function() {
+                modal.style.display = "flex";
+                setTimeout(() => modal.classList.add('show'), 10);
+                modalImg.src = this.src;
+            });
+        });
+
+        // Cerrar al dar click en la "x"
+        span.onclick = function() {
+            modal.classList.remove('show');
+            setTimeout(() => modal.style.display = "none", 300);
+        }
+
+        // Cerrar al dar click fuera de la imagen
+        modal.onclick = function(e) {
+            if (e.target !== modalImg) {
+                modal.classList.remove('show');
+                setTimeout(() => modal.style.display = "none", 300);
+            }
+        }
+    </script>
 
 </body>
 
