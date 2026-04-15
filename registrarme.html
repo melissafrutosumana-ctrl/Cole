@@ -13,13 +13,73 @@
 }
 
 body {
-    background: linear-gradient(135deg, #0a4c23 0%, #1a6b3a 100%);
+    background: #ebe5d9;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background-color: #f5f1e8;
+    padding: 15px 0;
+    color: #0a4c23;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-bottom: 3px solid #0a4c23;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.header-logos-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo-mep {
+    height: 50px;
+    object-fit: contain;
+}
+
+.divider {
+    width: 1px;
+    height: 40px;
+    background-color: rgba(10, 76, 35, 0.3);
+}
+
+.logo-gobierno {
+    text-align: left;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+    color: #0a4c23;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.logo-escudo {
+    height: 85px;
+    filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.3));
+}
+
+.login-page {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    min-height: calc(100vh - 120px);
+    padding: 40px 20px;
 }
 
 .login-wrapper {
@@ -29,8 +89,8 @@ body {
 
 .login-header {
     text-align: center;
-    margin-bottom: 40px;
-    color: white;
+    margin-bottom: 30px;
+    color: #0a4c23;
 }
 
 .logo-container {
@@ -49,13 +109,13 @@ body {
 .login-header h1 {
     font-size: 28px;
     font-weight: 700;
-    color: white;
+    color: #0a4c23;
     margin-bottom: 8px;
 }
 
 .login-header p {
     font-size: 14px;
-    color: rgba(255,255,255,0.9);
+    color: #666;
     font-weight: 300;
 }
 
@@ -202,15 +262,25 @@ button:active {
 
 <body>
 
-<div class="login-wrapper">
-    <div class="login-header">
-        <div class="logo-container">
-            <img src="LOGO MEP.png" alt="Logo MEP">
-            <img src="escudo sin fondo.png" alt="Escudo CTP">
+<!-- HEADER IGUAL AL INDEX -->
+<header class="header">
+    <div class="header-container">
+        <div class="header-logos-left">
+            <img src="LOGO_MEP-removebg-preview.png" class="logo-mep" alt="MEP Costa Rica">
+            <div class="divider"></div>
+            <div class="logo-gobierno">
+                <strong>Gobierno</strong><br>
+                de Costa Rica
+            </div>
         </div>
-        <h1><i class="fas fa-lock"></i> Iniciar Sesión</h1>
-        <p>Colegio Técnico Profesional de Matapalo</p>
+
+        <div class="nav-right">
+            <img src="escudo sin fondo.png" class="logo-escudo" alt="Escudo CTP Matapalo">
+        </div>
     </div>
+</header>
+
+<div class="login-page">
 
     <div class="login-container">
         <form id="loginForm">
