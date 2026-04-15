@@ -30,7 +30,10 @@
         body {
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--fondo);
+            background:
+                radial-gradient(circle at top right, rgba(26, 107, 58, 0.1), transparent 40%),
+                radial-gradient(circle at bottom left, rgba(10, 76, 35, 0.08), transparent 38%),
+                var(--fondo);
             color: var(--texto-cuerpo);
             line-height: 1.6;
         }
@@ -109,6 +112,9 @@
             align-items: center;
             color: var(--crema);
             box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 20;
         }
 
         .navbar-info {
@@ -142,6 +148,7 @@
             flex-wrap: wrap;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             border: 1px solid var(--borde);
+            animation: fadeInUp 0.45s ease;
         }
 
         .info-item {
@@ -175,6 +182,7 @@
             border-left: 5px solid var(--dorado);
             margin-bottom: 40px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            animation: fadeInUp 0.5s ease;
         }
 
         #seccionAdmin h3 {
@@ -193,6 +201,7 @@
             border-radius: 10px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             border: 1px solid var(--borde);
+            animation: fadeInUp 0.55s ease;
         }
 
         .row {
@@ -221,6 +230,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            border-left: 5px solid var(--verde-base);
+            padding-left: 10px;
         }
 
         h3:first-child {
@@ -306,7 +317,7 @@
         }
 
         .btn-eliminar {
-            background: #ff6b6b;
+            background: #c94848;
             color: white;
             padding: 6px 12px;
             font-size: 0.8rem;
@@ -314,7 +325,7 @@
         }
 
         .btn-eliminar:hover {
-            background: #ff5252;
+            background: #a73b3b;
         }
 
         /* TABLAS */
@@ -325,6 +336,7 @@
             overflow: hidden;
             margin-bottom: 40px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            animation: fadeInUp 0.65s ease;
         }
 
         table {
@@ -355,6 +367,14 @@
             background: rgba(10, 76, 35, 0.03);
         }
 
+        tbody tr:nth-child(even) {
+            background: rgba(10, 76, 35, 0.02);
+        }
+
+        tbody tr:nth-child(even):hover {
+            background: rgba(10, 76, 35, 0.05);
+        }
+
         /* BADGES */
         .badge-rol {
             background: rgba(10, 76, 35, 0.12);
@@ -379,6 +399,17 @@
         .overflow-auto {
             overflow-x: auto;
             margin-bottom: 0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* RESPONSIVE */
@@ -524,18 +555,18 @@
     <form id="formMiAusencia">
         <div class="row">
             <div>
-                <label><i class="fas fa-calendar-alt"></i> Fecha de Inicio</label>
+                <label for="fechaInicio"><i class="fas fa-calendar-alt"></i> Fecha de Inicio</label>
                 <input type="date" id="fechaInicio" required>
             </div>
             <div>
-                <label><i class="fas fa-calendar-check"></i> Fecha de Finalización</label>
+                <label for="fechaFin"><i class="fas fa-calendar-check"></i> Fecha de Finalización</label>
                 <input type="date" id="fechaFin" required>
             </div>
         </div>
 
         <div class="row">
             <div>
-                <label><i class="fas fa-list-ul"></i> Motivo de la Ausencia</label>
+                <label for="razonAusencia"><i class="fas fa-list-ul"></i> Motivo de la Ausencia</label>
                 <select id="razonAusencia" required>
                     <option value="">-- Seleccionar motivo --</option>
                     <option value="Enfermedad">Enfermedad / Incapacidad</option>
@@ -546,13 +577,13 @@
                 </select>
             </div>
             <div>
-                <label><i class="fas fa-clipboard"></i> Detalle Breve</label>
+                <label for="detalleAusencia"><i class="fas fa-clipboard"></i> Detalle Breve</label>
                 <input type="text" id="detalleAusencia" placeholder="Ej: Cita en la Caja">
             </div>
         </div>
 
         <div>
-            <label><i class="fas fa-book"></i> Trabajo para los Estudiantes</label>
+            <label for="actividadRemplazo"><i class="fas fa-book"></i> Trabajo para los Estudiantes</label>
             <textarea id="actividadRemplazo" rows="3" placeholder="Describa la práctica o actividad que deben realizar los grupos..."></textarea>
         </div>
         <button type="submit" id="btnGuardar"><i class="fas fa-save"></i> Registrar Período de Ausencia</button>
@@ -591,7 +622,7 @@ function inicializar() {
     const rol = localStorage.getItem('rol');
     const usuario = localStorage.getItem('usuario');
 
-    if (!nombre || !usuario) { window.location.href = "index.html"; return; }
+    if (!nombre || !usuario) { globalThis.location.href = "index.html"; return; }
 
     // Actualizar Textos
     document.getElementById('nombreUsuario').textContent = nombre;
@@ -636,7 +667,10 @@ document.getElementById('formMiAusencia').addEventListener('submit', async funct
             this.reset();
             cargarHistorial();
         }
-    } catch (err) { alert("Error de conexión con el servidor."); }
+    } catch (err) {
+        console.error(err);
+        alert("Error de conexión con el servidor.");
+    }
     btn.disabled = false;
 });
 
@@ -667,7 +701,10 @@ async function cargarHistorial() {
                     <td><button class="btn-eliminar" onclick="eliminarAusencia(${a.id})">Eliminar</button></td>
                 </tr>`;
         });
-    } catch (e) { tbody.innerHTML = "<tr><td colspan='4'>Error al cargar el historial.</td></tr>"; }
+    } catch (e) {
+        console.error(e);
+        tbody.innerHTML = "<tr><td colspan='4'>Error al cargar el historial.</td></tr>";
+    }
 }
 
 async function eliminarAusencia(id) {
@@ -683,7 +720,10 @@ async function eliminarAusencia(id) {
         } else {
             alert("❌ Error al eliminar: " + res.statusText);
         }
-    } catch (e) { alert("Error de conexión."); }
+    } catch (e) {
+        console.error(e);
+        alert("Error de conexión.");
+    }
 }
 
 // Setup comunicado form listener for admin users
@@ -718,7 +758,7 @@ function setupComunicadoListener() {
 function cerrarSesion() {
     if(confirm("¿Seguro que desea salir del panel?")) {
         localStorage.clear();
-        window.location.href = "index.html";
+        globalThis.location.href = "index.html";
     }
 }
 
