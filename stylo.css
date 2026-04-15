@@ -7,7 +7,7 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Arial', Helvetica, sans-serif;
     background: #ebe5d9;
     color: #333;
     line-height: 1.6;
@@ -165,7 +165,7 @@ a:hover {
 
         .page-galeria {
             overflow-x: hidden;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', Helvetica, sans-serif;
             background:
                 radial-gradient(circle at top right, rgba(26, 107, 58, 0.12), transparent 42%),
                 radial-gradient(circle at bottom left, rgba(10, 76, 35, 0.08), transparent 40%),
@@ -495,7 +495,7 @@ a:hover {
         }
 
         .page-index {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', Helvetica, sans-serif;
             background-color: var(--fondo-sitio);
             color: var(--texto-cuerpo);
             line-height: 1.6;
@@ -756,7 +756,7 @@ a:hover {
         radial-gradient(circle at top right, rgba(26, 107, 58, 0.1), transparent 40%),
         radial-gradient(circle at bottom left, rgba(10, 76, 35, 0.08), transparent 38%),
         #ebe5d9;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Arial', Helvetica, sans-serif;
     min-height: 100vh;
     margin: 0;
     padding: 0;
@@ -1109,7 +1109,7 @@ a:hover {
                 var(--fondo);
             margin: 0;
             min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', Helvetica, sans-serif;
             color: var(--texto-cuerpo);
         }
 
@@ -1398,7 +1398,7 @@ a:hover {
         .page-docentes {
             overflow-x: hidden;
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', Helvetica, sans-serif;
             background:
                 radial-gradient(circle at top right, rgba(26, 107, 58, 0.1), transparent 40%),
                 radial-gradient(circle at bottom left, rgba(10, 76, 35, 0.08), transparent 38%),
