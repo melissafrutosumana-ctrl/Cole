@@ -7,7 +7,7 @@
     <title>Registro de Docentes - CTP Matapalo</title>
     <link rel="stylesheet" href="css/stylo.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
 </head>
 
 <body class="page-registro-docentes">
@@ -18,8 +18,7 @@
                 <img src="img/LOGO_MEP-removebg-preview.png" class="logo-mep" alt="MEP Costa Rica">
                 <div class="divider"></div>
                 <div class="logo-gobierno">
-                    <strong>Colegio Técnico Profesional</strong><br>
-                    de Matapalo
+                    <strong>Colegio Técnico Profesional</strong><br> de Matapalo
                 </div>
             </div>
 
@@ -38,51 +37,51 @@
 
     <div class="content-wrap">
 
-    <div class="form-container">
-        <h1><i class="fas fa-user-check"></i> Registro de Docentes</h1>
+        <div class="form-container">
+            <h1><i class="fas fa-user-check"></i> Registro de Docentes</h1>
 
-        <form id="miFormulario">
+            <form id="miFormulario">
 
-            <div style="margin-bottom: 15px;">
-                <label for="nombre"><i class="fas fa-user"></i> Nombre Completo:</label>
-                <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre completo">
-            </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="nombre"><i class="fas fa-user"></i> Nombre Completo:</label>
+                    <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre completo">
+                </div>
 
-            <div style="margin-bottom: 15px;">
-                <label for="email"><i class="fas fa-envelope"></i> Correo Institucional:</label>
-                <input type="email" id="email" name="email" required placeholder="correo@mep.go.cr">
-            </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="email"><i class="fas fa-envelope"></i> Correo Institucional:</label>
+                    <input type="email" id="email" name="email" required placeholder="correo@mep.go.cr">
+                </div>
 
-            <div style="margin-bottom: 15px;">
-                <label for="password"><i class="fas fa-key"></i> Contraseña:</label>
-                <input type="password" id="password" name="password" required placeholder="Crea una contraseña segura">
-            </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="password"><i class="fas fa-key"></i> Contraseña:</label>
+                    <input type="password" id="password" name="password" required placeholder="Crea una contraseña segura">
+                </div>
 
-            <div style="margin-bottom: 15px;">
-                <label for="materia"><i class="fas fa-book"></i> Materia/Especialidad:</label>
-                <textarea id="materia" name="materia" rows="3" placeholder="Describe tu materia o especialidad..."></textarea>
-            </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="materia"><i class="fas fa-book"></i> Materia/Especialidad:</label>
+                    <textarea id="materia" name="materia" rows="3" placeholder="Describe tu materia o especialidad..."></textarea>
+                </div>
 
-            <button type="submit" id="btnRegistrar"><i class="fas fa-check"></i> REGISTRARSE</button>
+                <button type="submit" id="btnRegistrar"><i class="fas fa-check"></i> REGISTRARSE</button>
 
-            <a href="registrarme.html"><i class="fas fa-arrow-left"></i> Volver al Login</a>
+                <a href="registrarme.html"><i class="fas fa-arrow-left"></i> Volver al Login</a>
 
-        </form>
+            </form>
 
-        <div class="mensaje" id="mensaje"></div>
-    </div>
+            <div class="mensaje" id="mensaje"></div>
+        </div>
 
     </div>
 
     <script>
         // Configuración de Supabase
-        const SUPABASE_URL = 'https://iowxlwnosyyqetbvvmuk.supabase.co';
-        const SUPABASE_KEY = 'TU_API_KEY_AQUI';
+        const SUPABASE_URL = 'https://etdcmuikvtnqfcnlvodh.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0ZGNtdWlrdnRucWZjbmx2b2RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1OTQ1ODcsImV4cCI6MjA5MTE3MDU4N30.8JHWlTxYRSYEkpipqesHVBKn7QomTXJYHp6Nm6SzU4A';
 
         const form = document.getElementById('miFormulario');
         const mensajeDiv = document.getElementById('mensaje');
 
-        form.addEventListener('submit', async (e) => {
+        form.addEventListener('submit', async(e) => {
             e.preventDefault();
 
             const nombre = document.getElementById('nombre').value;
@@ -145,5 +144,5 @@
     </script>
 
 </body>
-</html>
 
+</html>
