@@ -208,7 +208,7 @@ document.getElementById('formMiAusencia').addEventListener('submit', async funct
             method: "POST", headers, body: JSON.stringify(datos)
         });
         if(res.ok) {            // Notificar por correo vÃ­a EmailJS al guardar la ausencia
-            emailjs.send("service_2wecd52", "template_l7o4l3f", {
+            emailjs.send("service_2wecd52", "i5bktu9", {
                 nombre: datos.nombre,
                 fecha_inicio: datos.fecha,
                 fecha_fin: datos.fecha_fin,
