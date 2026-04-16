@@ -59,18 +59,9 @@
     </div>
 
     <div id="seccionAdmin">
-        <h3 style="color: #e67e22; margin-top: 0;"><i class="fas fa-megaphone"></i> Publicar Comunicado Oficial</h3>
-        <form id="formComunicado">
-            <input type="text" id="tituloCom" placeholder="Título del comunicado (Ej: Cambio de horario)" required>
-            <textarea id="contenidoCom" rows="2" placeholder="Escriba el mensaje detallado aquí..." required></textarea>
-            <select id="colorCom">
-                <option value="#27ae60"><i class="fas fa-circle"></i> Informativo (Verde)</option>
-                <option value="#3498db"><i class="fas fa-circle"></i> General (Azul)</option>
-                <option value="#f39c12"><i class="fas fa-circle"></i> Importante (Naranja)</option>
-                <option value="#e74c3c"><i class="fas fa-circle"></i> Urgente (Rojo)</option>
-            </select>
-            <button type="submit" class="btn-admin" id="btnPublicar"><i class="fas fa-paper-plane"></i> Publicar Comunicado ahora</button>
-        </form>
+        <h3 style="color: #e67e22; margin-top: 0;"><i class="fas fa-user-shield"></i> Panel de Administración</h3>
+        <p style="margin-bottom: 20px; font-size: 0.95rem;">Usted cuenta con acceso al gestor de comunicados institucionales.</p>
+        <button type="button" class="btn-admin" onclick="window.location.href='comunicados.html'"><i class="fas fa-megaphone"></i> Ir a Gestión de Comunicados</button>
     </div>
 
     <h3><i class="fas fa-clipboard-plus"></i> Registrar Nueva Ausencia</h3>
@@ -179,7 +170,6 @@ function inicializar() {
     if (rol === 'admin') {
         document.getElementById('seccionAdmin').style.display = 'block';
         document.getElementById('rolBadge').style.background = '#e67e22';
-        setupComunicadoListener();
     }
 
     cargarHistorial();
@@ -343,49 +333,6 @@ async function eliminarAusencia(id) {
     } catch (e) {
         console.error(e);
         Swal.fire('Error', 'Problema de conexión con el servidor.', 'error');
-    }
-}
-
-// Setup comunicado form listener for admin users
-function setupComunicadoListener() {
-    const form = document.getElementById('formComunicado');
-    if (form) {
-        form.addEventListener('submit', async function(e){
-            e.preventDefault();
-            const btn = document.getElementById('btnPublicar');
-            btn.disabled = true;
-            const datos = {
-                titulo: document.getElementById('tituloCom').value,
-                contenido: document.getElementById('contenidoCom').value,
-                color_borde: document.getElementById('colorCom').value,
-                autor: localStorage.getItem('nombre')
-            };
-            try {
-                Swal.fire({
-                    title: 'Publicando...',
-                    allowOutsideClick: false,
-                    showConfirmButton: false,
-                    didOpen: () => { Swal.showLoading(); }
-                });
-                const res = await fetch(`${SUPABASE_URL}/rest/v1/comunicados`, { method: "POST", headers, body: JSON.stringify(datos) });
-                if(res.ok) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: '¡Publicado!',
-                        text: 'Comunicado publicado en la página de inicio.',
-                        timer: 2000,
-                        showConfirmButton: false
-                    });
-                    this.reset();
-                } else {
-                    const error = await res.json();
-                    Swal.fire('Error', 'No se pudo publicar: ' + (error.message || res.statusText), 'error');
-                }
-            } catch (e) {
-                Swal.fire('Error', 'Error al publicar: ' + e.message, 'error');
-            }
-            btn.disabled = false;
-        });
     }
 }
 
