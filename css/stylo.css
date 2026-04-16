@@ -2133,11 +2133,4 @@ body .swal2-popup:has(.swal2-confirm[style*="display: none"]) .swal2-actions,
 body .swal2-actions:has(button[style*="display: none"]) {
     display: none !important;
 }
-}
-
-/* Ocultar botones cuando showConfirmButton es false */
-body .swal2-popup:has(.swal2-confirm[style*="display: none"]) .swal2-actions,
-body .swal2-actions:has(button[style*="display: none"]) {
-    display: none !important;
-}
 
