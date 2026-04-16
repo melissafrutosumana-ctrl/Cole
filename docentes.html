@@ -213,6 +213,8 @@ document.getElementById('formMiAusencia').addEventListener('submit', async funct
             showConfirmButton: false,
             didOpen: () => {
                 Swal.showLoading();
+                const actions = document.querySelector('.swal2-actions');
+                if (actions) actions.style.display = 'none';
             }
         });
 
@@ -234,7 +236,12 @@ document.getElementById('formMiAusencia').addEventListener('submit', async funct
                 title: '¡Guardado!',
                 text: 'Período de ausencia guardado correctamente.',
                 timer: 2000,
-                showConfirmButton: false
+                showConfirmButton: false,
+                didOpen: () => {
+                    // Asegurar que los botones no se muestren
+                    const actions = document.querySelector('.swal2-actions');
+                    if (actions) actions.style.display = 'none';
+                }
             });
             this.reset();
             cargarHistorial();
@@ -324,7 +331,11 @@ async function eliminarAusencia(id) {
                 title: 'Eliminado',
                 text: 'La ausencia fue eliminada con éxito.',
                 timer: 1500,
-                showConfirmButton: false
+                showConfirmButton: false,
+                didOpen: () => {
+                    const actions = document.querySelector('.swal2-actions');
+                    if (actions) actions.style.display = 'none';
+                }
             });
             cargarHistorial();
         } else {

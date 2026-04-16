@@ -282,7 +282,11 @@ async function eliminarComunicado(id) {
         text: 'Por favor espere un momento',
         allowOutsideClick: false,
         showConfirmButton: false,
-        didOpen: () => { Swal.showLoading(); }
+        didOpen: () => { 
+            Swal.showLoading();
+            const actions = document.querySelector('.swal2-actions');
+            if (actions) actions.style.display = 'none';
+        }
     });
 
     try {
@@ -296,7 +300,11 @@ async function eliminarComunicado(id) {
                 title: 'Eliminado',
                 text: 'El comunicado fue eliminado con éxito.',
                 timer: 1500,
-                showConfirmButton: false
+                showConfirmButton: false,
+                didOpen: () => {
+                    const actions = document.querySelector('.swal2-actions');
+                    if (actions) actions.style.display = 'none';
+                }
             });
             cargarComunicadosAdmin();
         } else {
@@ -344,7 +352,11 @@ async function editarComunicado(id, tituloActual, contenidoActual, colorActual) 
             text: 'Por favor espere',
             allowOutsideClick: false,
             showConfirmButton: false,
-            didOpen: () => { Swal.showLoading(); }
+            didOpen: () => { 
+                Swal.showLoading();
+                const actions = document.querySelector('.swal2-actions');
+                if (actions) actions.style.display = 'none';
+            }
         });
 
         try {
@@ -384,7 +396,11 @@ function setupComunicadoListener() {
                     title: 'Publicando...',
                     allowOutsideClick: false,
                     showConfirmButton: false,
-                    didOpen: () => { Swal.showLoading(); }
+                    didOpen: () => { 
+                        Swal.showLoading();
+                        const actions = document.querySelector('.swal2-actions');
+                        if (actions) actions.style.display = 'none';
+                    }
                 });
                 const res = await fetch(`${SUPABASE_URL}/rest/v1/comunicados`, { method: "POST", headers, body: JSON.stringify(datos) });
                 if(res.ok) {
@@ -393,7 +409,11 @@ function setupComunicadoListener() {
                         title: '¡Publicado!',
                         text: 'Comunicado publicado exitosamente.',
                         timer: 2000,
-                        showConfirmButton: false
+                        showConfirmButton: false,
+                        didOpen: () => {
+                            const actions = document.querySelector('.swal2-actions');
+                            if (actions) actions.style.display = 'none';
+                        }
                     });
                     this.reset();
                     cargarComunicadosAdmin(); // Reload the table automatically
