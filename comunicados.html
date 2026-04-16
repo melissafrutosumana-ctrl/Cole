@@ -59,7 +59,7 @@
     </div>
 
     
-    <div id="seccionAdmin">
+    <div class="panel-admin" style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px; border-top: 5px solid #e67e22;">
         <h3 style="color: #e67e22; margin-top: 0;"><i class="fas fa-megaphone"></i> Publicar Comunicado Oficial</h3>
         <form id="formComunicado">
             <input type="text" id="tituloCom" placeholder="Título del comunicado (Ej: Cambio de horario)" required>
@@ -186,8 +186,11 @@ async function cargarComunicadosAdmin() {
                     </td>
                     <td>${c.autor}</td>
                     <td style="text-align: center;">
-                        <button class="btn-eliminar" onclick="eliminarComunicado(${c.id})" title="Eliminar este comunicado">
-                            <i class="fas fa-trash-alt"></i> Eliminar
+                        <button class="btn-admin" style="background:#3498db; color:white; padding: 6px 12px; margin-right: 5px; border-radius: 4px; border: none; cursor:pointer;" onclick="editarComunicado(${c.id}, '${c.titulo.replace(/'/g, "\\'")}', '${c.contenido.replace(/'/g, "\\'").replace(/\n/g, "\\n")}', '${c.color_borde}')" title="Editar este comunicado">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-eliminar" style="padding: 6px 12px; border-radius: 4px; cursor:pointer;" onclick="eliminarComunicado(${c.id})" title="Eliminar este comunicado">
+                            <i class="fas fa-trash-alt"></i>
                         </button>
                     </td>
                 </tr>`;
@@ -239,6 +242,65 @@ async function eliminarComunicado(id) {
         }
     } catch (e) {
         Swal.fire('Error', 'Problema de conexión.', 'error');
+    }
+}
+
+async function editarComunicado(id, tituloActual, contenidoActual, colorActual) {
+    const { value: formValues } = await Swal.fire({
+        title: 'Editar Comunicado',
+        html: `
+            <input id="swal-input-titulo" class="swal2-input" value="${tituloActual}" placeholder="Título">
+            <textarea id="swal-input-contenido" class="swal2-textarea" placeholder="Contenido" rows="4" style="margin-top: 15px;">${contenidoActual}</textarea>
+            <select id="swal-input-color" class="swal2-input" style="width: 80%; display: flex; margin: 15px auto;">
+                <option value="#27ae60" ${colorActual === '#27ae60' ? 'selected' : ''}>Informativo (Verde)</option>
+                <option value="#3498db" ${colorActual === '#3498db' ? 'selected' : ''}>General (Azul)</option>
+                <option value="#f39c12" ${colorActual === '#f39c12' ? 'selected' : ''}>Importante (Naranja)</option>
+                <option value="#e74c3c" ${colorActual === '#e74c3c' ? 'selected' : ''}>Urgente (Rojo)</option>
+            </select>
+        `,
+        focusConfirm: false,
+        showCancelButton: true,
+        confirmButtonColor: '#3498db',
+        cancelButtonColor: '#95a5a6',
+        confirmButtonText: 'Guardar Cambios',
+        cancelButtonText: 'Cancelar',
+        preConfirm: () => {
+            const valTitulo = document.getElementById('swal-input-titulo').value.trim();
+            const valContenido = document.getElementById('swal-input-contenido').value.trim();
+            const valColor = document.getElementById('swal-input-color').value;
+            
+            if(!valTitulo || !valContenido) {
+                Swal.showValidationMessage('El título y contenido son requeridos');
+            }
+            return { titulo: valTitulo, contenido: valContenido, color_borde: valColor };
+        }
+    });
+
+    if (formValues) {
+        Swal.fire({
+            title: 'Actualizando...',
+            text: 'Por favor espere',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            didOpen: () => { Swal.showLoading(); }
+        });
+
+        try {
+            const res = await fetch(`${SUPABASE_URL}/rest/v1/comunicados?id=eq.${id}`, {
+                method: "PATCH",
+                headers,
+                body: JSON.stringify(formValues)
+            });
+
+            if (res.ok) {
+                Swal.fire({ icon: 'success', title: '¡Actualizado!', text: 'El comunicado se actualizó con éxito.', timer: 2000, showConfirmButton: false });
+                cargarComunicadosAdmin();
+            } else {
+                Swal.fire('Error', 'No se pudo actualizar el comunicado.', 'error');
+            }
+        } catch (e) {
+            Swal.fire('Error', 'Problema de red al actualizar.', 'error');
+        }
     }
 }
 
