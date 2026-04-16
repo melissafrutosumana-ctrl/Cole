@@ -72,9 +72,6 @@
             </select>
             <button type="submit" class="btn-admin" id="btnPublicar"><i class="fas fa-paper-plane"></i> Publicar Comunicado ahora</button>
         </form>
-
-        <br>
-        <button type="button" class="btn-admin" style="background:#5a5a5a; color:white; width: 100%; border-radius: 6px; padding: 12px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s;" onclick="window.location.href='docentes.html'" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'"><i class="fas fa-arrow-left"></i> Volver a Mi Panel de Ausencias</button>
     </div>
 
 
@@ -107,8 +104,73 @@
         </div>
     </div>
 
+    <div style="margin-top: 30px; text-align: center;">
+        <button type="button" class="btn-volver" onclick="window.location.href='docentes.html'" title="Volver a tu panel de ausencias">
+            <i class="fas fa-arrow-left"></i> Volver a Mi Panel de Ausencias
+        </button>
+    </div>
+
 </div>
 
+<style>
+.btn-editar-com {
+    background: #3498db;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.btn-editar-com:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+}
+.btn-eliminar-com {
+    background: #e74c3c;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.btn-eliminar-com:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+}
+.btn-volver {
+    background: #5a5a5a;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-volver:hover {
+    background: #454545;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+</style>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
@@ -185,12 +247,12 @@ async function cargarComunicadosAdmin() {
                         </div>
                     </td>
                     <td>${c.autor}</td>
-                    <td style="text-align: center;">
-                        <button class="btn-admin" style="background:#3498db; color:white; padding: 6px 12px; margin-right: 5px; border-radius: 4px; border: none; cursor:pointer;" onclick="editarComunicado(${c.id}, '${c.titulo.replace(/'/g, "\\'")}', '${c.contenido.replace(/'/g, "\\'").replace(/\n/g, "\\n")}', '${c.color_borde}')" title="Editar este comunicado">
-                            <i class="fas fa-edit"></i>
+                    <td style="text-align: center; display: flex; gap: 8px; justify-content: center;">
+                        <button class="btn-editar-com" onclick="editarComunicado(${c.id}, '${c.titulo.replace(/'/g, "\\'")}',' ${c.contenido.replace(/'/g, "\\'")\.replace(/\n/g, "\\n")}', '${c.color_borde}')" title="Editar este comunicado">
+                            <i class="fas fa-edit"></i> Editar
                         </button>
-                        <button class="btn-eliminar" style="padding: 6px 12px; border-radius: 4px; cursor:pointer;" onclick="eliminarComunicado(${c.id})" title="Eliminar este comunicado">
-                            <i class="fas fa-trash-alt"></i>
+                        <button class="btn-eliminar-com" onclick="eliminarComunicado(${c.id})" title="Eliminar este comunicado">
+                            <i class="fas fa-trash-alt"></i> Eliminar
                         </button>
                     </td>
                 </tr>`;
