@@ -142,10 +142,16 @@
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
-// Iniciar EmailJS usando tu Public Key
-emailjs.init("qAglmSdD5me55ae1-");
+// Manejar validaciones para asegurar que el código no se caiga
+try {
+    emailjs.init({
+      publicKey: "qAglmSdD5me55ae1-"
+    });
+} catch (error) {
+    console.error("Error configurando EmailJS:", error);
+}
 
 // 🔒 VERIFICACIÓN DE SESIÓN INMEDIATA
 if (!localStorage.getItem('usuario') || !localStorage.getItem('nombre')) {
