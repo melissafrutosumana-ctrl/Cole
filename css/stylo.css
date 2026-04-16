@@ -1730,13 +1730,49 @@ a:hover {
             gap: 8px;
         }
 
-        /* Limpiando el reset agresivo a botones de SweetAlert2 usando un wrapper más seguro.
-         * Dejamos que SweetAlert use sus clases nativas */
-        .page-docentes .swal2-container button {
-            all: revert;
-        }
+        /* ----- ESTILOS MEJORADOS PARA BOTONES DE SWEETALERT ----- */
         .page-docentes .swal2-container button.swal2-styled {
-            all: revert; 
+            /* Restringimos el estilo global de .page-docentes button */
+            all: unset; /* Quitamos todo el reset de page-docentes */
+            
+            /* Empezamos de cero dándole forma de botón premium */
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 24px !important;
+            font-size: 1.05rem !important;
+            font-weight: 600 !important;
+            font-family: inherit !important;
+            border-radius: 8px !important;
+            cursor: pointer !important;
+            transition: all 0.2s ease-in-out !important;
+            border: 2px solid transparent !important;
+            margin: 0.5rem !important;
+            color: #fff !important;
+        }
+
+        /* Botón de confirmar (ELIMINAR) */
+        .page-docentes .swal2-container button.swal2-confirm {
+            background-color: #ef4444 !important; /* Rojo moderno */
+            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3) !important;
+        }
+        .page-docentes .swal2-container button.swal2-confirm:hover {
+            background-color: #dc2626 !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 14px rgba(239, 68, 68, 0.4) !important;
+        }
+
+        /* Botón de cancelar */
+        .page-docentes .swal2-container button.swal2-cancel {
+            background-color: #f1f5f9 !important; /* Gris claro */
+            color: #475569 !important; /* Texto oscuro */
+            border: 2px solid #cbd5e1 !important;
+            box-shadow: none !important;
+        }
+        .page-docentes .swal2-container button.swal2-cancel:hover {
+            background-color: #e2e8f0 !important;
+            transform: translateY(-2px) !important;
+            color: #334155 !important;
         }
 
         .page-docentes button:hover {
