@@ -215,6 +215,17 @@ document.getElementById('formMiAusencia').addEventListener('submit', async funct
         const res = await fetch(`${SUPABASE_URL}/rest/v1/ausencias`, {
             method: "POST", headers, body: JSON.stringify(datos)
         });
+
+        Swal.fire({
+            title: 'Guardando...',
+            text: 'Registrando la ausencia, espere un momento.',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
         if(res.ok) {            // Notificar por correo vÃ­a EmailJS al guardar la ausencia
             emailjs.send("service_2wecd52", "template_fbik8ht", {
                 nombre: datos.nombre,
@@ -302,6 +313,16 @@ async function eliminarAusencia(id) {
 
     if(!confirmacion.isConfirmed) return;
 
+    Swal.fire({
+        title: 'Borrando...',
+        text: 'Por favor espere un momento',
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
     try {
         const res = await fetch(`${SUPABASE_URL}/rest/v1/ausencias?id=eq.${id}`, {
             method: "DELETE",
@@ -340,6 +361,12 @@ function setupComunicadoListener() {
                 autor: localStorage.getItem('nombre')
             };
             try {
+                Swal.fire({
+                    title: 'Publicando...',
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    didOpen: () => { Swal.showLoading(); }
+                });
                 const res = await fetch(`${SUPABASE_URL}/rest/v1/comunicados`, { method: "POST", headers, body: JSON.stringify(datos) });
                 if(res.ok) {
                     Swal.fire({
