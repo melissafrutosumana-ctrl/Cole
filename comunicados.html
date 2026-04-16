@@ -248,7 +248,7 @@ async function cargarComunicadosAdmin() {
                     </td>
                     <td>${c.autor}</td>
                     <td style="text-align: center; display: flex; gap: 8px; justify-content: center;">
-                        <button class="btn-editar-com" onclick="editarComunicado(${c.id}, '${c.titulo.replace(/'/g, "\\'")}',' ${c.contenido.replace(/'/g, "\\'")\.replace(/\n/g, "\\n")}', '${c.color_borde}')" title="Editar este comunicado">
+                        <button class="btn-editar-com" onclick="editarComunicado(${c.id}, '${c.titulo.replace(/'/g, "\\'")}',' ${c.contenido.replace(/'/g, "\\'").replace(/\n/g, "\\n")}', '${c.color_borde}')" title="Editar este comunicado">
                             <i class="fas fa-edit"></i> Editar
                         </button>
                         <button class="btn-eliminar-com" onclick="eliminarComunicado(${c.id})" title="Eliminar este comunicado">
