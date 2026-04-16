@@ -1730,21 +1730,13 @@ a:hover {
             gap: 8px;
         }
 
-        /* NO aplicar estilos de .page-docentes a botones de SweetAlert2 */
-        .page-docentes .swal2-container button,
-        .page-docentes .swal2-popup button {
-            padding: initial !important;
-            background: none !important;
-            color: initial !important;
-            border: none !important;
-            border-radius: initial !important;
-            cursor: pointer !important;
-            font-weight: initial !important;
-            transition: initial !important;
-            font-size: initial !important;
-            display: initial !important;
-            align-items: initial !important;
-            gap: initial !important;
+        /* Limpiando el reset agresivo a botones de SweetAlert2 usando un wrapper más seguro.
+         * Dejamos que SweetAlert use sus clases nativas */
+        .page-docentes .swal2-container button {
+            all: revert;
+        }
+        .page-docentes .swal2-container button.swal2-styled {
+            all: revert; 
         }
 
         .page-docentes button:hover {
