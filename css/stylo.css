@@ -1960,4 +1960,29 @@ a:hover {
                 pointer-events: none;
             }
         }
-    
+
+/* ------------- AJUSTES SWEETALERT2 ------------- */
+.swal2-container button {
+    width: auto !important;
+    display: inline-flex !important;
+    margin: 5px !important;
+    justify-content: center;
+    background: none; /* Quitamos el background global para que los colores por defecto o inline operen correctamente */
+    border-radius: .25em; /* Valor por defecto SWAL */
+    padding: .625em 1.1em;
+}
+.swal2-container .swal2-actions {
+    gap: 10px !important;
+    display: flex !important;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+.swal2-container .swal2-confirm {
+    background-color: var(--swal2-confirm-button-background, #e74c3c) !important;
+    color: white !important;
+}
+.swal2-container .swal2-cancel {
+    background-color: var(--swal2-cancel-button-background, #95a5a6) !important;
+    color: white !important;
+}
