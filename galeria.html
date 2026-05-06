@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería STEAM - CTP Matapalo</title>
+    <link rel="icon" type="image/png" href="img/logo_colegio_nuevo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/stylo.css">
+</head>
+
+<body class="page-galeria">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-container">
+            <div class="header-logos-left">
+                <img src="img/LOGO_MEP-removebg-preview.png" alt="MEP Costa Rica" class="logo-mep">
+                <div class="divider"></div>
+                <div class="logo-gobierno">
+                    <strong>Dirección Regional de Educación Central del Pacífico</strong><br>
+                    <strong>Colegio Técnico Profesional de Matapalo</strong><br>
+                </div>
+            </div>
+            <div class="nav-right">
+                <a href="index.html" title="Inicio">
+                    <img src="img/logo_colegio_nuevo.png" alt="Escudo CTP" class="logo-escudo">
+                </a>
+                <a href="index.html" class="btn-login">Regresar</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- BARRA DE TÍTULO -->
+    <div class="main-title-bar">
+        <h1><i class="fas fa-images"></i> Galería STEAM</h1>
+        <p>Actividades, proyectos y momentos destacados de nuestra comunidad educativa.</p>
+    </div>
+
+    <div class="galeria-wrap">
+        <div class="galeria">
+
+            <!-- IMÁGENES -->
+            <div class="item">
+                <img src="img/1.jpeg" alt="Actividad STEAM 1">
+            </div>
+
+            <div class="item">
+                <img src="img/uno.jpeg" alt="Actividad STEAM 2">
+            </div>
+
+            <div class="item">
+                <img src="img/dos.jpeg" alt="Actividad STEAM 3">
+            </div>
+
+            <div class="item">
+                <img src="img/tres.jpeg" alt="Actividad STEAM 4">
+            </div>
+
+            <div class="item">
+                <img src="img/cuatro.jpeg" alt="Actividad STEAM 5">
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MODAL PARA GALERÍA (LIGHTBOX) -->
+    <div id="imageModal" class="modal-lightbox">
+        <span class="close-lightbox">&times;</span>
+        <img class="modal-content-lightbox" id="modalImg" alt="">
+    </div>
+
+    <script>
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImg");
+        const items = document.querySelectorAll(".item img");
+        const span = document.getElementsByClassName("close-lightbox")[0];
+
+        items.forEach(img => {
+            img.addEventListener('click', function() {
+                modal.style.display = "flex";
+                setTimeout(() => modal.classList.add('show'), 10);
+                modalImg.src = this.src;
+            });
+        });
+
+        // Cerrar al dar click en la "x"
+        span.onclick = function() {
+            modal.classList.remove('show');
+            setTimeout(() => modal.style.display = "none", 300);
+        }
+
+        // Cerrar al dar click fuera de la imagen
+        modal.onclick = function(e) {
+            if (e.target !== modalImg) {
+                modal.classList.remove('show');
+                setTimeout(() => modal.style.display = "none", 300);
+            }
+        }
+    </script>
+
+</body>
+
+</html>

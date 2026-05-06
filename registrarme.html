@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - CTP Matapalo</title>
+    <link rel="icon" type="image/png" href="img/logo_colegio_nuevo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/stylo.css">
+</head>
+
+<body class="page-registrarme">
+
+    <!-- HEADER IGUAL AL INDEX -->
+    <header class="header">
+        <div class="header-container">
+            <div class="header-logos-left">
+                <img src="img/LOGO_MEP-removebg-preview.png" class="logo-mep" alt="MEP Costa Rica">
+                <div class="divider"></div>
+                <div class="logo-gobierno">
+                    <strong>Dirección Regional de Educación Central del Pacífico</strong><br>
+                    <strong>Colegio Técnico Profesional de Matapalo</strong><br>
+                </div>
+            </div>
+
+            <div class="nav-right">
+                <a href="index.html" title="Inicio">
+                    <img src="img/logo_colegio_nuevo.png" class="logo-escudo" alt="Escudo CTP Matapalo">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="main-title-bar">
+        <h1>Acceso del Personal</h1>
+        <p>Ingrese con su usuario institucional para administrar ausencias y comunicados.</p>
+    </section>
+
+    <div class="login-page">
+
+        <div class="login-container">
+            <form id="loginForm">
+                <div class="form-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="usuario" placeholder="Usuario" required>
+                </div>
+
+                <div class="form-group">
+                    <i class="fas fa-key"></i>
+                    <input type="password" id="password" placeholder="Contraseña" required>
+                </div>
+
+                <div class="btn-container">
+                    <button type="submit" id="btnIngresar"><i class="fas fa-sign-in-alt"></i> INGRESAR</button>
+                </div>
+            </form>
+
+            <div id="mensaje" class="mensaje"></div>
+        </div>
+    </div>
+
+    <script>
+                const SUPABASE_URL = 'https://etdcmuikvtnqfcnlvodh.supabase.co';
+                const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0ZGNtdWlrdnRucWZjbmx2b2RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1OTQ1ODcsImV4cCI6MjA5MTE3MDU4N30.8JHWlTxYRSYEkpipqesHVBKn7QomTXJYHp6Nm6SzU4A';
+
+        const form = document.getElementById('loginForm');
+        const mensaje = document.getElementById('mensaje');
+        const btnIngresar = document.getElementById('btnIngresar');
+
+        function verificarContrasena(storedPassword, plainPassword) {
+            return String(storedPassword || '') === String(plainPassword || '');
+        }
+
+        function guardarSesion(user) {
+            const now = Date.now();
+            const ttlMs = 8 * 60 * 60 * 1000;
+
+            localStorage.setItem('usuario', user.usuario);
+            localStorage.setItem('nombre', user.nombre_completo || user.usuario);
+            localStorage.setItem('rol', user.rol || 'docente');
+            localStorage.setItem('session_issued_at', String(now));
+            localStorage.setItem('session_expires_at', String(now + ttlMs));
+        }
+
+        form.addEventListener('submit', async(e) => {
+            e.preventDefault();
+
+            const usuario = document.getElementById('usuario').value.trim();
+            const password = document.getElementById('password').value;
+
+            if (!usuario || !password) {
+                mensaje.innerHTML = '❌ Debe ingresar usuario y contraseña';
+                mensaje.className = 'mensaje error show';
+                return;
+            }
+
+            btnIngresar.disabled = true;
+            btnIngresar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> CARGANDO...';
+
+            try {
+                const params = new URLSearchParams();
+                params.set('select', 'usuario,nombre_completo,rol,contrasena');
+                params.set('usuario', `eq.${usuario}`);
+                params.set('limit', '1');
+
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/usuarios?${params.toString()}`, {
+                    method: 'GET',
+                    headers: {
+                        apikey: SUPABASE_KEY,
+                        Authorization: `Bearer ${SUPABASE_KEY}`
+                    }
+                });
+
+                const data = await response.json();
+
+                const user = Array.isArray(data) && data.length ? data[0] : null;
+                const autenticado = user ? verificarContrasena(user.contrasena, password) : false;
+
+                if (autenticado) {
+                    guardarSesion(user);
+
+                    mensaje.innerHTML = "✅ Bienvenido " + user.nombre_completo;
+                    mensaje.className = "mensaje exito show";
+
+                    setTimeout(() => {
+                        globalThis.location.href = "docentes.html";
+                    }, 1500);
+
+                } else {
+                    mensaje.innerHTML = "❌ Usuario o contraseña incorrectos";
+                    mensaje.className = "mensaje error show";
+                }
+
+            } catch (error) {
+                mensaje.innerHTML = "❌ Error de conexión";
+                mensaje.className = "mensaje error show";
+                console.error(error);
+            } finally {
+                btnIngresar.disabled = false;
+                btnIngresar.innerHTML = '<i class="fas fa-sign-in-alt"></i> INGRESAR';
+            }
+        });
+    </script>
+
+
+</body>
+
+</html>
