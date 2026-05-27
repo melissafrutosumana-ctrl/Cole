@@ -129,6 +129,34 @@ Sistemas Notificaciones/
 > **NOTA:** Esta sección es el registro histórico de TODO lo que se ha modificado en el proyecto.
 > Cada cambio debe registrarse aquí inmediatamente después de implementarlo.
 
+### [26-05-2026] - Corrección: Invertir Colores de Navbars
+- **Archivo(s):** `subir-imagen.html`, `docentes.html`
+- **Cambios:**
+  - ✅ **subir-imagen.html:** Navbar → Blanco (#fff)
+  - ✅ **docentes.html:** Navbar → Crema (#ebe5d9)
+  - ✅ **Razón:** Usuario pidió "al revés"
+- **Resultado:**
+  - subir-imagen.html = Blanco (para diferenciar)
+  - docentes.html = Crema (color institucional)
+- **Impacto:**
+  - ✅ Navbars diferenciadas pero profesionales
+  - ✅ Cada página tiene su identidad visual
+
+### [26-05-2026] - Unificar Color de Navbar: Docentes con Crema
+- **Archivo(s):** `docentes.html`
+- **Cambios:**
+  - ✅ **Navbar color:** Cambiado a crema (#ebe5d9)
+  - ✅ **CSS agregado:** `.page-docentes .header { background: #ebe5d9 !important; }`
+  - ✅ **Consistencia:** Ahora docentes.html tiene el mismo navbar que subir-imagen.html
+- **Razón:**
+  - Usuario solicitó: "quiero que sea del color de la nav bar de este html"
+  - Unificar colores en todas las páginas
+  - Coherencia visual en todo el sitio
+- **Impacto:**
+  - ✅ Navbar de docentes.html ahora es crema (#ebe5d9)
+  - ✅ Consistente con subir-imagen.html y resto del sitio
+  - ✅ Interfaz más profesional y cohesiva
+
 ### [26-05-2026] - Mejorar Navbar: Color Correcto y Tipografía Consistente
 - **Archivo(s):** `subir-imagen.html`
 - **Cambios:**
