@@ -129,6 +129,28 @@ Sistemas Notificaciones/
 > **NOTA:** Esta sección es el registro histórico de TODO lo que se ha modificado en el proyecto.
 > Cada cambio debe registrarse aquí inmediatamente después de implementarlo.
 
+### [26-05-2026] - Mejorar Navbar: Color Correcto y Tipografía Consistente
+- **Archivo(s):** `subir-imagen.html`
+- **Cambios:**
+  - ✅ **Navbar background:** Cambiado de blanco (#fff) a crema (#ebe5d9)
+    - Color consistente con el fondo del sitio
+    - Mejor contraste y coherencia visual
+  - ✅ **Texto del botón:** Cambiado de "Docentes" a "Regresar"
+    - Más claro para el usuario (acción de volver)
+    - Mantiene flecha hacia atrás
+  - ✅ **Tipografía:** Agregada explícita `font-family: 'Poppins'` en botón
+    - Consistente con todo el sitio
+  - ✅ **Resultado:** Navbar profesional y coherente
+- **Razón:**
+  - Usuario solicitó: "cambia el color de la nav bar porque ese no es"
+  - Navbar en blanco no coincidía con tema crema del sitio
+  - Botón "Docentes" cambió a "Regresar" para claridad
+- **Impacto:**
+  - ✅ Navbar ahora usa color crema (#ebe5d9) - consistente con sitio
+  - ✅ Botón claramente dice "Regresar" (acción intuitiva)
+  - ✅ Tipografía Poppins consistente
+  - ✅ Interfaz más profesional y cohesiva
+
 ### [26-05-2026] - Mejorar Página de Subir Imágenes
 - **Archivo(s):** `subir-imagen.html`
 - **Cambios:**
