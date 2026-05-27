@@ -129,6 +129,29 @@ Sistemas Notificaciones/
 > **NOTA:** Esta sección es el registro histórico de TODO lo que se ha modificado en el proyecto.
 > Cada cambio debe registrarse aquí inmediatamente después de implementarlo.
 
+### [26-05-2026] - Restaurar Carpeta /img/ Completa (33 Imágenes + Logos)
+- **Archivo(s):** `img/` (carpeta restaurada completamente)
+- **Cambios:**
+  - ✅ **Carpeta `/img/` restaurada con 33 archivos:**
+    - 3 logos: `logo_colegio_nuevo.png`, `LOGO_MEP-removebg-preview.png`, `steam.png`
+    - 30 imágenes: 12 carrusel (1.jpeg, dos.jpeg, tres.jpeg, etc.) + 11 steam (steam1-steam11, steam.jpeg)
+    - 2 extras: `escudo sin fondo.png`, `20abril2.jpeg`
+  - ✅ **index.html:** Sin cambios (mantiene código que carga de Supabase también)
+  - ✅ **galeria.html:** Sin cambios (mantiene código que carga de Supabase también)
+  - ✅ **Resultado:** Carpeta `/img/` con todas las imágenes originales (~15MB)
+- **Razón:**
+  - Usuario solicitó: "DEJA LA CARPETA DE IMG COMO ESTABA"
+  - Sistema funciona de manera híbrida: primero intenta Supabase, luego fallback a locales
+  - Esto proporciona mejor disponibilidad y performance
+  - Las imágenes locales sirven de respaldo si Supabase no está disponible
+- **Impacto:**
+  - ✅ Carrusel muestra imágenes locales inmediatamente (no espera Supabase)
+  - ✅ Galería muestra imágenes locales inmediatamente
+  - ✅ Si Supabase tiene nuevas imágenes, se agregan sin reemplazar las locales
+  - ✅ Mejor experiencia de usuario (carga rápida + imágenes garantizadas)
+  - ✅ Sitio funciona aunque Supabase esté DOWN
+  - ✅ Vercel redeployó automáticamente al detectar cambios en main branch
+
 ### [26-05-2026] - Restaurar Logos Esenciales
 - **Archivo(s):** `img/` (carpeta restaurada con solo logos)
 - **Cambios:**
