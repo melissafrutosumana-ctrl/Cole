@@ -647,11 +647,52 @@
                     imagenes.forEach(img => {
                         const div = document.createElement('div');
                         div.className = 'img-item';
-                        div.innerHTML = `<img src="${img.url}" alt="${img.descripcion || 'Imagen'}" loading="lazy">`;
-                        div.querySelector('img').onclick = function() {
+                        div.style.position = 'relative';
+                        div.style.cursor = 'pointer';
+                        
+                        // Imagen
+                        const img_el = document.createElement('img');
+                        img_el.src = img.url;
+                        img_el.alt = img.descripcion || 'Imagen';
+                        img_el.loading = 'lazy';
+                        img_el.onclick = function() {
                             document.getElementById('imageModal').style.display = 'flex';
                             document.getElementById('modalImg').src = this.src;
                         };
+                        
+                        // Botón de borrar
+                        const btnDelete = document.createElement('button');
+                        btnDelete.innerHTML = '<i class="fas fa-trash"></i>';
+                        btnDelete.style.cssText = `
+                            position: absolute;
+                            top: 5px;
+                            right: 5px;
+                            background: rgba(220, 53, 69, 0.9);
+                            color: white;
+                            border: none;
+                            border-radius: 4px;
+                            padding: 5px 8px;
+                            cursor: pointer;
+                            font-size: 0.8em;
+                            display: none;
+                            opacity: 0;
+                            transition: opacity 0.3s;
+                            z-index: 10;
+                        `;
+                        
+                        btnDelete.onclick = async (e) => {
+                            e.stopPropagation();
+                            if (confirm('¿Seguro que quieres borrar esta imagen?')) {
+                                await borrarImagen(img);
+                            }
+                        };
+                        
+                        div.appendChild(img_el);
+                        div.appendChild(btnDelete);
+                        
+                        // Mostrar botón de borrar al pasar mouse
+                        div.onmouseover = () => { btnDelete.style.display = 'block'; btnDelete.style.opacity = '1'; };
+                        div.onmouseout = () => { btnDelete.style.opacity = '0'; setTimeout(() => btnDelete.style.display = 'none', 300); };
 
                         if (img.destino === 'carrusel') {
                             carruselDiv.appendChild(div);
@@ -665,6 +706,55 @@
                 console.warn('⚠️ Supabase no disponible en este momento.');
                 galeriaDiv.innerHTML = '<p style="color:#999; padding:20px; grid-column:1/-1; text-align:center;"><i class="fas fa-info-circle"></i> Supabase no disponible. Intenta nuevamente más tarde.</p>';
                 carruselDiv.innerHTML = '<p style="color:#999; padding:20px; grid-column:1/-1; text-align:center;"><i class="fas fa-info-circle"></i> Supabase no disponible. Intenta nuevamente más tarde.</p>';
+            }
+        }
+
+        // FUNCIÓN PARA BORRAR IMÁGENES
+        async function borrarImagen(img) {
+            try {
+                mostrarMensaje('⏳ Borrando imagen...', 'info');
+                
+                // Extraer nombre del archivo de la URL
+                const nombreArchivo = img.url.split('/').pop();
+                
+                // 1. Borrar del Storage
+                const resDelete = await fetch(
+                    `${SUPABASE_CONFIG.url}/storage/v1/object/imagenes/${nombreArchivo}`,
+                    {
+                        method: 'DELETE',
+                        headers: {
+                            apikey: SUPABASE_CONFIG.key,
+                            Authorization: `Bearer ${SUPABASE_CONFIG.key}`
+                        }
+                    }
+                );
+                
+                if (!resDelete.ok) {
+                    throw new Error('Error borrando archivo de Storage: ' + resDelete.status);
+                }
+                
+                // 2. Borrar de la BD usando el URL
+                const resDB = await fetch(
+                    `${SUPABASE_CONFIG.url}/rest/v1/imagenes?url=eq.${encodeURIComponent(img.url)}`,
+                    {
+                        method: 'DELETE',
+                        headers: {
+                            apikey: SUPABASE_CONFIG.key,
+                            Authorization: `Bearer ${SUPABASE_CONFIG.key}`
+                        }
+                    }
+                );
+                
+                if (!resDB.ok) {
+                    throw new Error('Error borrando de BD: ' + resDB.status);
+                }
+                
+                mostrarMensaje('✅ Imagen borrada correctamente', 'exito');
+                setTimeout(() => cargarImagenesSupabase(), 500);
+                
+            } catch (error) {
+                mostrarMensaje('❌ Error al borrar: ' + error.message, 'error');
+                console.error('Error detallado:', error);
             }
         }
 
