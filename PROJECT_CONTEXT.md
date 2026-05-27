@@ -129,6 +129,33 @@ Sistemas Notificaciones/
 > **NOTA:** Esta sección es el registro histórico de TODO lo que se ha modificado en el proyecto.
 > Cada cambio debe registrarse aquí inmediatamente después de implementarlo.
 
+### [26-05-2026] - Migración Completa a Supabase: Eliminar Imágenes Locales
+- **Archivo(s):** `index.html`, `galeria.html`, carpeta `img/` (eliminada)
+- **Cambios:**
+  - ✅ **index.html - Carrusel:** Eliminadas todas las imágenes locales del HTML
+    - Ahora el carrusel se carga 100% desde Supabase
+    - Función `cargarImagenesCarruselSupabase()` llena el contenedor automáticamente
+    - Se llama al cargar la página (línea 417)
+  - ✅ **galeria.html - Galería:** Eliminadas todas las 11 imágenes locales (steam1-steam12)
+    - Ahora la galería se carga 100% desde Supabase
+    - Función `cargarImagenesSupabaseGaleria()` llena el contenedor automáticamente
+    - Se llama al cargar la página (línea 147)
+  - ✅ **Carpeta `/img/` eliminada completamente**
+    - 33 archivos borrados (imágenes + logos)
+    - Respositorio más limpio (~1MB menos)
+- **Razón:**
+  - Usuario quería migrar completamente a Supabase
+  - Eliminar dependencias de archivos locales
+  - Simplificar mantenimiento (todo centralizado en Supabase)
+  - Preparar para producción en Vercel sin cargo de archivos estáticos
+- **Impacto:**
+  - ✅ Carrusel carga 12 imágenes desde Supabase automáticamente
+  - ✅ Galería carga 11 imágenes desde Supabase automáticamente
+  - ✅ Sin fallback a locales (requiere Supabase funcional)
+  - ⚠️ Vercel load más rápido (menos archivos a servir)
+  - ⚠️ Si Supabase cae, carrusel y galería no muestran imágenes
+  - ✅ Se pueden subir/borrar imágenes dinámicamente sin redeploy
+
 ### [26-05-2026] - Agregar Funcionalidad de Borrar Imágenes
 - **Archivo(s):** `subir-imagen.html`
 - **Cambios:**
