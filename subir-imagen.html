@@ -564,13 +564,17 @@
                     // Intentar subir a Supabase
                     const nombreArchivo = Date.now() + '-' + file.name.replace(/\s+/g, '_');
                     
+                    // Convertir archivo a ArrayBuffer para envío correcto
+                    const arrayBuffer = await file.arrayBuffer();
+                    
                     const resUpload = await fetch(`${SUPABASE_CONFIG.url}/storage/v1/object/imagenes/${nombreArchivo}`, {
                         method: 'POST',
                         headers: {
                             apikey: SUPABASE_CONFIG.key,
-                            Authorization: `Bearer ${SUPABASE_CONFIG.key}`
+                            Authorization: `Bearer ${SUPABASE_CONFIG.key}`,
+                            'Content-Type': file.type || 'image/jpeg'
                         },
-                        body: file
+                        body: arrayBuffer
                     });
 
                     if (!resUpload.ok) {
