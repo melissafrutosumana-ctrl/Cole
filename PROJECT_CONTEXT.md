@@ -129,6 +129,23 @@ Sistemas Notificaciones/
 > **NOTA:** Esta sección es el registro histórico de TODO lo que se ha modificado en el proyecto.
 > Cada cambio debe registrarse aquí inmediatamente después de implementarlo.
 
+### [26-05-2026] - Eliminar Emojis de subir-imagen.html
+- **Archivo:** `subir-imagen.html`
+- **Cambios:**
+  - ✅ **Opciones dropdown:** Removidos 📸 y 🎞️
+    - "📸 Galería de Fotos" → "Galería de Fotos"
+    - "🎞️ Carrusel Principal" → "Carrusel Principal"
+  - ✅ **Mensajes y comentarios:** Removidos ✅ y ⚠️
+    - Textos en consola más limpios
+    - Mensajes de usuario sin emojis
+- **Razón:**
+  - Usuario pidió: "quita los emojis del subir imagenes"
+  - Interfaz más limpia y profesional
+- **Impacto:**
+  - ✅ Formulario más minimalista
+  - ✅ Mantiene funcionalidad igual
+  - ✅ Estilo más consistente con diseño institucional
+
 ### [26-05-2026] - Ajustar Contadores: Solo Index
 - **Archivos:** `index.html`, `galeria.html`, `docentes.html`, `subir-imagen.html`
 - **Cambios:**
