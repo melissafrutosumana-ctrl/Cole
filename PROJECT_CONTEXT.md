@@ -129,6 +129,30 @@ Sistemas Notificaciones/
 > **NOTA:** Esta sección es el registro histórico de TODO lo que se ha modificado en el proyecto.
 > Cada cambio debe registrarse aquí inmediatamente después de implementarlo.
 
+### [26-05-2026] - Eliminar Imágenes Locales: Mantener Solo 3 Logos
+- **Archivo(s):** `img/` (30 imágenes eliminadas)
+- **Cambios:**
+  - ✅ **Eliminadas 30 imágenes:**
+    - Carrusel: 1.jpeg, dos.jpeg, tres.jpeg, etc. (borramos todos)
+    - Galería: steam1-steam12.jpeg (borrados todos)
+    - Extras: escudo sin fondo.png, 20abril2.jpeg, QE.png, QEE.png
+  - ✅ **Mantienen solo 3 logos esenciales:**
+    - `logo_colegio_nuevo.png` (favicon + header)
+    - `LOGO_MEP-removebg-preview.png` (header MEP)
+    - `steam.png` (card STEAM)
+  - ✅ **Resultado:** Carpeta `/img/` con SOLO 3 archivos (~2.5MB total)
+- **Razón:**
+  - Usuario pidió: "borra las 30 extras"
+  - Las imágenes de carrusel/galería deben venir de Supabase, no de locales
+  - Solo los logos son críticos y necesarios para la estructura
+- **Impacto:**
+  - ✅ Carrusel carga ÚNICAMENTE desde Supabase (sin respaldo local)
+  - ✅ Galería carga ÚNICAMENTE desde Supabase (sin respaldo local)
+  - ✅ Logos seguirán visibles (3 archivos esenciales presentes)
+  - ✅ Repositorio mucho más ligero (~2.5MB en lugar de 15MB)
+  - ✅ Vercel redeploy rápido sin archivos innecesarios
+  - ⚠️ Si Supabase falla, carrusel y galería mostrarán "No hay imágenes disponibles"
+
 ### [26-05-2026] - Restaurar Carpeta /img/ Completa (33 Imágenes + Logos)
 - **Archivo(s):** `img/` (carpeta restaurada completamente)
 - **Cambios:**
