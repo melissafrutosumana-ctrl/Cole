@@ -129,6 +129,26 @@ Sistemas Notificaciones/
 > **NOTA:** Esta sección es el registro histórico de TODO lo que se ha modificado en el proyecto.
 > Cada cambio debe registrarse aquí inmediatamente después de implementarlo.
 
+### [26-05-2026] - Mejorar Carrusel y Galería
+- **Archivo(s):** `index.html`, `galeria.html`
+- **Cambios:**
+  - ✅ **Carrusel (`index.html`):** Ahora muestra imágenes locales y carga automáticamente nuevas de Supabase
+    - Imágenes estáticas: `info.jpeg`, `comidas.png`, `huevos1.jpeg`, etc.
+    - Si se suben nuevas a Supabase con destino "carrusel", se agregan automáticamente
+  - ✅ **Galería (`galeria.html`):** Mismo sistema híbrido
+    - Imágenes estáticas: `steam1.jpeg`, `steam2.jpeg`, etc.
+    - Las nuevas de Supabase se agregan sin borrar las locales
+  - ✅ **Funcionalidad de Supabase:** No rompe el sitio si Supabase falla
+  - ✅ **Lightbox:** Funcionando para todas las imágenes
+- **Razón:** 
+  - Necesitaba un sistema que funcione CON imágenes locales ahora
+  - Y que agregue nuevas SIN romper el flujo actual
+- **Impacto:**
+  - ✅ Carrusel funciona perfectamente en Vercel
+  - ✅ Galería funciona perfectamente en Vercel
+  - ✅ Si Supabase se configura correctamente, las nuevas imágenes se ven automáticamente
+  - ✅ Si Supabase falla, el sitio sigue funcionando con imágenes locales
+
 ### [26-05-2026] - Mejora Visual y Funcional de subir-imagen.html
 - **Archivo(s):** `subir-imagen.html`
 - **Cambios:**
