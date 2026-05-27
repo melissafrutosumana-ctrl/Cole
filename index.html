@@ -189,10 +189,14 @@
                     headers: {
                         apikey: SUPABASE_KEY,
                         Authorization: `Bearer ${SUPABASE_KEY}`
-                    }
+                    },
+                    timeout: 5000 // Timeout de 5 segundos
                 });
                 
-                if (!res.ok) throw new Error('Error fetching');
+                if (!res.ok) {
+                    console.warn('⚠️ Supabase no disponible o configurado incorrectamente. Usando imágenes locales.');
+                    return;
+                }
                 
                 const imagenes = await res.json();
                 if (imagenes && imagenes.length > 0) {
@@ -203,10 +207,11 @@
                         newImg.alt = img.descripcion || 'Imagen';
                         slidesContainer.appendChild(newImg);
                     });
-                    console.log(`✅ ${imagenes.length} nuevas imágenes del carrusel agregadas`);
+                    console.log(`✅ ${imagenes.length} nuevas imágenes del carrusel agregadas desde Supabase`);
                 }
             } catch (e) {
-                console.warn('⚠️ No se pudieron cargar imágenes de Supabase (probablemente normal):', e.message);
+                // Silencio si falla - el carrusel sigue con imágenes locales
+                console.warn('⚠️ Supabase no disponible. El carrusel usará solo imágenes locales.');
             }
         }
 

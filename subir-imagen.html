@@ -602,26 +602,34 @@
                         mostrarMensaje('⚠️ Imagen subida pero error en BD. Recarga la página.', 'error');
                     }
                 } catch (error) {
-                    mostrarMensaje('❌ Error: ' + error.message + '. Verifica que Supabase esté configurado correctamente.', 'error');
+                    mostrarMensaje('⚠️ No se pudo subir la imagen. Verifica tu conexión o que Supabase esté configurado.', 'error');
                     console.error('Error detallado:', error);
                 }
             });
         }
 
-        // CARGAR IMÁGENES DESDE SUPABASE
+        // CARGAR IMÁGENES DESDE SUPABASE (SIN MOSTRAR ERRORES)
         async function cargarImagenesSupabase() {
             const galeriaDiv = document.getElementById('galeriaSupabase');
             const carruselDiv = document.getElementById('carruselSupabase');
 
             try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 5000); // Timeout 5 segundos
+                
                 const res = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/imagenes?select=url,descripcion,destino&order=id.desc`, {
                     headers: {
                         apikey: SUPABASE_CONFIG.key,
                         Authorization: `Bearer ${SUPABASE_CONFIG.key}`
-                    }
+                    },
+                    signal: controller.signal
                 });
 
-                if (!res.ok) throw new Error('No se puede conectar a la BD');
+                clearTimeout(timeoutId);
+
+                if (!res.ok) {
+                    throw new Error('Supabase no disponible');
+                }
 
                 const imagenes = await res.json();
                 
@@ -649,9 +657,10 @@
                     });
                 }
             } catch (error) {
-                console.error('Error cargando imágenes:', error);
-                galeriaDiv.innerHTML = '<p style="color:#d32f2f; padding:20px; grid-column:1/-1;"><strong>⚠️ Error de conexión.</strong> Verifica que Supabase esté disponible.</p>';
-                carruselDiv.innerHTML = '<p style="color:#d32f2f; padding:20px; grid-column:1/-1;"><strong>⚠️ Error de conexión.</strong> Verifica que Supabase esté disponible.</p>';
+                // Silencio si falla - mostrar mensaje amigable
+                console.warn('⚠️ Supabase no disponible en este momento.');
+                galeriaDiv.innerHTML = '<p style="color:#999; padding:20px; grid-column:1/-1; text-align:center;"><i class="fas fa-info-circle"></i> Supabase no disponible. Intenta nuevamente más tarde.</p>';
+                carruselDiv.innerHTML = '<p style="color:#999; padding:20px; grid-column:1/-1; text-align:center;"><i class="fas fa-info-circle"></i> Supabase no disponible. Intenta nuevamente más tarde.</p>';
             }
         }
 
