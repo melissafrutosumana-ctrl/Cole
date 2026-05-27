@@ -368,6 +368,36 @@ Sistemas Notificaciones/
   - ✅ Preview desaparece si se deselecciona el archivo
   - ✅ Mejor experiencia de usuario y control
 
+### [26-05-2026] - Agregar Sistema de Autenticación por Roles en subir-imagen.html
+- **Archivo(s):** `subir-imagen.html`
+- **Cambios:**
+  - ✅ **Control de acceso por roles:** Verificación de `localStorage.getItem('userRole')`
+    - Roles autorizados: "admin" y "admin/guía"
+    - Se valida al cargar la página
+  - ✅ **Contenedor de acceso denegado:** Nuevo div con diseño profesional
+    - Icono de candado (#c62828 rojo)
+    - Mensaje: "Acceso Restringido"
+    - Lista de roles autorizados con iconos de estrella
+    - Botón "Regresar" que navega a docentes.html
+  - ✅ **CSS nuevo:** Estilos para `.acceso-denegado` y componentes relacionados
+    - Borde rojo izquierdo (#c62828)
+    - Fondo de roles en rojo claro (#ffebee)
+    - Animación suave (slideUp)
+    - Responsive para móviles
+  - ✅ **JavaScript:** Función `verificarAcceso()` que oculta/muestra contenido
+    - Si usuario NO tiene rol autorizado: muestra acceso denegado, oculta formulario
+    - Si usuario SÍ tiene rol: muestra formulario, oculta acceso denegado
+- **Razón:**
+  - Usuario pidió: "quiero que a subir imagenes tenga acceso lo admins y los admins/guias eso son roles"
+  - Solo administradores deben poder gestionar imágenes
+  - Control de acceso centralizado basado en roles
+- **Impacto:**
+  - ✅ Página subir-imagen.html solo accesible para Admin y Admin/Guía
+  - ✅ Usuarios sin permisos ven interfaz clara de acceso denegado
+  - ✅ Redireccionamiento fácil a docentes.html
+  - ✅ Sistema escalable: se pueden agregar más roles fácilmente
+  - ✅ Requiere que usuario tenga `userRole` en localStorage
+
 ### [26-05-2026] - Agregar Colores Secundarios a Paleta y Limpiar Archivos Obsoletos
 - **Archivo(s):** `paleta.html`, `diagnostico-supabase.html` (eliminado), `subir-imagenes-bulk.html` (eliminado)
 - **Cambios:**

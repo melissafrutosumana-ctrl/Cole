@@ -345,6 +345,86 @@
             transform: scale(1.06);
         }
         
+        /* CONTENEDOR DE ACCESO DENEGADO */
+        .acceso-denegado {
+            max-width: 600px;
+            margin: 60px auto;
+            background: white;
+            border-radius: 12px;
+            border-left: 5px solid #c62828;
+            box-shadow: 0 8px 24px rgba(198, 40, 40, 0.15);
+            padding: 50px 40px;
+            text-align: center;
+            animation: slideUp 0.5s ease;
+        }
+
+        .acceso-denegado-icon {
+            font-size: 4rem;
+            color: #c62828;
+            margin-bottom: 20px;
+        }
+
+        .acceso-denegado-titulo {
+            font-size: 1.8rem;
+            color: #c62828;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .acceso-denegado-texto {
+            color: var(--texto-gris);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .acceso-denegado-roles {
+            background: #ffebee;
+            border: 1px solid #f1b3b8;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .acceso-denegado-roles-titulo {
+            color: #c62828;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .acceso-denegado-roles-lista {
+            color: var(--texto-gris);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .acceso-denegado-roles-lista li {
+            margin-bottom: 8px;
+        }
+
+        .btn-volver {
+            background: var(--verde-claro);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .btn-volver:hover {
+            background: var(--verde-oscuro);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(10, 76, 35, 0.3);
+        }
+
         @media (max-width: 800px) {
             .navbar-menu {
                 display: none;
@@ -365,6 +445,10 @@
             }
             .upload-container {
                 margin: 20px 15px;
+                padding: 30px 20px;
+            }
+            .acceso-denegado {
+                margin: 30px 15px;
                 padding: 30px 20px;
             }
             .tabs-container {
@@ -404,7 +488,29 @@
             </div>
         </div>
     </header>
-    <div class="upload-container">
+
+    <!-- CONTENEDOR DE ACCESO DENEGADO -->
+    <div id="accesoDenegadoContainer" class="acceso-denegado" style="display: none;">
+        <div class="acceso-denegado-icon">
+            <i class="fas fa-lock"></i>
+        </div>
+        <div class="acceso-denegado-titulo">Acceso Restringido</div>
+        <p class="acceso-denegado-texto">
+            Lo sentimos, no tienes permisos para acceder a esta sección. Solo administradores pueden subir y gestionar imágenes.
+        </p>
+        <div class="acceso-denegado-roles">
+            <div class="acceso-denegado-roles-titulo">Roles autorizados:</div>
+            <ul class="acceso-denegado-roles-lista">
+                <li><i class="fas fa-star" style="color: #d4a256; margin-right: 8px;"></i> <strong>Admin</strong></li>
+                <li><i class="fas fa-star" style="color: #1a6b3a; margin-right: 8px;"></i> <strong>Admin / Guía</strong></li>
+            </ul>
+        </div>
+        <a href="docentes.html" class="btn-volver">
+            <i class="fas fa-arrow-left" style="margin-right: 8px;"></i> Regresar
+        </a>
+    </div>
+
+    <div id="uploadContentContainer" class="upload-container">
         <div class="upload-header">
             <div class="upload-title">
                 <i class="fas fa-image"></i>
@@ -490,6 +596,7 @@
 
 
     </div>
+    </div>
 
     <!-- MODAL PARA VER IMAGEN GRANDE -->
     <div id="imageModal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.9); justify-content:center; align-items:center; backdrop-filter: blur(4px);">
@@ -504,7 +611,29 @@
         </div>
     </footer>
     <script>
-        // CONFIGURACIÓN DE SUPABASE - REEMPLAZA CON TUS CREDENCIALES
+        // VERIFICACION DE AUTENTICACION Y ROLES
+        function verificarAcceso() {
+            const rolesAutorizados = ['admin', 'admin/guia', 'admin/guía'];
+            const rolActual = localStorage.getItem('userRole');
+            const accesoContainer = document.getElementById('accesoDenegadoContainer');
+            const contentContainer = document.getElementById('uploadContentContainer');
+
+            if (!rolActual || !rolesAutorizados.some(rol => rolActual.toLowerCase() === rol)) {
+                // Acceso denegado
+                accesoContainer.style.display = 'block';
+                contentContainer.style.display = 'none';
+                return false;
+            }
+            // Acceso permitido
+            accesoContainer.style.display = 'none';
+            contentContainer.style.display = 'block';
+            return true;
+        }
+
+        // Verificar acceso al cargar la pagina
+        window.addEventListener('DOMContentLoaded', verificarAcceso);
+
+        // CONFIGURACION DE SUPABASE - REEMPLAZA CON TUS CREDENCIALES
         const SUPABASE_CONFIG = {
             url: 'https://etdcmuikvtnqfcnlvodh.supabase.co',
             key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0ZGNtdWlrdnRucWZjbmx2b2RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1OTQ1ODcsImV4cCI6MjA5MTE3MDU4N30.8JHWlTxYRSYEkpipqesHVBKn7QomTXJYHp6Nm6SzU4A'
