@@ -1,0 +1,1045 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Docentes - CTP Matapalo</title>
+    <link rel="icon" type="image/png" href="img/logo_colegio_nuevo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/stylo.css">
+    <style>
+        /* === SISTEMA DE NOTIFICACIONES PROPIO === */
+        
+        #noti-toast-container {
+            position: fixed;
+            top: 18px;
+            right: 18px;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+        
+        .noti-toast {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.16);
+            padding: 14px 18px;
+            min-width: 260px;
+            max-width: 340px;
+            pointer-events: all;
+            animation: noti-in 0.28s cubic-bezier(.4, 0, .2, 1);
+            border-left: 5px solid #0a4c23;
+        }
+        
+        .noti-toast.error {
+            border-left-color: #e74c3c;
+        }
+        
+        .noti-toast.warning {
+            border-left-color: #f39c12;
+        }
+        
+        .noti-toast.info {
+            border-left-color: #3498db;
+        }
+        
+        .noti-toast-icon {
+            font-size: 1.3rem;
+            margin-top: 1px;
+        }
+        
+        .noti-toast.success .noti-toast-icon {
+            color: #0a4c23;
+        }
+        
+        .noti-toast.error .noti-toast-icon {
+            color: #e74c3c;
+        }
+        
+        .noti-toast.warning .noti-toast-icon {
+            color: #f39c12;
+        }
+        
+        .noti-toast.info .noti-toast-icon {
+            color: #3498db;
+        }
+        
+        .noti-toast-text {
+            flex: 1;
+            font-size: 0.93rem;
+            color: #222;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        
+        .noti-toast-sub {
+            font-weight: 400;
+            color: #666;
+            font-size: 0.85rem;
+            margin-top: 2px;
+        }
+        
+        @keyframes noti-in {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes noti-out {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+        }
+        /* Confirm dialog */
+        
+        .noti-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 18, 38, 0.70);
+            backdrop-filter: blur(8px) saturate(1.4);
+            z-index: 99998;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        
+        .noti-overlay.active {
+            display: flex;
+        }
+        
+        .noti-dialog {
+            background: #fff;
+            border-radius: 28px;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.32), 0 8px 24px rgba(0, 0, 0, 0.10);
+            width: 100%;
+            max-width: 360px;
+            overflow: hidden;
+            animation: noti-dialog-in 0.42s cubic-bezier(.34, 1.56, .64, 1) both;
+        }
+        
+        @keyframes noti-dialog-in {
+            from {
+                transform: scale(0.82) translateY(24px);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .noti-dialog-strip {
+            height: 6px;
+            background: linear-gradient(90deg, #0a4c23, #1a9448);
+        }
+        
+        .noti-dialog-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 28px 24px 14px;
+        }
+        
+        .noti-dialog-icon-bubble {
+            width: 76px;
+            height: 76px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #e8f5ee, #c7ecd8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            box-shadow: 0 6px 20px rgba(10, 76, 35, 0.18);
+        }
+        
+        .noti-dialog-title {
+            text-align: center;
+            font-size: 1.22rem;
+            font-weight: 800;
+            color: #0d1f13;
+            padding: 10px 28px 4px;
+            letter-spacing: -0.02em;
+        }
+        
+        .noti-dialog-text {
+            text-align: center;
+            font-size: 0.92rem;
+            color: #6b7280;
+            padding: 4px 28px 24px;
+            line-height: 1.65;
+        }
+        
+        .noti-dialog-footer {
+            display: flex;
+            gap: 10px;
+            padding: 0 20px 24px;
+        }
+        
+        .noti-dialog-cancel,
+        .noti-dialog-cancel:link,
+        .noti-dialog-cancel:visited {
+            flex: 1 !important;
+            padding: 13px 0 !important;
+            border-radius: 14px !important;
+            border: 1.5px solid #e2e8f0 !important;
+            background: #f8fafc !important;
+            color: #475569 !important;
+            font-size: 0.95rem !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            transition: all 0.2s ease !important;
+            box-shadow: none !important;
+            text-align: center !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        
+        .noti-dialog-cancel:hover {
+            background: #f1f5f9 !important;
+            border-color: #cbd5e1 !important;
+            color: #1e293b !important;
+        }
+        
+        .noti-dialog-confirm,
+        .noti-dialog-confirm:link,
+        .noti-dialog-confirm:visited {
+            flex: 1 !important;
+            padding: 13px 0 !important;
+            border-radius: 14px !important;
+            border: none !important;
+            background: #0a4c23 !important;
+            color: #ffffff !important;
+            font-size: 0.95rem !important;
+            font-weight: 700 !important;
+            cursor: pointer !important;
+            transition: all 0.22s ease !important;
+            box-shadow: 0 4px 16px rgba(10, 76, 35, 0.38) !important;
+            letter-spacing: 0.02em;
+            text-align: center !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        
+        .noti-dialog-confirm:hover {
+            background: linear-gradient(135deg, #15803d, #0d5929) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 24px rgba(10, 76, 35, 0.44) !important;
+        }
+        
+        .noti-dialog-confirm.danger {
+            background: linear-gradient(135deg, #ef4444, #b91c1c) !important;
+            box-shadow: 0 4px 16px rgba(185, 28, 28, 0.38) !important;
+        }
+        
+        .noti-dialog-confirm.danger:hover {
+            background: linear-gradient(135deg, #dc2626, #991b1b) !important;
+            box-shadow: 0 8px 24px rgba(185, 28, 28, 0.44) !important;
+        }
+        /* Loading overlay */
+        
+        #noti-loading {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(2px);
+            z-index: 99997;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 14px;
+        }
+        
+        #noti-loading.active {
+            display: flex;
+        }
+        
+        .noti-spinner {
+            width: 48px;
+            height: 48px;
+            border: 5px solid rgba(255, 255, 255, 0.25);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: noti-spin 0.7s linear infinite;
+        }
+        
+        .noti-loading-text {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+        }
+        
+        @keyframes noti-spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        /* Modal edición */
+        
+        #modal-editar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 18, 38, 0.70);
+            backdrop-filter: blur(8px) saturate(1.4);
+            z-index: 99998;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        
+        #modal-editar-overlay.active {
+            display: flex;
+        }
+        
+        #modal-editar {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.28);
+            width: 100%;
+            max-width: 480px;
+            overflow: hidden;
+            animation: noti-dialog-in 0.38s cubic-bezier(.34, 1.56, .64, 1) both;
+        }
+        
+        .modal-strip {
+            height: 6px;
+            background: linear-gradient(90deg, #0a4c23, #1a9448);
+        }
+        
+        .modal-body {
+            padding: 24px 28px;
+        }
+        
+        .modal-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #0d1f13;
+            margin-bottom: 18px;
+        }
+        
+        .modal-field {
+            margin-bottom: 14px;
+        }
+        
+        .modal-field label {
+            display: block;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 5px;
+        }
+        
+        .modal-field input,
+        .modal-field select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1.5px solid #d1d5db;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+        
+        .modal-field input:focus,
+        .modal-field select:focus {
+            border-color: #0a4c23;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(10, 76, 35, 0.15);
+        }
+        
+        .modal-footer {
+            display: flex;
+            gap: 10px;
+            padding: 0 28px 24px;
+        }
+        
+        .btn-modal-cancel {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1.5px solid #e2e8f0;
+            background: #f8fafc;
+            color: #475569;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+        
+        .btn-modal-save {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            background: #0a4c23;
+            color: #ffffff;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 16px rgba(10, 76, 35, 0.35);
+        }
+    </style>
+</head>
+
+<body class="page-docentes">
+
+    <!-- ===== NOTIFICACIONES PROPIAS ===== -->
+    <div id="noti-toast-container"></div>
+    <div id="noti-loading">
+        <div class="noti-spinner"></div>
+        <span class="noti-loading-text" id="noti-loading-text">Procesando...</span>
+    </div>
+    <div id="noti-confirm-overlay" class="noti-overlay">
+        <div class="noti-dialog">
+            <div class="noti-dialog-strip"></div>
+            <div class="noti-dialog-icon">
+                <div class="noti-dialog-icon-bubble" id="noti-confirm-icon"></div>
+            </div>
+            <div class="noti-dialog-title" id="noti-confirm-title"></div>
+            <div class="noti-dialog-text" id="noti-confirm-text"></div>
+            <div class="noti-dialog-footer">
+                <button class="noti-dialog-cancel" onclick="noti.closeConfirm()">Cancelar</button>
+                <button class="noti-dialog-confirm" id="noti-confirm-btn" onclick="noti._doConfirm()">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL EDITAR AUSENCIA ===== -->
+    <div id="modal-editar-overlay">
+        <div id="modal-editar">
+            <div class="modal-strip"></div>
+            <div class="modal-body">
+                <div class="modal-title"><i class="fas fa-pencil-alt" style="color:#0a4c23; margin-right:8px;"></i> Editar Ausencia</div>
+                <input type="hidden" id="edit-id">
+                <div class="modal-field">
+                    <label for="edit-fecha"><i class="fas fa-calendar-alt"></i> Fecha de Inicio</label>
+                    <input type="date" id="edit-fecha">
+                </div>
+                <div class="modal-field">
+                    <label for="edit-fecha-fin"><i class="fas fa-calendar-check"></i> Fecha de Finalización</label>
+                    <input type="date" id="edit-fecha-fin">
+                </div>
+                <div class="modal-field">
+                    <label for="edit-razon"><i class="fas fa-list-ul"></i> Motivo</label>
+                    <select id="edit-razon">
+                        <option value="Enfermedad">Enfermedad / Incapacidad</option>
+                        <option value="Permiso">Permiso Personal</option>
+                        <option value="Capacitación">Capacitación MEP</option>
+                        <option value="Cita Médica">Cita Médica</option>
+                        <option value="Otro">Otro Motivo</option>
+                    </select>
+                </div>
+                <div class="modal-field">
+                    <label for="edit-horario"><i class="fas fa-clock"></i> Horario</label>
+                    <select id="edit-horario">
+                        <option value="Todo el día">Todo el día</option>
+                        <option value="Mañana">Mañana (7:00 - 12:00)</option>
+                        <option value="Tarde">Tarde (12:00 - 16:30)</option>
+                    </select>
+                </div>
+                <div class="modal-field">
+                    <label for="edit-detalle"><i class="fas fa-clipboard"></i> Detalle</label>
+                    <input type="text" id="edit-detalle" placeholder="Detalle adicional">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-modal-cancel" onclick="cerrarModalEditar()">Cancelar</button>
+                <button class="btn-modal-save" onclick="guardarEdicion()"><i class="fas fa-save"></i> Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="header-container">
+            <div class="header-logos-left">
+                <img src="img/LOGO_MEP-removebg-preview.png" class="logo-mep" alt="MEP Costa Rica">
+                <div class="divider"></div>
+                <div class="logo-gobierno">
+                    <strong>Dirección Regional de Educación Central del Pacífico</strong><br>
+                    <strong>Circuito 02</strong><br>
+                    <strong>Colegio Técnico Profesional de Matapalo</strong><br>
+                </div>
+            </div>
+
+            <div class="nav-right">
+                <a href="index.html" title="Inicio">
+                    <img src="img/logo_colegio_nuevo.png" class="logo-escudo" alt="Escudo CTP Matapalo">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="navbar">
+        <div class="navbar-info">
+            <span><i class="fas fa-clipboard-list"></i> Sesión:</span>
+            <span id="rolBadge" class="badge-rol">Cargando...</span>
+        </div>
+        <button class="btn-cerrar" onclick="cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
+    </div>
+
+    <div class="container">
+
+        <div class="info-usuario">
+            <div class="info-item">
+                <b><i class="fas fa-user-circle"></i> Nombre Completo</b>
+                <span id="nombreUsuario">---</span>
+            </div>
+            <div class="info-item">
+                <b><i class="fas fa-id-card"></i> Usuario</b>
+                <span id="usuario">---</span>
+            </div>
+            <div class="info-item">
+                <b><i class="fas fa-briefcase"></i> Perfil</b>
+                <span id="rol">---</span>
+            </div>
+        </div>
+
+        <div id="seccionAdmin">
+            <h3 style="color: #0a4c23; margin-top: 0;"><i class="fas fa-user-shield"></i> Gestión de comunicados</h3>
+            <p style="margin-bottom: 20px; font-size: 0.95rem;">Usted cuenta con acceso al gestor de comunicados institucionales.</p>
+            <button type="button" class="btn-admin" onclick="window.location.href='comunicados.html'"><i class="fas fa-megaphone"></i> Ir a Gestión de Comunicados</button>
+            <button type="button" class="btn-admin" style="margin-top:12px;" onclick="window.location.href='subir-imagen.html'"><i class="fas fa-image"></i> Subir Imagen a Galería/Carrusel</button>
+        </div>
+
+        <div style="background: white; padding: 20px; border-radius: 8px; border-left: 5px solid #0a4c23; margin-bottom: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+            <h3 style="margin-top: 0; color: #0a4c23;"><i class="fas fa-file-signature"></i> Gestión de Boletas Disciplinarias</h3>
+            <p style="margin-bottom: 15px; color: #666;">Docentes y docentes guía pueden registrar boletas disciplinarias y consultar su historial.</p>
+            <button type="button" class="btn-admin" onclick="window.location.href='boletas.html'"><i class="fas fa-plus-circle"></i> Abrir Sistema de Boletas</button>
+        </div>
+
+        <h3><i class="fas fa-clipboard-plus"></i> Registrar Nueva Ausencia</h3>
+        <form id="formMiAusencia">
+            <div class="row">
+                <div>
+                    <label for="fechaInicio"><i class="fas fa-calendar-alt"></i> Fecha de Inicio</label>
+                    <input type="date" id="fechaInicio" required>
+                </div>
+                <div>
+                    <label for="fechaFin"><i class="fas fa-calendar-check"></i> Fecha de Finalización</label>
+                    <input type="date" id="fechaFin" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div>
+                    <label for="razonAusencia"><i class="fas fa-list-ul"></i> Motivo de la Ausencia</label>
+                    <select id="razonAusencia" required>
+                    <option value="">-- Seleccionar motivo --</option>
+                    <option value="Enfermedad">Enfermedad / Incapacidad</option>
+                    <option value="Permiso">Permiso Personal</option>
+                    <option value="Capacitación">Capacitación MEP</option>
+                    <option value="Cita Médica">Cita Médica</option>
+                    <option value="Otro">Otro Motivo</option>
+                </select>
+                </div>
+                <div>
+                    <label for="horarioAusencia"><i class="fas fa-clock"></i> Horario</label>
+                    <select id="horarioAusencia" required>
+                        <option value="Todo el día">Todo el día</option>
+                        <option value="Mañana">Mañana (7:00 - 12:00)</option>
+                        <option value="Tarde">Tarde (12:00 - 16:30)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <label for="detalleAusencia"><i class="fas fa-clipboard"></i> Detalle breve / motivo</label>
+                    <input type="text" id="detalleAusencia" placeholder="Ej: Cita en la Caja">
+                </div>
+            </div>
+            <button type="submit" id="btnGuardar"><i class="fas fa-save"></i> Registrar Período de Ausencia</button>
+        </form>
+
+        <hr>
+
+        <h3><i class="fas fa-history"></i> Mi Historial Reciente</h3>
+        <div style="margin-bottom: 15px; position: relative;">
+            <i class="fas fa-search" style="position: absolute; left: 15px; top: 12px; color: var(--texto-gris);"></i>
+            <input type="text" id="busquedaHistorial" onkeyup="filtrarTabla()" placeholder="Buscar por motivo, detalle o fecha..." style="width: 100%; padding: 12px 15px 12px 40px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); font-size: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+        </div>
+
+        <div class="overflow-auto">
+            <div class="tabla-container">
+                <table id="tablaHistorial">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-calendar"></i> Desde</th>
+                            <th><i class="fas fa-calendar-check"></i> Hasta</th>
+                            <th><i class="fas fa-info-circle"></i> Motivo y Detalle</th>
+                            <th><i class="fas fa-clock"></i> Horario</th>
+                            <th><i class="fas fa-cog"></i> Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpoTabla">
+                        <tr>
+                            <td colspan="5" style="text-align:center; padding: 40px; color: var(--texto-gris);">
+                                <i class="fas fa-spinner fa-spin fa-2x" style="color: var(--verde-claro); margin-bottom: 10px;"></i><br> Cargando sus registros...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        /* ============================================================
+                                   SISTEMA DE NOTIFICACIONES PROPIO
+                                ============================================================ */
+        const noti = {
+                _confirmCb: null,
+                toast(type, title, subtitle = '') {
+                    const icons = {
+                        success: 'fa-check-circle',
+                        error: 'fa-times-circle',
+                        warning: 'fa-exclamation-triangle',
+                        info: 'fa-info-circle'
+                    };
+                    const el = document.createElement('div');
+                    el.className = `noti-toast ${type}`;
+                    el.innerHTML = `
+                    <i class="fas ${icons[type] || icons.info} noti-toast-icon"></i>
+                    <div class="noti-toast-text">${title}${subtitle ? `<div class="noti-toast-sub">${subtitle}</div>` : ''}</div>
+                `;
+                document.getElementById('noti-toast-container').appendChild(el);
+                setTimeout(() => {
+                    el.style.animation = 'noti-out 0.3s forwards';
+                    setTimeout(() => el.remove(), 300);
+                }, 3200);
+            },
+            confirm(title, text, onConfirm, danger = false, icon = null) {
+                this._confirmCb = onConfirm;
+                document.getElementById('noti-confirm-icon').textContent = icon ?? (danger ? '🗑️' : '⚠️');
+                document.getElementById('noti-confirm-title').textContent = title;
+                document.getElementById('noti-confirm-text').innerHTML = text;
+                const btn = document.getElementById('noti-confirm-btn');
+                btn.className = 'noti-dialog-confirm' + (danger ? ' danger' : '');
+                btn.textContent = danger ? 'Sí, eliminar' : 'Confirmar';
+                const strip = document.querySelector('#noti-confirm-overlay .noti-dialog-strip');
+                if (strip) strip.style.background = danger
+                    ? 'linear-gradient(90deg,#ef4444,#b91c1c)'
+                    : 'linear-gradient(90deg,#0a4c23,#1a9448)';
+                document.getElementById('noti-confirm-overlay').classList.add('active');
+            },
+            closeConfirm() {
+                document.getElementById('noti-confirm-overlay').classList.remove('active');
+                this._confirmCb = null;
+            },
+            _doConfirm() {
+                document.getElementById('noti-confirm-overlay').classList.remove('active');
+                const cb = this._confirmCb;
+                this._confirmCb = null;
+                if (cb) cb();
+            },
+            loading(show, text = 'Procesando...') {
+                document.getElementById('noti-loading-text').textContent = text;
+                document.getElementById('noti-loading').classList.toggle('active', show);
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+        // Manejar validaciones para asegurar que el código no se caiga
+        try {
+            emailjs.init({
+                publicKey: "EhWIBnbn9ScJ2PgoJ"
+            });
+        } catch (error) {
+            console.error("Error configurando EmailJS:", error);
+        }
+
+        // 🔒 VERIFICACIÓN DE SESIÓN INMEDIATA
+        if (!localStorage.getItem('usuario') || !localStorage.getItem('nombre')) {
+            globalThis.location.href = "registrarme.html";
+        }
+        const SUPABASE_URL = 'https://etdcmuikvtnqfcnlvodh.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0ZGNtdWlrdnRucWZjbmx2b2RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1OTQ1ODcsImV4cCI6MjA5MTE3MDU4N30.8JHWlTxYRSYEkpipqesHVBKn7QomTXJYHp6Nm6SzU4A';
+
+        const headers = {
+            "apikey": SUPABASE_KEY,
+            "Authorization": `Bearer ${SUPABASE_KEY}`,
+            "Content-Type": "application/json"
+        };
+
+        async function cargarSesionDesdeBD() {
+            const usuario = (localStorage.getItem('usuario') || '').trim();
+            const expiraEn = Number(localStorage.getItem('session_expires_at') || 0);
+
+            if (!usuario || (expiraEn && Date.now() > expiraEn)) {
+                localStorage.clear();
+                return null;
+            }
+
+            const params = new URLSearchParams();
+            params.set('select', 'usuario,nombre_completo,rol');
+            params.set('usuario', `eq.${usuario}`);
+            params.set('limit', '1');
+
+            try {
+                const res = await fetch(`${SUPABASE_URL}/rest/v1/usuarios?${params.toString()}`, {
+                    headers
+                });
+                const data = await res.json();
+                return Array.isArray(data) && data.length ? data[0] : null;
+            } catch (error) {
+                console.error('No se pudo validar sesión en BD:', error);
+                return null;
+            }
+        }
+
+        function nombreRol(rol) {
+            const mapa = {
+                'admin': 'Administrador',
+                'docente': 'Docente',
+                'docente_guia': 'Docente Guía',
+                'docente_guia_admin': 'Docente Guía / Admin'
+            };
+            return mapa[rol] || String(rol || '').replaceAll('_', ' ');
+        }
+
+        async function inicializar() {
+            const sesion = await cargarSesionDesdeBD();
+            if (!sesion) {
+                globalThis.location.href = "registrarme.html";
+                return;
+            }
+
+            const nombre = sesion.nombre_completo || sesion.usuario;
+            const rol = sesion.rol || 'docente';
+            const usuario = sesion.usuario;
+
+            localStorage.setItem('usuario', usuario);
+            localStorage.setItem('nombre', nombre);
+            localStorage.setItem('rol', rol);
+
+            // Actualizar Textos
+            const rolVisible = nombreRol(rol);
+            document.getElementById('nombreUsuario').textContent = nombre;
+            document.getElementById('usuario').textContent = usuario;
+            document.getElementById('rol').textContent = rolVisible;
+            document.getElementById('rolBadge').textContent = rolVisible;
+
+            const badge = document.getElementById('rolBadge');
+            if (rol === 'admin') {
+                document.getElementById('seccionAdmin').style.display = 'block';
+                badge.style.background = '#d4a256';
+                badge.style.color = '#0a4c23';
+            } else if (rol === 'docente_guia_admin') {
+                document.getElementById('seccionAdmin').style.display = 'block';
+                badge.style.background = '#b07d2d';
+                badge.style.color = '#ffffff';
+            } else if (rol === 'docente_guia') {
+                badge.style.background = '#1a6b3a';
+                badge.style.color = '#ffffff';
+            } else {
+                badge.style.background = '#0a4c23';
+                badge.style.color = '#ffffff';
+            }
+
+            cargarHistorial();
+        }
+
+        function sincronizarDetalleAusencia() {
+            const razon = document.getElementById('razonAusencia');
+            const detalle = document.getElementById('detalleAusencia');
+            if (!razon || !detalle) return;
+
+            const esOtro = razon.value === 'Otro';
+            detalle.required = esOtro;
+            detalle.placeholder = esOtro ?
+                'Escribe el motivo o por qué faltaste' :
+                'Ej: Cita en la Caja';
+
+            if (!esOtro) {
+                detalle.setCustomValidity('');
+            }
+        }
+
+        document.getElementById('razonAusencia').addEventListener('change', sincronizarDetalleAusencia);
+        sincronizarDetalleAusencia();
+
+        document.getElementById('formMiAusencia').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnGuardar');
+            const f1 = document.getElementById('fechaInicio').value;
+            const f2 = document.getElementById('fechaFin').value;
+            const razon = document.getElementById('razonAusencia').value;
+            const horario = document.getElementById('horarioAusencia').value;
+            const detalleInput = document.getElementById('detalleAusencia');
+            const detalle = detalleInput.value.trim();
+
+            if (f2 < f1) {
+                noti.toast('warning', 'Fechas incorrectas', 'La fecha final no puede ser anterior a la fecha de inicio.');
+                return;
+            }
+
+            if (razon === 'Otro' && !detalle) {
+                noti.toast('warning', 'Detalle requerido', 'Si eliges Otro, escribe el motivo o por qué faltaste en Detalle breve.');
+                detalleInput.focus();
+                return;
+            }
+
+            btn.disabled = true;
+            const datos = {
+                usuario: localStorage.getItem('usuario'),
+                nombre: localStorage.getItem('nombre'),
+                fecha: f1,
+                fecha_fin: f2,
+                razon,
+                horario,
+                detalle
+            };
+
+            noti.loading(true, 'Guardando...');
+            try {
+                const res = await fetch(`${SUPABASE_URL}/rest/v1/ausencias`, {
+                    method: "POST",
+                    headers,
+                    body: JSON.stringify(datos)
+                });
+
+                if (res.ok) { // Notificar por correo vía EmailJS al guardar la ausencia
+                    emailjs.send("service_2w4077i", "template_htbp6yd", {
+                            nombre: datos.nombre,
+                            fecha_inicio: datos.fecha,
+                            fecha_fin: datos.fecha_fin,
+                            motivo: datos.razon,
+                            detalle: datos.detalle,
+                            to_email: "melissa.frutos.umana@mep.go.cr"
+                        }).then(() => console.log("Correo enviado a dirección"))
+                        .catch(err => {
+                            console.error("Fallo EmailJS:", err);
+                            noti.toast('warning', 'Atención', 'Datos guardados, pero hubo un error enviando el correo: ' + (err.text || JSON.stringify(err)));
+                        });
+                    noti.loading(false);
+                    noti.toast('success', '¡Período de ausencia guardado!');
+                    this.reset();
+                    sincronizarDetalleAusencia();
+                    cargarHistorial();
+                }
+            } catch (err) {
+                console.error(err);
+                noti.loading(false);
+                noti.toast('error', 'Error de conexión', 'Error de conexión con el servidor.');
+            }
+            btn.disabled = false;
+        });
+
+        // --- CARGAR HISTORIAL ---
+        async function cargarHistorial() {
+            const user = localStorage.getItem('usuario');
+            const tbody = document.getElementById('cuerpoTabla');
+
+            try {
+                const res = await fetch(`${SUPABASE_URL}/rest/v1/ausencias?usuario=eq.${encodeURIComponent(user)}&order=fecha.desc`, {
+                    headers
+                });
+                const datos = await res.json();
+
+                tbody.innerHTML = "";
+                if (datos.length === 0) {
+                    tbody.innerHTML = "<tr><td colspan='5' style='text-align:center; padding: 40px; color: var(--texto-gris);'><i class='fas fa-folder-open fa-2x' style='color: #ccc; margin-bottom:15px;'></i><br>No tiene ausencias registradas en el sistema.</td></tr>";
+                    return;
+                }
+
+                datos.forEach(a => {
+                    const horarioTexto = a.horario || 'Todo el día';
+                    const horarioTooltip = horarioTexto === 'Mañana' ? 'Horario: 7:00 a.m. a 12:00 m.d.' : horarioTexto === 'Tarde' ? 'Horario: 12:00 m.d. a 4:30 p.m.' : 'Horario: Todo el día (7:00 a.m. a 4:30 p.m.)';
+                    tbody.innerHTML += `
+                <tr>
+                    <td><b><i class="fas fa-calendar-day" style="color: var(--texto-gris); margin-right: 5px;"></i> ${a.fecha}</b></td>
+                    <td><b><i class="fas fa-calendar-check" style="color: var(--texto-gris); margin-right: 5px;"></i> ${a.fecha_fin || '---'}</b></td>
+                    <td>
+                        <span class="badge-motivo">${a.razon}</span>
+                        <div style="font-size: 0.85rem; margin-top: 6px; color: var(--texto-gris);">
+                            <i class="fas fa-comment-dots" style="color: #999; margin-right:4px;"></i> ${a.detalle || 'Sin detalle adicional'}
+                        </div>
+                    </td>
+                    <td style="text-align:center;">
+                        <span title="${horarioTooltip}" style="background:${horarioTexto==='Mañana'?'#e3f2fd':horarioTexto==='Tarde'?'#fff8e1':'#f3e5f5'}; color:${horarioTexto==='Mañana'?'#1565c0':horarioTexto==='Tarde'?'#f57f17':'#6a1b9a'}; padding:3px 8px; border-radius:4px; font-size:0.8rem; font-weight:bold; cursor:help;">${horarioTexto}</span>
+                    </td>
+                    <td style="text-align: center;">
+                        <button class="btn-editar" data-id="${a.id}" data-fecha="${a.fecha}" data-fechafin="${a.fecha_fin || ''}" data-razon="${a.razon}" data-horario="${a.horario || 'Todo el día'}" data-detalle="${(a.detalle || '').replaceAll('"', '&quot;')}" onclick="abrirModalEditar(this)" title="Editar este periodo" style="margin-bottom:6px;">
+                            <i class="fas fa-pencil-alt"></i> Editar
+                        </button>
+                        <button class="btn-eliminar" onclick="eliminarAusencia(${a.id})" title="Eliminar este periodo">
+                            <i class="fas fa-trash-alt"></i> Eliminar
+                        </button>
+                    </td>
+                </tr>`;
+                });
+            } catch (e) {
+                console.error(e);
+                tbody.innerHTML = "<tr><td colspan='5'>Error al cargar el historial.</td></tr>";
+            }
+        }
+
+        function eliminarAusencia(id) {
+            noti.confirm('¿Eliminar ausencia?', 'Esta acción no se puede deshacer.', async() => {
+                noti.loading(true, 'Borrando...');
+                try {
+                    const res = await fetch(`${SUPABASE_URL}/rest/v1/ausencias?id=eq.${id}`, {
+                        method: "DELETE",
+                        headers
+                    });
+                    noti.loading(false);
+                    if (res.ok) {
+                        noti.toast('success', 'Ausencia eliminada con éxito');
+                        cargarHistorial();
+                    } else {
+                        noti.toast('error', 'Error', 'No se pudo eliminar: ' + res.statusText);
+                    }
+                } catch (e) {
+                    console.error(e);
+                    noti.loading(false);
+                    noti.toast('error', 'Error de conexión', 'Problema de conexión con el servidor.');
+                }
+            }, true);
+        }
+
+        function cerrarSesion() {
+            noti.confirm('¿Cerrar Sesión?', '¿Seguro que desea salir del panel?', () => {
+                localStorage.clear();
+                globalThis.location.href = "index.html";
+            }, false, '🚪');
+        }
+
+        function abrirModalEditar(btn) {
+            document.getElementById('edit-id').value = btn.dataset.id;
+            document.getElementById('edit-fecha').value = btn.dataset.fecha;
+            document.getElementById('edit-fecha-fin').value = btn.dataset.fechafin;
+            document.getElementById('edit-razon').value = btn.dataset.razon;
+            document.getElementById('edit-horario').value = btn.dataset.horario || 'Todo el día';
+            document.getElementById('edit-detalle').value = btn.dataset.detalle.replaceAll('&quot;', '"');
+            document.getElementById('modal-editar-overlay').classList.add('active');
+        }
+
+        function cerrarModalEditar() {
+            document.getElementById('modal-editar-overlay').classList.remove('active');
+        }
+
+        async function guardarEdicion() {
+            const id = document.getElementById('edit-id').value;
+            const fecha = document.getElementById('edit-fecha').value;
+            const fechaFin = document.getElementById('edit-fecha-fin').value;
+            const razon = document.getElementById('edit-razon').value;
+            const horario = document.getElementById('edit-horario').value;
+            const detalle = document.getElementById('edit-detalle').value.trim();
+
+            if (!fecha || !fechaFin || !razon) {
+                noti.toast('warning', 'Campos incompletos', 'Completa todos los campos requeridos.');
+                return;
+            }
+            if (fechaFin < fecha) {
+                noti.toast('warning', 'Fechas incorrectas', 'La fecha final no puede ser anterior a la de inicio.');
+                return;
+            }
+
+            cerrarModalEditar();
+            noti.loading(true, 'Guardando cambios...');
+            try {
+                const res = await fetch(`${SUPABASE_URL}/rest/v1/ausencias?id=eq.${id}`, {
+                    method: 'PATCH',
+                    headers: {...headers,
+                        'Prefer': 'return=minimal'
+                    },
+                    body: JSON.stringify({
+                        fecha,
+                        fecha_fin: fechaFin,
+                        razon,
+                        horario,
+                        detalle
+                    })
+                });
+                noti.loading(false);
+                if (res.ok) {
+                    noti.toast('success', 'Ausencia actualizada', 'Los cambios se guardaron correctamente.');
+                    cargarHistorial();
+                } else {
+                    noti.toast('error', 'Error', 'No se pudo actualizar: ' + res.statusText);
+                }
+            } catch (e) {
+                console.error(e);
+                noti.loading(false);
+                noti.toast('error', 'Error de conexión', 'No se pudo conectar con el servidor.');
+            }
+        }
+
+        window.onload = inicializar;
+
+        // 🔎 FUNCIONALIDAD DE BUSQUEDA EN TABLA
+        function filtrarTabla() {
+            let input = document.getElementById("busquedaHistorial");
+            let filter = input.value.toUpperCase();
+            let table = document.getElementById("tablaHistorial");
+            let tr = table.getElementsByTagName("tr");
+
+            for (let i = 1; i < tr.length; i++) { // Start at 1 to skip <thead>
+                let tdMotivo = tr[i].getElementsByTagName("td")[2];
+                let tdDesde = tr[i].getElementsByTagName("td")[0];
+                let tdHasta = tr[i].getElementsByTagName("td")[1];
+
+                if (tdMotivo || tdDesde || tdHasta) {
+                    let textMotivo = tdMotivo.textContent || tdMotivo.innerText;
+                    let textDesde = tdDesde.textContent || tdDesde.innerText;
+                    let textHasta = tdHasta.textContent || tdHasta.innerText;
+
+                    if (textMotivo.toUpperCase().includes(filter) || textDesde.toUpperCase().includes(filter) || textHasta.toUpperCase().includes(filter)) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        // ANIMACION DE OCULTAMIENTO EN CELULAR AL BAJAR
+        let lastScrollY = window.scrollY;
+        window.addEventListener('scroll', () => {
+            if (window.innerWidth <= 600) {
+                const btn = document.querySelector('.btn-cerrar');
+                if (!btn) return;
+
+                if (window.scrollY > lastScrollY && window.scrollY > 60) {
+                    // Scroll hacia abajo: ocultar (animación de plegado)
+                    btn.classList.add('hide-on-scroll');
+                } else {
+                    // Scroll hacia arriba o arriba del top: mostrar
+                    btn.classList.remove('hide-on-scroll');
+                }
+            } else {
+                // Restaurar si volviera mágicamente a desktop
+                const btnX = document.querySelector('.btn-cerrar');
+                if (btnX) btnX.classList.remove('hide-on-scroll');
+            }
+            lastScrollY = window.scrollY;
+        });
+    </script>
+</body>
+
+</html>

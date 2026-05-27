@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir Imágenes - CTP Matapalo</title>
+    <link rel="icon" type="image/png" href="img/logo_colegio_nuevo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/stylo.css">
+    <style>
+        /* ✅ ESTILOS CONSISTENTES CON EL TEMA DEL SITIO */
+        :root {
+            --verde-oscuro: #0a4c23;
+            --verde-claro: #1a6b3a;
+            --verde-hover: #083d1a;
+            --crema: #ebe5d9;
+            --texto-principal: #0a4c23;
+            --texto-gris: #5a5a5a;
+            --borde: #d4ccc0;
+            --blanco: #ffffff;
+            --fondo-gris: #f5f1e8;
+            --dorado: #d4a256;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--crema) 0%, #f0ebe1 100%);
+            color: var(--texto-principal);
+        }
+        
+        /* ===== ESTILOS DEL HEADER ===== */
+        .header {
+            background: #fff;
+            border-bottom: 2px solid var(--verde-oscuro);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            gap: 30px;
+        }
+        
+        .header-logos-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+        }
+        
+        .logo-mep {
+            height: 60px;
+        }
+        
+        .divider {
+            width: 2px;
+            height: 60px;
+            background: var(--borde);
+        }
+        
+        .logo-gobierno {
+            font-size: 0.8rem;
+            color: var(--texto-principal);
+            line-height: 1.3;
+        }
+        
+        .nav-right {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .logo-escudo {
+            height: 60px;
+        }
+        
+        .btn-login {
+            background: var(--verde-oscuro);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-login:hover {
+            background: var(--verde-claro);
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                padding: 15px;
+                gap: 15px;
+            }
+            .header-logos-left {
+                width: 100%;
+            }
+            .logo-gobierno {
+                font-size: 0.7rem;
+            }
+        }
+        
+        /* ===== ESTILOS DEL CONTENEDOR DE UPLOAD ===== */
+        .upload-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: var(--blanco);
+            border: 1px solid var(--borde);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(10, 76, 35, 0.08);
+            padding: 45px 40px;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .upload-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 3px solid var(--verde-claro);
+        }
+        
+        .upload-title {
+            font-size: 2rem;
+            color: var(--verde-oscuro);
+            margin-bottom: 10px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .upload-title i {
+            color: var(--dorado);
+        }
+        
+        .upload-subtitle {
+            color: var(--texto-gris);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: var(--verde-oscuro);
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .form-input,
+        .form-select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid var(--borde);
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: #fafafa;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        
+        .form-input:focus,
+        .form-select:focus {
+            border-color: var(--verde-claro);
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.1);
+        }
+        
+        .btn-upload {
+            width: 100%;
+            background: var(--verde-claro);
+            color: white;
+            border: none;
+            padding: 14px 0;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-upload:hover {
+            background: var(--verde-hover);
+            box-shadow: 0 6px 15px rgba(30, 132, 73, 0.3);
+        }
+        
+        .msg {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 10px;
+            border-radius: 6px;
+        }
+        
+        .section-divider {
+            border: 0;
+            height: 1px;
+            background: var(--borde);
+            margin: 40px 0;
+        }
+        
+        .tabs-container {
+            display: flex;
+            background: #eee;
+            padding: 5px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: none;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--texto-gris);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tab-btn.active-galeria {
+            background: var(--verde-oscuro);
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(10, 76, 35, 0.2);
+        }
+        
+        .tab-btn.active-carrusel {
+            background: var(--azul-carrusel);
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(41, 128, 185, 0.2);
+        }
+        
+        .tab-content {
+            display: none;
+            background: #fdfdfd;
+            border: 1px solid #edf0f2;
+            padding: 20px;
+            border-radius: 12px;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .grid-images {
+            display: grid;
+            gap: 12px;
+        }
+        
+        .grid-galeria {
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        }
+        
+        .grid-carrusel {
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        }
+        
+        .img-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            border: 1px solid var(--borde);
+            background: #eee;
+        }
+        
+        .grid-galeria .img-item {
+            aspect-ratio: 1 / 1;
+        }
+        
+        .grid-carrusel .img-item {
+            aspect-ratio: 16 / 9;
+        }
+        
+        .img-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .img-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .img-item:hover img {
+            transform: scale(1.06);
+        }
+        
+        @media (max-width: 800px) {
+            .navbar-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                right: 0;
+                background: var(--verde-oscuro);
+                width: 100%;
+                z-index: 101;
+                padding: 15px 0;
+            }
+            .navbar-menu.active {
+                display: flex;
+            }
+            .navbar-toggle {
+                display: block;
+            }
+            .upload-container {
+                margin: 20px 15px;
+                padding: 30px 20px;
+            }
+            .tabs-container {
+                flex-direction: column;
+                gap: 5px;
+                background: transparent;
+                padding: 0;
+            }
+            .tab-btn {
+                background: #eee;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body style="background: linear-gradient(135deg, var(--crema) 0%, #f0ebe1 100%);">
+    <!-- HEADER INSTITUCIONAL -->
+    <header class="header">
+        <div class="header-container">
+            <div class="header-logos-left">
+                <img src="img/LOGO_MEP-removebg-preview.png" class="logo-mep" alt="MEP Costa Rica">
+                <div class="divider"></div>
+                <div class="logo-gobierno">
+                    <strong>Dirección Regional de Educación Central del Pacífico</strong><br>
+                    <strong>Circuito 02</strong><br>
+                    <strong>Colegio Técnico Profesional de Matapalo</strong><br>
+                </div>
+            </div>
+            <div class="nav-right">
+                <a href="index.html" title="Inicio">
+                    <img src="img/logo_colegio_nuevo.png" class="logo-escudo" alt="Escudo CTP Matapalo">
+                </a>
+                <a href="registrarme.html" class="btn-login">Acceso Personal</a>
+            </div>
+        </div>
+    </header>
+    <div class="upload-container">
+        <div class="upload-header">
+            <div class="upload-title">
+                <i class="fas fa-image"></i>
+                Panel de Gestión de Imágenes
+            </div>
+            <div class="upload-subtitle">
+                Carga imágenes para la galería o el carrusel de inicio. 
+                Asegúrate de seleccionar la sección correcta.
+            </div>
+        </div>
+        
+        <form id="formSubirImagen" enctype="multipart/form-data">
+            <div class="form-group">
+                <label class="form-label" for="imagen">
+                    <i class="fas fa-file-image"></i> Seleccionar imagen
+                </label>
+                <input class="form-input" type="file" id="imagen" name="imagen" accept="image/*" required>
+                <small style="color: var(--texto-gris); margin-top: 6px; display: block;">
+                    Formatos: JPG, PNG, GIF. Tamaño máximo: 5MB
+                </small>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="destino">
+                    <i class="fas fa-list"></i> ¿A qué sección pertenece?
+                </label>
+                <select class="form-select" id="destino" name="destino" required>
+                    <option value="">-- Selecciona una opción --</option>
+                    <option value="galeria">📸 Galería de Fotos (Actividades/Eventos)</option>
+                    <option value="carrusel">🎞️ Carrusel Principal (Banners de Inicio)</option>
+                </select>
+            </div>
+
+            <button class="btn-upload" type="submit">
+                <i class="fas fa-cloud-upload-alt"></i> Publicar Imagen
+            </button>
+        </form>
+
+        <div id="msg" class="msg" style="display: none; margin-top: 20px;"></div>
+        <hr class="section-divider">
+
+        <!-- SECCIONES DE IMÁGENES -->
+        <div style="margin-top: 35px;">
+            <h3 style="color: var(--verde-oscuro); margin-bottom: 20px; font-size: 1.3rem;">
+                <i class="fas fa-images" style="color: var(--dorado);"></i> Imágenes Cargadas
+            </h3>
+
+            <div class="tabs-container">
+                <button type="button" class="tab-btn active-galeria" id="btnTabGaleria" onclick="cambiarSector('galeria')">
+                    <i class="fas fa-images"></i> Galería
+                </button>
+                <button type="button" class="tab-btn" id="btnTabCarrusel" onclick="cambiarSector('carrusel')">
+                    <i class="fas fa-film"></i> Carrusel
+                </button>
+            </div>
+
+            <div id="sectorGaleria" class="tab-content active">
+                <div id="galeriaSupabase" class="grid-images grid-galeria">
+                    <p style="color: #aaa; padding: 30px; text-align: center; grid-column: 1 / -1;">
+                        <i class="fas fa-info-circle"></i> Cargando galería...
+                    </p>
+                </div>
+            </div>
+
+            <div id="sectorCarrusel" class="tab-content">
+                <div id="carruselSupabase" class="grid-images grid-carrusel">
+                    <p style="color: #aaa; padding: 30px; text-align: center; grid-column: 1 / -1;">
+                        <i class="fas fa-info-circle"></i> Cargando carrusel...
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- NOTA IMPORTANTE PARA DESARROLLO -->
+        <div style="margin-top: 40px; padding: 20px; background: #fef3cd; border-left: 4px solid #ff9800; border-radius: 4px; color: #663c00;">
+            <h4 style="margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                <i class="fas fa-exclamation-triangle"></i> Configuración Requerida
+            </h4>
+            <p style="font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                <strong>Problema actual:</strong> Las imágenes no se pueden subir correctamente porque se requiere un servidor backend.<br><br>
+                <strong>Soluciones disponibles:</strong>
+                <ul style="margin-top: 10px; padding-left: 20px;">
+                    <li><strong>Opción 1 (Recomendada):</strong> Implementar servidor Node.js/Express con multer para procesar uploads</li>
+                    <li><strong>Opción 2:</strong> Usar Supabase correctamente (se necesita configurar credenciales validas)</li>
+                    <li><strong>Opción 3:</strong> Usar Cloudinary o similar servicio de almacenamiento en la nube</li>
+                </ul>
+            </p>
+        </div>
+    </div>
+
+    <!-- MODAL PARA VER IMAGEN GRANDE -->
+    <div id="imageModal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.9); justify-content:center; align-items:center; backdrop-filter: blur(4px);">
+        <span id="closeLightbox" style="position:absolute; top:20px; right:30px; color:#fff; font-size:45px; cursor:pointer; z-index:1001; transition: transform 0.2s;">&times;</span>
+        <img id="modalImg" style="max-width:90vw; max-height:85vh; border-radius:12px; box-shadow:0 10px 40px rgba(0,0,0,0.5); display:block; margin:auto;" alt="Imagen ampliada">
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>© 2024-2026 CTP de Matapalo. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    <script>
+        // ⚠️ CONFIGURACIÓN DE SUPABASE - REEMPLAZA CON TUS CREDENCIALES
+        const SUPABASE_CONFIG = {
+            url: 'https://etdcmuikvtnqfcnlvodh.supabase.co',
+            key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0ZGNtdWlrdnRucWZjbmx2b2RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1OTQ1ODcsImV4cCI6MjA5MTE3MDU4N30.8JHWlTxYRSYEkpipqesHVBKn7QomTXJYHp6Nm6SzU4A'
+        };
+
+        const msg = document.getElementById('msg');
+
+        // FUNCIÓN AUXILIAR: Mostrar mensajes
+        function mostrarMensaje(texto, tipo = 'info') {
+            msg.style.display = 'block';
+            msg.textContent = texto;
+            msg.style.padding = '15px';
+            msg.style.borderRadius = '8px';
+            msg.style.marginTop = '20px';
+            msg.style.fontWeight = '500';
+            
+            if (tipo === 'exito') {
+                msg.style.color = '#155724';
+                msg.style.background = '#d4edda';
+                msg.style.border = '1px solid #c3e6cb';
+            } else if (tipo === 'error') {
+                msg.style.color = '#721c24';
+                msg.style.background = '#f8d7da';
+                msg.style.border = '1px solid #f5c6cb';
+            } else {
+                msg.style.color = '#004085';
+                msg.style.background = '#d1ecf1';
+                msg.style.border = '1px solid #bee5eb';
+            }
+        }
+
+        // MANEJO DEL FORMULARIO
+        const form = document.getElementById('formSubirImagen');
+        if (form) {
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const fileInput = document.getElementById('imagen');
+                const destino = document.getElementById('destino').value;
+                const file = fileInput.files[0];
+
+                if (!file) {
+                    mostrarMensaje('Por favor, selecciona una imagen', 'error');
+                    return;
+                }
+
+                if (file.size > 5 * 1024 * 1024) {
+                    mostrarMensaje('La imagen es muy grande (máximo 5MB)', 'error');
+                    return;
+                }
+
+                mostrarMensaje('⏳ Procesando subida...', 'info');
+
+                try {
+                    // Intentar subir a Supabase
+                    const nombreArchivo = Date.now() + '-' + file.name.replace(/\s+/g, '_');
+                    
+                    const resUpload = await fetch(`${SUPABASE_CONFIG.url}/storage/v1/object/imagenes/${nombreArchivo}`, {
+                        method: 'POST',
+                        headers: {
+                            apikey: SUPABASE_CONFIG.key,
+                            Authorization: `Bearer ${SUPABASE_CONFIG.key}`
+                        },
+                        body: file
+                    });
+
+                    if (!resUpload.ok) {
+                        throw new Error(`Error Supabase: ${resUpload.status}`);
+                    }
+
+                    const url = `${SUPABASE_CONFIG.url}/storage/v1/object/public/imagenes/${nombreArchivo}`;
+                    
+                    // Guardar en base de datos
+                    const resDB = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/imagenes`, {
+                        method: 'POST',
+                        headers: {
+                            apikey: SUPABASE_CONFIG.key,
+                            Authorization: `Bearer ${SUPABASE_CONFIG.key}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            url,
+                            destino,
+                            descripcion: file.name
+                        })
+                    });
+
+                    if (resDB.ok) {
+                        mostrarMensaje('✅ ¡Imagen publicada con éxito!', 'exito');
+                        form.reset();
+                        cargarImagenesSupabase();
+                    } else {
+                        mostrarMensaje('⚠️ Imagen subida pero error en BD. Recarga la página.', 'error');
+                    }
+                } catch (error) {
+                    mostrarMensaje('❌ Error: ' + error.message + '. Verifica que Supabase esté configurado correctamente.', 'error');
+                    console.error('Error detallado:', error);
+                }
+            });
+        }
+
+        // CARGAR IMÁGENES DESDE SUPABASE
+        async function cargarImagenesSupabase() {
+            const galeriaDiv = document.getElementById('galeriaSupabase');
+            const carruselDiv = document.getElementById('carruselSupabase');
+
+            try {
+                const res = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/imagenes?select=url,descripcion,destino&order=id.desc`, {
+                    headers: {
+                        apikey: SUPABASE_CONFIG.key,
+                        Authorization: `Bearer ${SUPABASE_CONFIG.key}`
+                    }
+                });
+
+                if (!res.ok) throw new Error('No se puede conectar a la BD');
+
+                const imagenes = await res.json();
+                
+                galeriaDiv.innerHTML = '';
+                carruselDiv.innerHTML = '';
+
+                if (imagenes.length === 0) {
+                    galeriaDiv.innerHTML = '<p style="color:#aaa; padding:30px; grid-column:1/-1; text-align:center;"><i class="fas fa-folder-open"></i> No hay imágenes en la galería</p>';
+                    carruselDiv.innerHTML = '<p style="color:#aaa; padding:30px; grid-column:1/-1; text-align:center;"><i class="fas fa-folder-open"></i> No hay imágenes en el carrusel</p>';
+                } else {
+                    imagenes.forEach(img => {
+                        const div = document.createElement('div');
+                        div.className = 'img-item';
+                        div.innerHTML = `<img src="${img.url}" alt="${img.descripcion || 'Imagen'}" loading="lazy">`;
+                        div.querySelector('img').onclick = function() {
+                            document.getElementById('imageModal').style.display = 'flex';
+                            document.getElementById('modalImg').src = this.src;
+                        };
+
+                        if (img.destino === 'carrusel') {
+                            carruselDiv.appendChild(div);
+                        } else {
+                            galeriaDiv.appendChild(div);
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error cargando imágenes:', error);
+                galeriaDiv.innerHTML = '<p style="color:#d32f2f; padding:20px; grid-column:1/-1;"><strong>⚠️ Error de conexión.</strong> Verifica que Supabase esté disponible.</p>';
+                carruselDiv.innerHTML = '<p style="color:#d32f2f; padding:20px; grid-column:1/-1;"><strong>⚠️ Error de conexión.</strong> Verifica que Supabase esté disponible.</p>';
+            }
+        }
+
+        // FUNCIONES DE NAVEGACIÓN
+        function cambiarSector(sector) {
+            const btnG = document.getElementById('btnTabGaleria');
+            const btnC = document.getElementById('btnTabCarrusel');
+            const secG = document.getElementById('sectorGaleria');
+            const secC = document.getElementById('sectorCarrusel');
+            
+            if (sector === 'galeria') {
+                btnG.className = "tab-btn active-galeria";
+                btnC.className = "tab-btn";
+                secG.classList.add('active');
+                secC.classList.remove('active');
+            } else {
+                btnG.className = "tab-btn";
+                btnC.className = "tab-btn active-carrusel";
+                secG.classList.remove('active');
+                secC.classList.add('active');
+            }
+        }
+
+        // CERRAR MODAL
+        document.getElementById('closeLightbox').onclick = function() {
+            document.getElementById('imageModal').style.display = 'none';
+        };
+
+        document.getElementById('imageModal').onclick = function(e) {
+            if (e.target === this) this.style.display = 'none';
+        };
+
+        // CARGAR IMÁGENES AL INICIAR
+        window.addEventListener('DOMContentLoaded', function() {
+            cargarImagenesSupabase();
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,2500 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boletas Disciplinarias - CTP Matapalo</title>
+    <link rel="icon" type="image/png" href="img/logo_colegio_nuevo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/stylo.css">
+    <style>
+        /* === ESTILOS MEJORADOS INSTITUCIONALES === */
+        
+        .boletas-wrap {
+            margin-top: 30px;
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        .boletas-header {
+            background: #f8f9fa;
+            /* Gris muy claro, más limpio */
+            padding: 24px 30px;
+            border-bottom: 4px solid #0a4c23;
+            /* Verde CTP */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .boletas-header table {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        
+        .boletas-header h2 {
+            text-align: center;
+            margin: 0;
+            color: #0a4c23;
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+        
+        .boletas-header h3 {
+            text-align: center;
+            margin: 5px 0 0;
+            color: #6c757d;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        
+        .boletas-content {
+            padding: 30px;
+            background: #ffffff;
+        }
+        
+        .boletas-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .boletas-field {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .boletas-field label {
+            font-size: 13px;
+            color: #495057;
+            margin-bottom: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        /* Estilo de Inputs moderno tipo Material/Bootstrap */
+        
+        .boletas-field input,
+        .boletas-field select,
+        .boletas-field textarea {
+            padding: 12px 14px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            color: #212529;
+            background-color: #fcfcfc;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .boletas-field input:focus,
+        .boletas-field select:focus,
+        .boletas-field textarea:focus {
+            outline: none;
+            border-color: #0a4c23;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(10, 76, 35, 0.15);
+        }
+        
+        .boletas-field input[readonly],
+        .boletas-field input[readonly]:focus {
+            background-color: #e9ecef;
+            border-color: #ced4da;
+            color: #495057;
+            box-shadow: none;
+            cursor: not-allowed;
+            font-weight: 600;
+        }
+        
+        .boletas-field textarea {
+            resize: vertical;
+            min-height: 110px;
+            line-height: 1.5;
+        }
+        
+        .boletas-btn {
+            background-color: #0a4c23;
+            /* Verde principal unificado */
+            color: #fff;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            width: 100%;
+            /* Botón guardar expandido */
+            margin-top: 10px;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 4px 6px rgba(10, 76, 35, 0.2);
+        }
+        
+        .boletas-btn:hover {
+            background-color: #083d1c;
+            transform: translateY(-1px);
+        }
+        
+        .boletas-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 3px rgba(10, 76, 35, 0.2);
+        }
+        
+        .boletas-btn:disabled {
+            background-color: #6c757d;
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .boletas-footer {
+            background-color: #f8f9fa;
+            padding: 15px;
+            text-align: center;
+            font-size: 13px;
+            color: #6c757d;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .panel-guia {
+            display: none;
+            background: #f0faf4;
+            border: 1px solid #a8d5b5;
+            border-left: 5px solid #0a4c23;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            color: #0a4c23;
+            box-shadow: 0 2px 8px rgba(10, 76, 35, 0.08);
+        }
+        
+        .panel-guia h3 {
+            color: #0a4c23;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        
+        .acciones-superiores {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .btn-secundario {
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 18px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: background-color 0.2s ease;
+        }
+        
+        .btn-secundario:hover {
+            background: #5a6268;
+        }
+        
+        .tabla-boletas {
+            margin-top: 40px;
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+            border: 1px solid #eaeaea;
+        }
+        
+        .tabla-boletas h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #0a4c23;
+            font-size: 18px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 12px;
+        }
+        /* Estilización de Tablas General para boletas.html */
+        
+        .tabla-container table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .tabla-container th {
+            background-color: #f8f9fa;
+            color: #495057;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            padding: 14px;
+            border-bottom: 2px solid #dee2e6;
+            text-align: left;
+        }
+        
+        .tabla-container td {
+            padding: 14px;
+            vertical-align: middle;
+            border-bottom: 1px solid #e9ecef;
+            color: #212529;
+            font-size: 0.95rem;
+        }
+        
+        .tabla-container tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .btn-ver-detalle {
+            border: none;
+            border-radius: 5px;
+            padding: 8px 14px;
+            color: #fff;
+            background: #0a4c23;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: background 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 2px 4px rgba(10, 76, 35, 0.15);
+        }
+        
+        .btn-ver-detalle:hover {
+            background: #083d1c;
+            transform: translateY(-1px);
+        }
+        
+        .btn-imprimir-boleta {
+            border: none;
+            border-radius: 5px;
+            padding: 8px 14px;
+            color: #fff;
+            background: #1565c0;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: background 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 2px 4px rgba(21,101,192,0.15);
+            margin-left: 5px;
+        }
+        
+        .btn-imprimir-boleta:hover {
+            background: #0d47a1;
+            transform: translateY(-1px);
+        }
+        
+        .panel-detalle-boleta {
+            display: none;
+            /* Se mantiene oculto ya que usamos modals ahora, pero por si acaso se activa */
+            margin-top: 18px;
+            background: #ffffff;
+            border: 1px solid #d9d9d9;
+            border-left: 5px solid #0a4c23;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .panel-detalle-boleta h4 {
+            margin: 0 0 12px;
+            color: #0a4c23;
+        }
+        
+        .detalle-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(160px, 1fr));
+            gap: 10px 14px;
+            margin-bottom: 10px;
+        }
+        
+        .detalle-item {
+            font-size: 0.92rem;
+            color: #333;
+        }
+        
+        .btn-ver-detalle {
+            border: none;
+            border-radius: 6px;
+            padding: 7px 12px;
+            color: #fff;
+            background: #0a4c23;
+            cursor: pointer;
+            font-weight: 700;
+        }
+        /* === AUTOCOMPLETE ESTUDIANTE === */
+        
+        .autocomplete-wrap {
+            position: relative;
+        }
+        
+        .autocomplete-suggestions {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border: 1.5px solid #0a4c23;
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            max-height: 230px;
+            overflow-y: auto;
+            z-index: 500;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.11);
+        }
+        
+        .autocomplete-suggestions.open {
+            display: block;
+        }
+        
+        .suggestion-item {
+            padding: 10px 14px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #212529;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.15s;
+        }
+        
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+        
+        .suggestion-item:hover,
+        .suggestion-item.highlighted {
+            background: #f0faf4;
+            color: #0a4c23;
+            font-weight: 600;
+        }
+        
+        .suggestion-item mark {
+            background: transparent;
+            color: #0a4c23;
+            font-weight: 700;
+        }
+        
+        .suggestion-empty {
+            padding: 10px 14px;
+            color: #999;
+            font-style: italic;
+            font-size: 13px;
+        }
+        
+        @media (max-width: 900px) {
+            .boletas-row {
+                flex-direction: column;
+            }
+            .acciones-superiores {
+                justify-content: stretch;
+            }
+            .acciones-superiores button {
+                width: 100%;
+            }
+        }
+        /* === SISTEMA DE NOTIFICACIONES PROPIO === */
+        
+        #noti-toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            pointer-events: none;
+        }
+        
+        .noti-toast {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);
+            padding: 16px 18px;
+            min-width: 290px;
+            max-width: 370px;
+            pointer-events: all;
+            position: relative;
+            overflow: hidden;
+            animation: noti-in 0.4s cubic-bezier(.34, 1.56, .64, 1) both;
+            border-left: 5px solid #0a4c23;
+        }
+        
+        .noti-toast.success {
+            background: linear-gradient(120deg, #edfaf3 0%, #fff 55%);
+            box-shadow: 0 12px 40px rgba(10, 76, 35, 0.13), 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .noti-toast.error {
+            border-left-color: #e74c3c;
+            background: linear-gradient(120deg, #fff2f2 0%, #fff 55%);
+            box-shadow: 0 12px 40px rgba(231, 76, 60, 0.13), 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .noti-toast.warning {
+            border-left-color: #f39c12;
+            background: linear-gradient(120deg, #fffbee 0%, #fff 55%);
+            box-shadow: 0 12px 40px rgba(243, 156, 18, 0.13), 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .noti-toast.info {
+            border-left-color: #3498db;
+            background: linear-gradient(120deg, #eef6ff 0%, #fff 55%);
+            box-shadow: 0 12px 40px rgba(52, 152, 219, 0.13), 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .noti-toast-icon {
+            font-size: 1.55rem;
+            flex-shrink: 0;
+        }
+        
+        .noti-toast.success .noti-toast-icon {
+            color: #0a6b2e;
+        }
+        
+        .noti-toast.error .noti-toast-icon {
+            color: #e74c3c;
+        }
+        
+        .noti-toast.warning .noti-toast-icon {
+            color: #d68910;
+        }
+        
+        .noti-toast.info .noti-toast-icon {
+            color: #2980b9;
+        }
+        
+        .noti-toast-text {
+            flex: 1;
+            font-size: 0.95rem;
+            color: #1a1a1a;
+            font-weight: 700;
+            line-height: 1.35;
+        }
+        
+        .noti-toast-sub {
+            font-weight: 400;
+            color: #777;
+            font-size: 0.84rem;
+            margin-top: 3px;
+            line-height: 1.4;
+        }
+        
+        @keyframes noti-in {
+            from {
+                opacity: 0;
+                transform: translateX(44px) scale(0.94);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+        
+        @keyframes noti-out {
+            from {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(44px) scale(0.94);
+            }
+        }
+        /* Confirm / overlay dialogs */
+        
+        .noti-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 18, 38, 0.70);
+            backdrop-filter: blur(8px) saturate(1.4);
+            z-index: 99998;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        
+        .noti-overlay.active {
+            display: flex;
+        }
+        
+        .noti-dialog {
+            background: #fff;
+            border-radius: 28px;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.32), 0 8px 24px rgba(0, 0, 0, 0.10);
+            width: 100%;
+            max-width: 360px;
+            overflow: hidden;
+            animation: noti-dialog-in 0.42s cubic-bezier(.34, 1.56, .64, 1) both;
+        }
+        
+        .noti-modal-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22);
+            width: min(820px, 95vw);
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: noti-dialog-in 0.42s cubic-bezier(.34, 1.56, .64, 1) both;
+        }
+        
+        @keyframes noti-dialog-in {
+            from {
+                transform: scale(0.82) translateY(24px);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .noti-dialog-strip {
+            height: 6px;
+            background: linear-gradient(90deg, #0a4c23, #1a9448);
+        }
+        
+        .noti-dialog-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 28px 24px 14px;
+        }
+        
+        .noti-dialog-icon-bubble {
+            width: 76px;
+            height: 76px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #e8f5ee, #c7ecd8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            box-shadow: 0 6px 20px rgba(10, 76, 35, 0.18);
+        }
+        
+        .noti-dialog-title {
+            text-align: center;
+            font-size: 1.22rem;
+            font-weight: 800;
+            color: #0d1f13;
+            padding: 10px 28px 4px;
+            letter-spacing: -0.02em;
+        }
+        
+        .noti-dialog-text {
+            text-align: center;
+            font-size: 0.92rem;
+            color: #6b7280;
+            padding: 4px 28px 24px;
+            line-height: 1.65;
+        }
+        
+        .noti-dialog-footer {
+            display: flex;
+            gap: 10px;
+            padding: 0 20px 24px;
+        }
+        
+        .noti-dialog-cancel,
+        .noti-dialog-cancel:link,
+        .noti-dialog-cancel:visited {
+            flex: 1 !important;
+            padding: 13px 0 !important;
+            border-radius: 14px !important;
+            border: 1.5px solid #e2e8f0 !important;
+            background: #f8fafc !important;
+            color: #475569 !important;
+            font-size: 0.95rem !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            transition: all 0.2s ease !important;
+            box-shadow: none !important;
+            text-align: center !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        
+        .noti-dialog-cancel:hover {
+            background: #f1f5f9 !important;
+            border-color: #cbd5e1 !important;
+            color: #1e293b !important;
+        }
+        
+        .noti-dialog-confirm,
+        .noti-dialog-confirm:link,
+        .noti-dialog-confirm:visited {
+            flex: 1 !important;
+            padding: 13px 0 !important;
+            border-radius: 14px !important;
+            border: none !important;
+            background: linear-gradient(135deg, #16a34a, #0a4c23) !important;
+            color: #fff !important;
+            font-size: 0.95rem !important;
+            font-weight: 700 !important;
+            cursor: pointer !important;
+            transition: all 0.22s ease !important;
+            box-shadow: 0 4px 16px rgba(10, 76, 35, 0.38) !important;
+            letter-spacing: 0.01em !important;
+            text-align: center !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        
+        .noti-dialog-confirm:hover {
+            background: linear-gradient(135deg, #15803d, #0d5929) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 24px rgba(10, 76, 35, 0.44) !important;
+        }
+        
+        .noti-dialog-confirm.danger {
+            background: linear-gradient(135deg, #ef4444, #b91c1c) !important;
+            box-shadow: 0 4px 16px rgba(185, 28, 28, 0.38) !important;
+        }
+        
+        .noti-dialog-confirm.danger:hover {
+            background: linear-gradient(135deg, #dc2626, #991b1b) !important;
+            box-shadow: 0 8px 24px rgba(185, 28, 28, 0.44) !important;
+        }
+        
+        .noti-modal-close-btn,
+        .noti-modal-close-btn:link,
+        .noti-modal-close-btn:visited {
+            width: auto !important;
+            min-width: 170px !important;
+            margin: 0 auto !important;
+            flex: none !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 11px 34px !important;
+            border-radius: 999px !important;
+            border: 1.5px solid #cfd8e3 !important;
+            background: #ffffff !important;
+            color: #1f2e22 !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.01em !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+            transition: all 0.2s ease !important;
+        }
+        
+        .noti-modal-close-btn:hover {
+            transform: translateY(-1px) !important;
+            border-color: #0a4c23 !important;
+            color: #0a4c23 !important;
+            box-shadow: 0 8px 18px rgba(10, 76, 35, 0.18) !important;
+        }
+        
+        #noti-loading {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(2px);
+            z-index: 99997;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 14px;
+        }
+        
+        #noti-loading.active {
+            display: flex;
+        }
+        
+        .noti-spinner {
+            width: 48px;
+            height: 48px;
+            border: 5px solid rgba(255, 255, 255, 0.25);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: noti-spin 0.7s linear infinite;
+        }
+        
+        .noti-loading-text {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+        }
+        
+        @keyframes noti-spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body class="page-docentes">
+
+    <!-- ===== NOTIFICACIONES PROPIAS ===== -->
+    <div id="noti-toast-container"></div>
+    <div id="noti-loading">
+        <div class="noti-spinner"></div>
+        <span class="noti-loading-text" id="noti-loading-text">Procesando...</span>
+    </div>
+    <div id="noti-confirm-overlay" class="noti-overlay">
+        <div class="noti-dialog">
+            <div class="noti-dialog-strip"></div>
+            <div class="noti-dialog-icon">
+                <div class="noti-dialog-icon-bubble" id="noti-confirm-icon"></div>
+            </div>
+            <div class="noti-dialog-title" id="noti-confirm-title"></div>
+            <div class="noti-dialog-text" id="noti-confirm-text"></div>
+            <div class="noti-dialog-footer">
+                <button class="noti-dialog-cancel" onclick="noti.closeConfirm()">Cancelar</button>
+                <button class="noti-dialog-confirm" id="noti-confirm-btn" onclick="noti._doConfirm()">Confirmar</button>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    <div id="noti-modal-overlay" class="noti-overlay" onclick="if(event.target===this)noti.closeModal()">
+        <div class="noti-modal-card">
+            <div id="noti-modal-content" style="padding:0; overflow:hidden; border-radius:20px 20px 0 0;"></div>
+            <div style="padding:14px 22px 18px;border-top:1px solid #e4e9ef;text-align:center;background:#f4f6f9;border-radius:0 0 20px 20px;display:flex;justify-content:center;">
+                <button onclick="noti.closeModal()" class="noti-modal-close-btn">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="header-container">
+            <div class="header-logos-left">
+                <img src="img/LOGO_MEP-removebg-preview.png" class="logo-mep" alt="MEP Costa Rica">
+                <div class="divider"></div>
+                <div class="logo-gobierno">
+                    <strong>Direccion Regional de Educacion Central del Pacifico</strong><br>
+                    <strong>Circuito 02</strong><br>
+                    <strong>Colegio Tecnico Profesional de Matapalo</strong><br>
+                </div>
+            </div>
+
+            <div class="nav-right">
+                <a href="index.html" title="Inicio">
+                    <img src="img/logo_colegio_nuevo.png" class="logo-escudo" alt="Escudo CTP Matapalo">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="navbar">
+        <div class="navbar-info">
+            <span><i class="fas fa-file-signature"></i> Sesion:</span>
+            <span id="rolBadge" class="badge-rol">Cargando...</span>
+        </div>
+        <button class="btn-cerrar" onclick="cerrarSesion()"><i class="fas fa-sign-out-alt"></i> 🚪 Cerrar Sesión</button>
+    </div>
+
+    <div class="container">
+        <div class="info-usuario">
+            <div class="info-item">
+                <b><i class="fas fa-user-circle"></i> Nombre Completo</b>
+                <span id="nombreUsuario">---</span>
+            </div>
+            <div class="info-item">
+                <b><i class="fas fa-id-card"></i> Usuario</b>
+                <span id="usuario">---</span>
+            </div>
+            <div class="info-item">
+                <b><i class="fas fa-briefcase"></i> Perfil</b>
+                <span id="rol">---</span>
+            </div>
+        </div>
+
+        <div id="panelGuia" class="panel-guia">
+            <h3 style="margin-top:0;"><i class="fas fa-users"></i> Modo Docente Guia</h3>
+            <p style="margin:0;">Se mostraran boletas de las secciones guia asignadas: <b id="seccionGuiaLabel">---</b>.</p>
+        </div>
+
+        <div class="boletas-wrap">
+            <div class="boletas-header">
+                <h2>COLEGIO TECNICO PROFESIONAL DE MATAPALO</h2>
+                <h3>BOLETA DISCIPLINARIA</h3>
+            </div>
+
+            <div class="boletas-content">
+                <form id="formBoleta">
+
+                    <div class="boletas-row">
+                        <div class="boletas-field">
+                            <label for="numeroBoleta">Numero Boleta:</label>
+                            <input id="numeroBoleta" type="text" readonly>
+                        </div>
+
+                        <div class="boletas-field">
+                            <label for="fechaBoleta">Fecha:</label>
+                            <input id="fechaBoleta" type="date" required>
+                        </div>
+                    </div>
+
+                    <div class="boletas-row">
+                        <div class="boletas-field">
+                            <label for="nivelSelector"><i class="fas fa-sitemap"></i> Nivel:</label>
+                            <select id="nivelSelector" required>
+                                <option value="">-- Seleccione el nivel --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="boletas-row">
+                        <div class="boletas-field">
+                            <label for="seccionSelector"><i class="fas fa-layer-group"></i> Seccion:</label>
+                            <select id="seccionSelector" required disabled>
+                                <option value="">-- Seleccione primero el nivel --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="boletas-row">
+                        <div class="boletas-field">
+                            <label for="buscarEstudiante">Nombre del estudiante:</label>
+                            <div class="autocomplete-wrap">
+                                <input id="buscarEstudiante" type="text" autocomplete="off" placeholder="Seleccione la sección primero" disabled>
+                                <div id="sugerenciasEstudiante" class="autocomplete-suggestions"></div>
+                            </div>
+                            <!-- Select oculto mantiene la lógica existente -->
+                            <select id="nombreEstudiante" required disabled style="display:none;">
+                                <option value="">-- Seleccione la seccion primero --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="boletas-row">
+                        <div class="boletas-field">
+                            <label for="cedulaEstudiante">Cedula del estudiante:</label>
+                            <input id="cedulaEstudiante" type="text" readonly placeholder="Se autocompleta al seleccionar">
+                        </div>
+
+                        <div class="boletas-field">
+                            <label for="nivelEstudiante">Nivel del estudiante:</label>
+                            <input id="nivelEstudiante" type="text" readonly placeholder="Se autocompleta al seleccionar">
+                        </div>
+                    </div>
+
+                    <div class="boletas-row">
+                        <div class="boletas-field">
+                            <label for="seccionEstudiante">Seccion del estudiante:</label>
+                            <input id="seccionEstudiante" type="text" readonly placeholder="Se autocompleta al seleccionar">
+                        </div>
+                    </div>
+
+                    <div class="boletas-row">
+                        <div class="boletas-field">
+                            <label for="docenteGuiaSeccion">Profesor guia de la seccion:</label>
+                            <input id="docenteGuiaSeccion" type="text" readonly placeholder="Se autocompleta al seleccionar seccion">
+                        </div>
+                    </div>
+
+                    <div class="boletas-row">
+                        <div class="boletas-field">
+                            <label for="docenteAplica">Docente que aplica la boleta:</label>
+                            <input id="docenteAplica" type="text" readonly>
+                        </div>
+                    </div>
+
+                    <div class="boletas-row">
+                        <div class="boletas-field">
+                            <label for="correoEncargado">Correo del encargado legal:</label>
+                            <input id="correoEncargado" type="email" readonly placeholder="Se autocompleta al seleccionar estudiante">
+                            <small id="correoEncargadoAviso" style="display:none; margin-top:5px; color:#e65100; font-weight:600;"><i class="fas fa-exclamation-triangle"></i> Sin correo registrado — escríbalo y se guardará automáticamente</small>
+                        </div>
+                    </div>
+
+                    <div class="boletas-row">
+                        <div class="boletas-field">
+                            <label for="correoEstudiante">Correo del estudiante:</label>
+                            <input id="correoEstudiante" type="email" readonly placeholder="Se autocompleta al seleccionar estudiante">
+                            <small id="correoEstudianteAviso" style="display:none; margin-top:5px; color:#e65100; font-weight:600;"><i class="fas fa-exclamation-triangle"></i> Sin correo registrado — escríbalo y se guardará automáticamente</small>
+                        </div>
+                    </div>
+
+                    <div class="boletas-row">
+                        <div class="boletas-field">
+                            <label for="buscarFalta"><i class="fas fa-gavel"></i> Normativa Interna:</label>
+                            <input id="buscarFalta" type="text" autocomplete="off" placeholder="Buscar falta por descripci&oacute;n, art&iacute;culo o inciso...">
+                            <select id="faltaSelect" required style="margin-top:6px;">
+                                <option value="">-- Cargando faltas... --</option>
+                            </select>
+                            <input type="hidden" id="faltaCometida">
+                            <input type="hidden" id="faltaId" value="">
+                            <input type="hidden" id="faltaPuntos" value="0">
+                            <small id="faltaInfo" style="display:none; margin-top:6px; color:#c62828; font-weight:700;"></small>
+                        </div>
+                    </div>
+
+                    <div class="boletas-row">
+                        <div class="boletas-field">
+                            <label for="observaciones"><i class="fas fa-comment-alt"></i> Observaciones:</label>
+                            <textarea id="observaciones" placeholder="Describa detalles adicionales de la situaci&oacute;n (opcional)..." style="min-height:80px;"></textarea>
+                        </div>
+                    </div>
+
+                    <button id="btnGuardarBoleta" class="boletas-btn" type="submit"><i class="fas fa-save"></i> Guardar Boleta</button>
+                </form>
+
+                <div class="acciones-superiores">
+                    <button type="button" class="btn-secundario" onclick="window.location.href='docentes.html'"><i class="fas fa-arrow-left"></i> Volver al Panel</button>
+                </div>
+            </div>
+
+            <div class="boletas-footer">
+                Documento institucional - CTP Matapalo
+            </div>
+        </div>
+
+        <div class="tabla-boletas">
+            <h3><i class="fas fa-history"></i> Mis boletas recientes</h3>
+            <div class="overflow-auto">
+                <div class="tabla-container">
+                    <table id="tablaBoletasPropias">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Boleta</th>
+                                <th>Estudiante</th>
+                                <th>Seccion</th>
+                                <th>Falta</th>
+                                <th>Pts.</th>
+                                <th>Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpoBoletasPropias">
+                            <tr>
+                                <td colspan="7" style="text-align:center; padding: 24px; color:#666;">Cargando boletas...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="bloqueBoletasSeccion" class="tabla-boletas" style="display:none;">
+            <h3><i class="fas fa-layer-group"></i> Boletas de mi seccion guia</h3>
+            <div class="overflow-auto">
+                <div class="tabla-container">
+                    <table id="tablaBoletasSeccion">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Boleta</th>
+                                <th>Estudiante</th>
+                                <th>Cedula</th>
+                                <th>Docente</th>
+                                <th>Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpoBoletasSeccion">
+                            <tr>
+                                <td colspan="6" style="text-align:center; padding: 24px; color:#666;">Cargando boletas de la seccion...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="panelDetalleBoleta" class="panel-detalle-boleta">
+                <h4><i class="fas fa-file-lines"></i> Detalle de Boleta</h4>
+                <div id="detalleBoletaGrid" class="detalle-grid"></div>
+                <div class="detalle-item">
+                    <b>Falta cometida:</b>
+                    <div id="detalleBoletaFalta" style="margin-top: 4px; white-space: pre-wrap;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="bloqueConducta" class="tabla-boletas" style="display:none;">
+            <h3><i class="fas fa-star"></i> Nota de Conducta &mdash; Mi Secci&oacute;n Gu&iacute;a</h3>
+            <p style="margin:0 0 12px; font-size:0.9rem; color:#555;">Cada estudiante parte de <strong>100 puntos</strong>. Cada boleta registrada resta los puntos seg&uacute;n el tipo de falta.</p>
+            <div class="overflow-auto">
+                <div class="tabla-container">
+                    <table id="tablaConduccion">
+                        <thead>
+                            <tr>
+                                <th>Estudiante</th>
+                                <th>C&eacute;dula</th>
+                                <th>Secci&oacute;n</th>
+                                <th>Boletas</th>
+                                <th>Pts. Restados</th>
+                                <th>Nota Conducta</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpoConduccion">
+                            <tr>
+                                <td colspan="6" style="text-align:center; padding:24px; color:#666;">Cargando...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ============================================================
+                                                                                           SISTEMA DE NOTIFICACIONES PROPIO
+                                                                                        ============================================================ */
+        const noti = {
+                _confirmCb: null,
+                toast(type, title, subtitle = '') {
+                    const icons = {
+                        success: 'fa-check-circle',
+                        error: 'fa-times-circle',
+                        warning: 'fa-exclamation-triangle',
+                        info: 'fa-info-circle'
+                    };
+                    const el = document.createElement('div');
+                    el.className = `noti-toast ${type}`;
+                    el.innerHTML = `
+                    <i class="fas ${icons[type] || icons.info} noti-toast-icon"></i>
+                    <div class="noti-toast-text">${title}${subtitle ? `<div class="noti-toast-sub">${subtitle}</div>` : ''}</div>
+                `;
+                document.getElementById('noti-toast-container').appendChild(el);
+                setTimeout(() => {
+                    el.style.animation = 'noti-out 0.3s forwards';
+                    setTimeout(() => el.remove(), 300);
+                }, 3200);
+            },
+            confirm(title, text, onConfirm, danger = false, icon = null) {
+                this._confirmCb = onConfirm;
+                document.getElementById('noti-confirm-icon').textContent = icon ?? (danger ? '🗑️' : '❔');
+                document.getElementById('noti-confirm-title').textContent = title;
+                document.getElementById('noti-confirm-text').innerHTML = text;
+                const btn = document.getElementById('noti-confirm-btn');
+                btn.className = 'noti-dialog-confirm' + (danger ? ' danger' : '');
+                btn.textContent = danger ? 'Sí, eliminar' : 'Confirmar';
+                const strip = document.querySelector('#noti-confirm-overlay .noti-dialog-strip');
+                if (strip) strip.style.background = danger
+                    ? 'linear-gradient(90deg,#ef4444,#b91c1c)'
+                    : 'linear-gradient(90deg,#0a4c23,#1a9448)';
+                document.getElementById('noti-confirm-overlay').classList.add('active');
+            },
+            closeConfirm() {
+                document.getElementById('noti-confirm-overlay').classList.remove('active');
+                this._confirmCb = null;
+            },
+            _doConfirm() {
+                document.getElementById('noti-confirm-overlay').classList.remove('active');
+                const cb = this._confirmCb;
+                this._confirmCb = null;
+                if (cb) cb();
+            },
+            loading(show, text = 'Procesando...') {
+                document.getElementById('noti-loading-text').textContent = text;
+                document.getElementById('noti-loading').classList.toggle('active', show);
+            },
+            showModal(html) {
+                document.getElementById('noti-modal-content').innerHTML = html;
+                document.getElementById('noti-modal-overlay').classList.add('active');
+            },
+            closeModal() {
+                document.getElementById('noti-modal-overlay').classList.remove('active');
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+        // Inicializar EmailJS simulando lo hecho en comunicados.html
+        try {
+            emailjs.init({
+                publicKey: "EhWIBnbn9ScJ2PgoJ"
+            });
+        } catch (error) {
+            console.error("Error configurando EmailJS en Boletas:", error);
+        }
+
+        const SUPABASE_URL = 'https://etdcmuikvtnqfcnlvodh.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0ZGNtdWlrdnRucWZjbmx2b2RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1OTQ1ODcsImV4cCI6MjA5MTE3MDU4N30.8JHWlTxYRSYEkpipqesHVBKn7QomTXJYHp6Nm6SzU4A';
+
+        const headers = {
+            apikey: SUPABASE_KEY,
+            Authorization: `Bearer ${SUPABASE_KEY}`,
+            'Content-Type': 'application/json'
+        };
+
+        const ROLES_PERMITIDOS = new Set(['docente', 'docente_guia', 'docente_guia_admin', 'admin']);
+        const cacheBoletasPorId = new Map();
+        const nivelesOrdenados = ['7', '8', '9', '10', '11', '12', 'Plan Nacional'];
+
+        let seccionesPorNivel = new Map();
+        const cacheDocenteGuiaPorSeccion = new Map();
+
+        let seccionGuia = '';
+        let rolActual = '';
+        let usuarioActual = '';
+        let seccionesDocente = [];
+        let seccionesGuia = [];
+        let seccionesDisponibles = [];
+        let nivelesDisponibles = [];
+
+        function obtenerNivelDeSeccion(seccion) {
+            const texto = String(seccion || '').trim();
+            if (!texto) return '';
+            if (/^plan nacional$/i.test(texto)) return 'Plan Nacional';
+            const match = texto.match(/^(\d+)\s*[-–]/);
+            return match ? match[1] : texto;
+        }
+
+        function ordenarSeccionesPorNivel(secciones) {
+            return [...secciones].sort((a, b) => {
+                const extraerOrden = (valor) => {
+                    const texto = String(valor || '').trim();
+                    if (/^plan nacional$/i.test(texto)) return [999, 0];
+                    const match = texto.match(/^(\d+)\s*[-–]\s*(\d+)/);
+                    if (match) return [Number(match[1]), Number(match[2])];
+                    return [998, texto.localeCompare('es')];
+                };
+
+                const [nivelA, grupoA] = extraerOrden(a);
+                const [nivelB, grupoB] = extraerOrden(b);
+                if (nivelA !== nivelB) return nivelA - nivelB;
+                return grupoA - grupoB;
+            });
+        }
+
+        async function generarNumeroBoleta() {
+            try {
+                // Obtener la última boleta registrada
+                const params = new URLSearchParams();
+                params.set('select', 'numero_boleta');
+                params.set('order', 'id.desc');
+                params.set('limit', '1');
+                const url = `${SUPABASE_URL}/rest/v1/boletas?${params.toString()}`;
+                const data = await fetchJson(url, {
+                    headers
+                }).catch(() => []);
+                let lastNum = 0;
+                if (Array.isArray(data) && data.length && data[0].numero_boleta) {
+                    const last = String(data[0].numero_boleta || '').trim();
+                    // Intentar extraer el número al final del campo
+                    const m = last.match(/(\d+)$/);
+                    if (m) lastNum = parseInt(m[1], 10) || 0;
+                }
+                const next = (lastNum || 0) + 1;
+                const seq = String(next).padStart(3, '0');
+                const fecha = new Date();
+                const prefijo = `${fecha.getFullYear()}${String(fecha.getMonth() + 1).padStart(2, '0')}${String(fecha.getDate()).padStart(2, '0')}`;
+                return `BOL-${prefijo}-${seq}`;
+            } catch (e) {
+                // En caso de error, fallback a BOL-YYYYMMDD-001
+                console.warn('No se pudo generar número secuencial, usando fallback BOL-YYYYMMDD-001', e);
+                const fecha = new Date();
+                const prefijo = `${fecha.getFullYear()}${String(fecha.getMonth() + 1).padStart(2, '0')}${String(fecha.getDate()).padStart(2, '0')}`;
+                return `BOL-${prefijo}-001`;
+            }
+        }
+
+        async function fetchJson(url, options = {}) {
+            const res = await fetch(url, options);
+            const data = await res.json().catch(() => []);
+            if (!res.ok) {
+                throw new Error(data.message || data.error || `Error ${res.status}`);
+            }
+            return data;
+        }
+
+        async function cargarDatosUsuarioDesdeBD(usuario) {
+            const params = new URLSearchParams();
+            params.set('select', 'usuario,nombre_completo,rol');
+            params.set('usuario', `eq.${usuario}`);
+            params.set('limit', '1');
+            const url = `${SUPABASE_URL}/rest/v1/usuarios?${params.toString()}`;
+            const data = await fetchJson(url, {
+                headers
+            });
+            return Array.isArray(data) && data.length ? data[0] : null;
+        }
+
+        function normalizarSecciones(listado) {
+            return [...new Set((listado || []).map((s) => String(s || '').trim()).filter(Boolean))];
+        }
+
+        function setFiltroSecciones(params, campo, secciones) {
+            const limpias = normalizarSecciones(secciones);
+            if (!limpias.length) {
+                return;
+            }
+            if (limpias.length === 1) {
+                params.set(campo, `eq.${limpias[0]}`);
+                return;
+            }
+            params.set(campo, `in.(${limpias.join(',')})`);
+        }
+
+        async function cargarSeccionesAsignadas(usuario, userDb) {
+            const todas = new Set();
+            const guias = new Set();
+
+            if (userDb && userDb.seccion) {
+                todas.add(userDb.seccion);
+            }
+            if (userDb && userDb.seccion_guia) {
+                todas.add(userDb.seccion_guia);
+                guias.add(userDb.seccion_guia);
+            }
+
+            try {
+                const params = new URLSearchParams();
+                // docente_guia_secciones no tiene columna `es_guia`, solo solicitamos `seccion`
+                params.set('select', 'seccion');
+                params.set('usuario', `eq.${usuario}`);
+                const data = await fetchJson(`${SUPABASE_URL}/rest/v1/docente_guia_secciones?${params.toString()}`, {
+                    headers
+                });
+                data.forEach((item) => {
+                    const sec = String(item.seccion || '').trim();
+                    if (!sec) return;
+                    todas.add(sec);
+                    if (item.es_guia === true || String(item.es_guia).toLowerCase() === 'true') {
+                        guias.add(sec);
+                    }
+                });
+            } catch (error) {
+                console.info('Tabla docente_secciones no disponible, usando fallback en usuarios.', error.message || error);
+            }
+
+            try {
+                const params = new URLSearchParams();
+                params.set('select', 'seccion');
+                params.set('usuario', `eq.${usuario}`);
+                const data = await fetchJson(`${SUPABASE_URL}/rest/v1/docente_guia_secciones?${params.toString()}`, {
+                    headers
+                });
+                data.forEach((item) => {
+                    const sec = String(item.seccion || '').trim();
+                    if (!sec) return;
+                    todas.add(sec);
+                    guias.add(sec);
+                });
+            } catch (error) {
+                console.info('Tabla docente_guia_secciones no disponible, usando fallback en usuarios.', error.message || error);
+            }
+
+            return {
+                todas: normalizarSecciones([...todas]),
+                guias: normalizarSecciones([...guias])
+            };
+        }
+
+        async function cargarSeccionesDisponibles() {
+            const params = new URLSearchParams();
+            params.set('select', 'seccion');
+            params.set('order', 'seccion.asc');
+            const url = `${SUPABASE_URL}/rest/v1/estudiantes?${params.toString()}`;
+
+            try {
+                const data = await fetchJson(url, {
+                    headers
+                });
+                const desdeEstudiantes = normalizarSecciones((Array.isArray(data) ? data : []).map((item) => item.seccion));
+                if (desdeEstudiantes.length) {
+                    return desdeEstudiantes;
+                }
+            } catch (error) {
+                console.warn('No se pudo cargar listado global de secciones desde estudiantes.', error.message || error);
+            }
+
+            return normalizarSecciones([...seccionesDocente, ...seccionesGuia]);
+        }
+
+        function construirNivelesYSecciones(secciones) {
+            const agrupadas = new Map();
+
+            secciones.forEach((seccion) => {
+                const nivel = obtenerNivelDeSeccion(seccion);
+                if (!nivel) return;
+                if (!agrupadas.has(nivel)) {
+                    agrupadas.set(nivel, []);
+                }
+                agrupadas.get(nivel).push(seccion);
+            });
+
+            const niveles = nivelesOrdenados.filter((nivel) => agrupadas.has(nivel));
+            const extras = [...agrupadas.keys()].filter((nivel) => !nivelesOrdenados.includes(nivel)).sort((a, b) => a.localeCompare(b, 'es'));
+
+            nivelesDisponibles = [...niveles, ...extras];
+            seccionesPorNivel = new Map();
+
+            nivelesDisponibles.forEach((nivel) => {
+                seccionesPorNivel.set(nivel, ordenarSeccionesPorNivel(agrupadas.get(nivel) || []));
+            });
+        }
+
+        function nombreRol(rol) {
+            const mapa = {
+                'admin': 'Administrador',
+                'docente': 'Docente',
+                'docente_guia': 'Docente Guía',
+                'docente_guia_admin': 'Docente Guía / Admin'
+            };
+            return mapa[rol] || String(rol || '').replaceAll('_', ' ');
+        }
+
+        function actualizarInterfazSesion(nombre, usuario, rol) {
+            const rolVisible = nombreRol(rol);
+            document.getElementById('nombreUsuario').textContent = nombre;
+            document.getElementById('usuario').textContent = usuario;
+            document.getElementById('rol').textContent = rolVisible;
+            document.getElementById('rolBadge').textContent = rolVisible;
+            document.getElementById('docenteAplica').value = nombre;
+
+            const badge = document.getElementById('rolBadge');
+            if (rol === 'admin') {
+                badge.style.background = '#d4a256';
+                badge.style.color = '#0a4c23';
+            } else if (rol === 'docente_guia_admin') {
+                badge.style.background = '#b07d2d';
+                badge.style.color = '#ffffff';
+            } else if (rol === 'docente_guia') {
+                badge.style.background = '#1a6b3a';
+                badge.style.color = '#ffffff';
+            } else {
+                badge.style.background = '#0a4c23';
+                badge.style.color = '#ffffff';
+            }
+        }
+
+        function renderBoletas(tbodyId, boletas, emptyText, rowBuilder) {
+            const tbody = document.getElementById(tbodyId);
+            tbody.innerHTML = '';
+            if (!boletas.length) {
+                const colspans = {
+                    cuerpoBoletasPropias: 7,
+                    cuerpoBoletasSeccion: 6
+                };
+                const colspan = colspans[tbodyId] || 5;
+                tbody.innerHTML = `<tr><td colspan="${colspan}" style="text-align:center; padding:24px; color:#666;">${emptyText}</td></tr>`;
+                return;
+            }
+            boletas.forEach((b) => {
+                tbody.innerHTML += rowBuilder(b);
+            });
+        }
+
+        function mostrarDetalleBoleta(idBoleta) {
+            const boleta = cacheBoletasPorId.get(Number(idBoleta));
+            if (!boleta) return;
+
+            const html = `
+                <div style="font-family:'Segoe UI',system-ui,sans-serif; cursor:default;">
+
+                    <!-- Encabezado verde -->
+                    <div style="background:linear-gradient(135deg,#0a4c23 0%,#1a9448 100%); padding:26px 28px 22px; color:#fff; border-radius:20px 20px 0 0;">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">
+                            <div>
+                                <div style="font-size:0.72rem; text-transform:uppercase; letter-spacing:1.6px; color:rgba(255,255,255,0.62); margin-bottom:5px;">
+                                    <i class='fas fa-school' style='margin-right:5px;'></i>CTP Matapalo — Control Estudiantil
+                                </div>
+                                <div style="font-size:1.45rem; font-weight:800; letter-spacing:-0.01em; line-height:1.2;">Boleta Disciplinaria</div>
+                            </div>
+                            <span style="background:rgba(255,255,255,0.18); border:1.5px solid rgba(255,255,255,0.38); color:#fff; padding:7px 18px; border-radius:30px; font-weight:700; font-size:0.85rem; letter-spacing:0.5px; white-space:nowrap; align-self:flex-start;">
+                                N° ${boleta.numero_boleta || 'N/A'}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Cuerpo -->
+                    <div style="padding:20px 22px 22px; background:#f4f6f9;">
+
+                        <!-- Tarjeta estudiante -->
+                        <div style="background:#fff; border-radius:14px; border:1px solid #e4e9ef; padding:16px 18px; margin-bottom:12px; display:flex; align-items:center; gap:15px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+                            <div style="width:50px; height:50px; border-radius:50%; background:linear-gradient(145deg,#e0f0e8,#c2e0ce); display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:0 3px 10px rgba(10,76,35,0.16);">
+                                <i class='fas fa-user-graduate' style='font-size:1.3rem; color:#0a4c23;'></i>
+                            </div>
+                            <div style="flex:1; min-width:0;">
+                                <div style="font-size:1.12rem; font-weight:800; color:#0d1f13; margin-bottom:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${boleta.estudiante_nombre || 'N/A'}</div>
+                                <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+                                    <span style="font-size:0.85rem; color:#6c757d;"><i class='fas fa-id-card' style='margin-right:4px; color:#0a4c23;'></i>Cédula: <strong style='color:#333;'>${boleta.estudiante_cedula || 'N/A'}</strong></span>
+                                    <span style="background:#dff0e8; color:#0a4c23; padding:3px 11px; border-radius:20px; font-weight:700; font-size:0.79rem;"><i class='fas fa-chalkboard' style='margin-right:3px;'></i>Sección ${boleta.seccion || 'N/A'}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Grid: Reporte + Contacto -->
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px; margin-bottom:12px;">
+
+                            <!-- Reporte -->
+                            <div style="background:#fff; border-radius:14px; border:1px solid #e4e9ef; padding:15px 17px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+                                <div style="font-size:0.68rem; text-transform:uppercase; letter-spacing:1.2px; color:#0a4c23; font-weight:800; margin-bottom:11px; display:flex; align-items:center; gap:5px;">
+                                    <i class='fas fa-clipboard-list'></i> Datos del Reporte
+                                </div>
+                                <div style="display:flex; flex-direction:column; gap:8px;">
+                                    <div style="font-size:0.87rem; color:#495057; display:flex; align-items:center; gap:7px;">
+                                        <i class='fas fa-calendar-alt' style='color:#0a4c23; width:13px;'></i>
+                                        <span><strong>Fecha:</strong> ${boleta.fecha || 'N/A'}</span>
+                                    </div>
+                                    <div style="font-size:0.87rem; color:#495057; display:flex; align-items:flex-start; gap:7px;">
+                                        <i class='fas fa-chalkboard-teacher' style='color:#0a4c23; width:13px; margin-top:2px;'></i>
+                                        <span><strong>Reporta:</strong> ${boleta.docente_nombre || 'N/A'}<br><span style='font-size:0.79rem; color:#6c757d;'>@${boleta.docente_usuario || 'N/A'}</span></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Contacto -->
+                            <div style="background:#fff; border-radius:14px; border:1px solid #e4e9ef; padding:15px 17px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+                                <div style="font-size:0.68rem; text-transform:uppercase; letter-spacing:1.2px; color:#0a4c23; font-weight:800; margin-bottom:11px; display:flex; align-items:center; gap:5px;">
+                                    <i class='fas fa-address-book'></i> Contacto Encargado
+                                </div>
+                                <div style="display:flex; align-items:center; gap:7px; font-size:0.87rem; color:#495057;">
+                                    <i class='fas fa-envelope' style='color:#0a4c23; width:13px; flex-shrink:0;'></i>
+                                    <a href='mailto:${boleta.correo_encargado}' style='color:#0a4c23; text-decoration:none; font-weight:600; word-break:break-all;'>${boleta.correo_encargado || 'No registrado'}</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Descripción de la falta -->
+                        <div style="background:#fff8f8; border-radius:14px; border:1px solid #f5c2c7; border-left:5px solid #dc3545; padding:17px 19px; box-shadow:0 2px 10px rgba(220,53,69,0.07);">
+                            <div style="font-size:0.68rem; text-transform:uppercase; letter-spacing:1.2px; color:#dc3545; font-weight:800; margin-bottom:11px; display:flex; align-items:center; gap:5px;">
+                                <i class='fas fa-exclamation-triangle'></i> Descripción de la Falta
+                            </div>
+                            <div style="font-size:0.96rem; color:#212529; line-height:1.7; white-space:pre-wrap; font-family:inherit;">${boleta.falta_cometida || 'Sin descripción detallada.'}</div>
+                        </div>
+                        <div style="background:#fff; border-radius:14px; border:1px solid #ffe3b3; border-left:5px solid #f39c12; padding:15px 17px; box-shadow:0 2px 10px rgba(243,156,18,0.08); margin-top:12px;">
+                            <div style="font-size:0.68rem; text-transform:uppercase; letter-spacing:1.2px; color:#b9770e; font-weight:800; margin-bottom:11px; display:flex; align-items:center; gap:5px;">
+                                <i class='fas fa-chart-line'></i> Flujo de Puntos de Conducta
+                            </div>
+                            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px;">
+                                <div style="background:#f8f9fa; border:1px solid #e9ecef; border-radius:10px; padding:10px 12px;">
+                                    <div style="font-size:0.72rem; color:#6c757d; text-transform:uppercase; font-weight:700; letter-spacing:0.8px;">Base</div>
+                                    <div style="font-size:1.1rem; font-weight:800; color:#1f2937;">100 pts</div>
+                                </div>
+                                <div style="background:#fff5f5; border:1px solid #ffd6d6; border-radius:10px; padding:10px 12px;">
+                                    <div style="font-size:0.72rem; color:#9b1c1c; text-transform:uppercase; font-weight:700; letter-spacing:0.8px;">Resta boleta</div>
+                                    <div style="font-size:1.1rem; font-weight:800; color:#dc2626;">-${Number(boleta.puntos_restar || 0)} pts</div>
+                                </div>
+                                <div style="background:#f0faf4; border:1px solid #cbead6; border-radius:10px; padding:10px 12px;">
+                                    <div style="font-size:0.72rem; color:#166534; text-transform:uppercase; font-weight:700; letter-spacing:0.8px;">Nota resultante</div>
+                                    <div style="font-size:1.1rem; font-weight:800; color:#166534;">${Math.max(0, 100 - Number(boleta.puntos_restar || 0))} pts</div>
+                                </div>
+                            </div>
+                        </div>
+                        ${boleta.observaciones ? `<div style="background:#f0f7ff; border-radius:14px; border:1px solid #bcd4f7; border-left:5px solid #1565c0; padding:17px 19px; box-shadow:0 2px 10px rgba(21,101,192,0.07); margin-top:12px;"><div style="font-size:0.68rem; text-transform:uppercase; letter-spacing:1.2px; color:#1565c0; font-weight:800; margin-bottom:11px; display:flex; align-items:center; gap:5px;"><i class='fas fa-comment-alt'></i> Observaciones</div><div style="font-size:0.96rem; color:#212529; line-height:1.7; white-space:pre-wrap; font-family:inherit;">${boleta.observaciones}</div></div>` : ''}
+
+                        <div style="margin-top:18px; text-align:center;">
+                            <button type="button" onclick="imprimirBoleta(${Number(idBoleta)})" style="background:linear-gradient(135deg,#1565c0,#0d47a1);color:#fff;border:none;border-radius:999px;padding:12px 32px;font-size:0.95rem;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(21,101,192,0.32);transition:all 0.2s ease;letter-spacing:0.01em;">
+                                <i class='fas fa-print' style='margin-right:7px;'></i>Imprimir Boleta
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            `;
+
+            noti.showModal(html);
+        }
+
+        function imprimirBoleta(idBoleta) {
+            const boleta = cacheBoletasPorId.get(Number(idBoleta));
+            if (!boleta) return;
+
+            const notaConducta = Math.max(0, 100 - Number(boleta.puntos_restar || 0));
+
+            function _esc(v) {
+                return String(v == null ? '' : v)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;');
+            }
+
+            var nroBoleta  = _esc(boleta.numero_boleta    || 'N/A');
+            var nomEst     = _esc(boleta.estudiante_nombre || 'N/A');
+            var cedEst     = _esc(boleta.estudiante_cedula || 'N/A');
+            var seccion    = _esc(boleta.seccion           || 'N/A');
+            var fecha      = _esc(boleta.fecha             || 'N/A');
+            var docente    = _esc(boleta.docente_nombre    || 'N/A');
+            var falta      = _esc(boleta.falta_cometida    || 'Sin descripcion.');
+            var pts        = Number(boleta.puntos_restar   || 0);
+            var fechaHoy   = new Date().toLocaleDateString('es-CR');
+
+            var obsBloque = '';
+            if (boleta.observaciones) {
+                obsBloque = '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #bcd4f7;border-left:5px solid #1565c0;background-color:#f0f7ff;margin:0 0 25px 0;">'
+                    + '<tr><td style="padding:14px 18px;">'
+                    + '<p style="margin:0 0 8px 0;font-size:13px;font-weight:700;color:#1565c0;text-transform:uppercase;letter-spacing:0.5px;">Observaciones</p>'
+                    + '<p style="margin:0;font-size:14px;color:#212529;line-height:1.6;white-space:pre-wrap;">' + _esc(boleta.observaciones) + '</p>'
+                    + '</td></tr></table>';
+            }
+
+            var partes = [];
+            partes.push('<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">');
+            partes.push('<title>Boleta ' + nroBoleta + '</title>');
+            partes.push('<style>');
+            partes.push('@media print{.no-print{display:none!important}body{margin:0}}');
+            partes.push('body{margin:0;padding:0;font-family:Segoe UI,Arial,sans-serif;background:#f4f6f8}');
+            partes.push('.no-print{text-align:center;padding:18px;background:#fff;border-bottom:1px solid #e0e0e0}');
+            partes.push('.no-print button{background:linear-gradient(135deg,#1565c0,#0d47a1);color:#fff;border:none;border-radius:8px;padding:10px 28px;font-size:15px;font-weight:700;cursor:pointer;margin:0 6px}');
+            partes.push('.no-print button.close-btn{background:#6c757d}');
+            partes.push('</style></head><body>');
+            partes.push('<div class="no-print">');
+            partes.push('<button onclick="window.print()">&#128424; Imprimir</button>');
+            partes.push('<button class="close-btn" onclick="window.close()">Cerrar</button>');
+            partes.push('</div>');
+            partes.push('<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f4f6f8">');
+            partes.push('<tr><td align="center" style="padding:40px 10px">');
+            partes.push('<table width="600" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:600px;background:#fff;border-radius:8px;border:1px solid #e1e8ed;overflow:hidden">');
+            // Encabezado
+            partes.push('<tr><td style="background:#f5f1e8;padding:20px 15px;text-align:center;border-bottom:3px solid #0a4c23">');
+            partes.push('<h1 style="color:#0a4c23;font-size:17px;margin:0;font-weight:600">COLEGIO T&Eacute;CNICO PROFESIONAL DE MATAPALO</h1>');
+            partes.push('<p style="margin:4px 0 0;font-size:12px;color:#336b46">Direcci&oacute;n Regional Central Pac&iacute;fico &mdash; Circuito 02</p>');
+            partes.push('</td></tr>');
+            // Aviso
+            partes.push('<tr><td style="background:#fff3cd;padding:12px 25px;border-bottom:1px solid #ffc107;text-align:center">');
+            partes.push('<p style="margin:0;font-size:13px;color:#856404;font-weight:600">&#9888;&#65039; BOLETA DISCIPLINARIA OFICIAL</p>');
+            partes.push('</td></tr>');
+            // Cuerpo
+            partes.push('<tr><td style="padding:30px 25px;color:#2c3e50">');
+            partes.push('<h2 style="color:#0a4c23;font-size:15px;border-bottom:2px solid #0a4c23;padding-bottom:8px;margin:0 0 20px 0;text-transform:uppercase">Datos del Reporte Disciplinario</h2>');
+            // Tabla datos
+            partes.push('<table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #d1d9e6;background:#f8fafc;margin:0 0 25px 0">');
+            partes.push('<tr><td width="40%" style="padding:11px 14px;border-bottom:1px solid #d1d9e6;background:#f8fafc;font-size:14px"><strong>N&deg; de Boleta:</strong></td><td style="padding:11px 14px;border-bottom:1px solid #d1d9e6;background:#fff;font-size:14px;font-weight:700">' + nroBoleta + '</td></tr>');
+            partes.push('<tr><td width="40%" style="padding:11px 14px;border-bottom:1px solid #d1d9e6;background:#f8fafc;font-size:14px"><strong>Estudiante:</strong></td><td style="padding:11px 14px;border-bottom:1px solid #d1d9e6;background:#fff;font-size:14px">' + nomEst + '</td></tr>');
+            partes.push('<tr><td width="40%" style="padding:11px 14px;border-bottom:1px solid #d1d9e6;background:#f8fafc;font-size:14px"><strong>C&eacute;dula:</strong></td><td style="padding:11px 14px;border-bottom:1px solid #d1d9e6;background:#fff;font-size:14px">' + cedEst + '</td></tr>');
+            partes.push('<tr><td width="40%" style="padding:11px 14px;border-bottom:1px solid #d1d9e6;background:#f8fafc;font-size:14px"><strong>Secci&oacute;n:</strong></td><td style="padding:11px 14px;border-bottom:1px solid #d1d9e6;background:#fff;font-size:14px">' + seccion + '</td></tr>');
+            partes.push('<tr><td width="40%" style="padding:11px 14px;border-bottom:1px solid #d1d9e6;background:#f8fafc;font-size:14px"><strong>Fecha:</strong></td><td style="padding:11px 14px;border-bottom:1px solid #d1d9e6;background:#fff;font-size:14px">' + fecha + '</td></tr>');
+            partes.push('<tr><td width="40%" style="padding:11px 14px;background:#f8fafc;font-size:14px"><strong>Docente que reporta:</strong></td><td style="padding:11px 14px;background:#fff;font-size:14px">' + docente + '</td></tr>');
+            partes.push('</table>');
+            // Falta
+            partes.push('<table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #f5c2c7;border-left:5px solid #dc3545;background:#fffafb;margin:0 0 25px 0">');
+            partes.push('<tr><td style="padding:14px 18px">');
+            partes.push('<p style="margin:0 0 8px 0;font-size:13px;font-weight:700;color:#dc3545;text-transform:uppercase;letter-spacing:0.5px">Descripci&oacute;n de la falta cometida:</p>');
+            partes.push('<p style="margin:0;font-size:14px;color:#212529;line-height:1.6;white-space:pre-wrap">' + falta + '</p>');
+            partes.push('</td></tr></table>');
+            // Flujo puntos
+            partes.push('<table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #ffe3b3;border-left:5px solid #f39c12;background:#fffdf8;margin:0 0 25px 0">');
+            partes.push('<tr><td style="padding:14px 18px">');
+            partes.push('<p style="margin:0 0 10px 0;font-size:13px;font-weight:700;color:#b9770e;text-transform:uppercase;letter-spacing:0.5px">Flujo de puntos de conducta</p>');
+            partes.push('<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>');
+            partes.push('<td style="padding:8px 10px;border:1px solid #e9ecef;background:#f8f9fa;font-size:13px"><strong>Base:</strong> 100 pts</td>');
+            partes.push('<td style="padding:8px 10px;border:1px solid #ffd6d6;background:#fff5f5;font-size:13px;color:#c62828"><strong>Resta boleta:</strong> -' + pts + ' pts</td>');
+            partes.push('<td style="padding:8px 10px;border:1px solid #cbead6;background:#f0faf4;font-size:13px;color:#166534"><strong>Nota resultante:</strong> ' + notaConducta + ' pts</td>');
+            partes.push('</tr></table></td></tr></table>');
+            // Observaciones
+            partes.push(obsBloque);
+            // Mensaje
+            partes.push('<p style="font-size:14px;line-height:1.6;color:#34495e;margin:0 0 20px">Le solicitamos comunicarse con la instituci&oacute;n para atender este reporte. El comportamiento y la convivencia estudiantil son responsabilidad compartida entre la familia y el colegio.</p>');
+            // Accion y firmas
+            partes.push('<table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #dcdcdc;background:#fff">');
+            partes.push('<tr><td style="padding:14px 16px;font-size:12px;color:#333;line-height:1.4">');
+            partes.push('<p style="margin:0 0 8px 0">La persona estudiante o encargado legal, tiene tres d&iacute;as h&aacute;biles para apelar la supuesta falta cometida ante el profesor gu&iacute;a; de lo contrario la misma quedar&aacute; en firme. Con la apelaci&oacute;n se iniciar&aacute; el debido proceso. Puede hacerse acompa&ntilde;ar durante todo el proceso de un profesional en leyes, as&iacute; como el acceso al Expediente Administrativo; adem&aacute;s, tiene el derecho a presentar alegatos, de acuerdo al art&iacute;culo 171&deg; del Reglamento de Evaluaci&oacute;n de los Aprendizajes y la Conducta. El estudiante tiene derecho a declarar libremente, sin ning&uacute;n tipo de coacci&oacute;n y ser acompa&ntilde;ado por su encargado legal; su derecho a no declarar y a no hacer prueba contra s&iacute; mismo, los estudiantes mayores de edad pueden realizar este proceso.</p>');
+            partes.push('<p style="margin:0 0 8px 0"><strong>Acci&oacute;n correctiva:</strong> Amonestaci&oacute;n Oral ( &nbsp; ) &nbsp;&nbsp; Escrita ( &nbsp; ), con base en el Reglamento de Evaluaci&oacute;n de los Aprendizajes y de la Conducta.</p>');
+            partes.push('<p style="margin:0 0 18px 0">El rebajo de la nota de conducta es de ( &nbsp; ) por falta Muy Leve y ( &nbsp; ) puntos por cada Falta Leve.</p>');
+            partes.push('<table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size:12px;color:#333"><tr>');
+            partes.push('<td style="padding:8px 0;vertical-align:top;width:55%">');
+            partes.push('<div style="font-weight:600;margin-bottom:20px">Nombre y firma del Funcionario(a):</div>');
+            partes.push('<div style="border-bottom:1px solid #000;width:80%;margin-bottom:10px"></div>');
+            partes.push('Fecha: <span style="display:inline-block;width:100px;border-bottom:1px solid #000;margin-left:8px"></span>');
+            partes.push('</td>');
+            partes.push('<td style="padding:8px 0;vertical-align:top;width:45%">');
+            partes.push('<div style="font-weight:600;margin-bottom:20px">Firma del Encargado legal del estudiante:</div>');
+            partes.push('<div style="border-bottom:1px solid #000;width:90%"></div>');
+            partes.push('</td></tr></table>');
+            partes.push('</td></tr></table>');
+            // Pie
+            partes.push('</td></tr>');
+            partes.push('<tr><td style="background:#0a4c23;padding:16px 25px;text-align:center">');
+            partes.push('<p style="margin:0;font-size:12px;color:#a8d5b5">CTP Matapalo &mdash; Sistema Institucional de Control Estudiantil</p>');
+            partes.push('<p style="margin:4px 0 0;font-size:11px;color:rgba(255,255,255,0.5)">Documento generado el ' + fechaHoy + '</p>');
+            partes.push('</td></tr>');
+            partes.push('</table></td></tr></table>');
+            partes.push('</body></html>');
+
+            var htmlContent = partes.join('');
+            var win = window.open('', '_blank', 'width=820,height=920');
+            if (!win) {
+                noti.toast('warning', 'Ventana bloqueada', 'Permita ventanas emergentes para imprimir la boleta.');
+                return;
+            }
+            win.document.open();
+            win.document.write(htmlContent);
+            win.document.close();
+        }
+
+        async function cargarBoletasPropias() {
+            const params = new URLSearchParams();
+            params.set('select', 'id,fecha,numero_boleta,estudiante_nombre,estudiante_cedula,seccion,docente_nombre,docente_usuario,correo_encargado,falta_cometida,puntos_restar,observaciones');
+            params.set('docente_usuario', `eq.${usuarioActual}`);
+            params.set('order', 'fecha.desc');
+            params.set('limit', '20');
+
+            const url = `${SUPABASE_URL}/rest/v1/boletas?${params.toString()}`;
+            try {
+                const data = await fetchJson(url, {
+                    headers
+                });
+                data.forEach((b) => {
+                    cacheBoletasPorId.set(Number(b.id), b);
+                });
+                renderBoletas(
+                    'cuerpoBoletasPropias',
+                    data,
+                    'No hay boletas registradas por este docente.',
+                    (b) => `<tr>
+                        <td>${b.fecha || ''}</td>
+                        <td>${b.numero_boleta || ''}</td>
+                        <td>${b.estudiante_nombre || ''}</td>
+                        <td>${b.seccion || ''}</td>
+                        <td>${b.falta_cometida || ''}</td>
+                        <td style="text-align:center; font-weight:700; color:#c62828;">-${Number(b.puntos_restar || 0)}</td>
+                        <td style="white-space:nowrap;"><button type="button" class="btn-ver-detalle" onclick="mostrarDetalleBoleta(${Number(b.id)})"><i class="fas fa-eye"></i> Ver</button><button type="button" class="btn-imprimir-boleta" onclick="imprimirBoleta(${Number(b.id)})" title="Imprimir boleta"><i class="fas fa-print"></i></button></td>
+                    </tr>`
+                );
+            } catch (error) {
+                renderBoletas('cuerpoBoletasPropias', [], 'No se pudo cargar la tabla boletas. Verifique que la tabla boletas exista.', () => '');
+                console.error(error);
+            }
+        }
+
+        async function cargarBoletasSeccion() {
+            if (!seccionesGuia.length) {
+                return;
+            }
+            const params = new URLSearchParams();
+            params.set('select', 'id,fecha,numero_boleta,estudiante_nombre,estudiante_cedula,seccion,docente_nombre,docente_usuario,correo_encargado,falta_cometida,observaciones');
+            setFiltroSecciones(params, 'seccion', seccionesGuia);
+            params.set('order', 'fecha.desc');
+            params.set('limit', '30');
+
+            const url = `${SUPABASE_URL}/rest/v1/boletas?${params.toString()}`;
+            try {
+                const data = await fetchJson(url, {
+                    headers
+                });
+                data.forEach((b) => {
+                    cacheBoletasPorId.set(Number(b.id), b);
+                });
+                renderBoletas(
+                    'cuerpoBoletasSeccion',
+                    data,
+                    `No hay boletas para las secciones guia ${seccionesGuia.join(', ')}.`,
+                    (b) => `<tr>
+                        <td>${b.fecha || ''}</td>
+                        <td>${b.numero_boleta || ''}</td>
+                        <td>${b.estudiante_nombre || ''}</td>
+                        <td>${b.estudiante_cedula || ''}</td>
+                        <td>${b.docente_nombre || ''}</td>
+                        <td style="white-space:nowrap;"><button type="button" class="btn-ver-detalle" onclick="mostrarDetalleBoleta(${Number(b.id)})"><i class="fas fa-eye"></i> Ver</button><button type="button" class="btn-imprimir-boleta" onclick="imprimirBoleta(${Number(b.id)})" title="Imprimir boleta"><i class="fas fa-print"></i></button></td>
+                    </tr>`
+                );
+            } catch (error) {
+                renderBoletas('cuerpoBoletasSeccion', [], 'No se pudo cargar la tabla boletas para seccion guia.', () => '');
+                console.error(error);
+            }
+        }
+
+        async function cargarEstudiantesDeSeccion(seccion) {
+            if (!seccion) return [];
+            const params = new URLSearchParams();
+            params.set('select', 'cedula,nombre_completo,seccion,correo_encargado,correo_estudiante');
+            params.set('seccion', `eq.${seccion}`);
+            params.set('order', 'nombre_completo.asc');
+            const url = `${SUPABASE_URL}/rest/v1/estudiantes?${params.toString()}`;
+            try {
+                const data = await fetchJson(url, {
+                    headers
+                });
+                return Array.isArray(data) ? data : [];
+            } catch (e) {
+                console.error(e);
+                return [];
+            }
+        }
+
+        async function obtenerUsuarioGuiaDesdeDocenteSecciones(seccion) {
+            try {
+                const params = new URLSearchParams();
+                params.set('select', 'usuario');
+                params.set('seccion', `eq.${seccion}`);
+                params.set('limit', '1');
+
+                // Intentar primero en la tabla de guías (no tiene columna es_guia)
+                const data = await fetchJson(`${SUPABASE_URL}/rest/v1/docente_guia_secciones?${params.toString()}`, {
+                    headers
+                });
+                if (Array.isArray(data) && data.length) {
+                    return String(data[0].usuario || '').trim();
+                }
+            } catch (error) {
+                console.info('No se pudo leer docente guía desde docente_secciones.', error.message || error);
+            }
+            return '';
+        }
+
+        async function obtenerUsuarioGuiaDesdeFallback(seccion) {
+            try {
+                const params = new URLSearchParams();
+                params.set('select', 'usuario');
+                params.set('seccion', `eq.${seccion}`);
+                params.set('limit', '1');
+
+                const data = await fetchJson(`${SUPABASE_URL}/rest/v1/docente_guia_secciones?${params.toString()}`, {
+                    headers
+                });
+                if (Array.isArray(data) && data.length) {
+                    return String(data[0].usuario || '').trim();
+                }
+            } catch (error) {
+                console.info('No se pudo leer docente guía desde docente_guia_secciones.', error.message || error);
+            }
+            return '';
+        }
+
+        async function obtenerNombreDesdeUsuario(usuario) {
+            if (!usuario) return '';
+            try {
+                const params = new URLSearchParams();
+                params.set('select', 'usuario,nombre_completo');
+                params.set('usuario', `eq.${usuario}`);
+                params.set('limit', '1');
+
+                const data = await fetchJson(`${SUPABASE_URL}/rest/v1/usuarios?${params.toString()}`, {
+                    headers
+                });
+                if (Array.isArray(data) && data.length) {
+                    const user = data[0];
+                    return String(user.nombre_completo || user.usuario || '').trim();
+                }
+            } catch (error) {
+                console.info('No se pudo resolver el nombre del docente guía.', error.message || error);
+            }
+            return '';
+        }
+
+        async function cargarDocenteGuiaDeSeccion(seccion) {
+            const sec = String(seccion || '').trim();
+            if (!sec) return '';
+
+            if (cacheDocenteGuiaPorSeccion.has(sec)) {
+                return cacheDocenteGuiaPorSeccion.get(sec);
+            }
+
+            const usuarioGuia = await obtenerUsuarioGuiaDesdeDocenteSecciones(sec) || await obtenerUsuarioGuiaDesdeFallback(sec);
+            const nombreGuia = await obtenerNombreDesdeUsuario(usuarioGuia);
+
+            const resultado = nombreGuia || (usuarioGuia ? `@${usuarioGuia}` : 'Sin docente guia asignado');
+            cacheDocenteGuiaPorSeccion.set(sec, resultado);
+            return resultado;
+        }
+
+        function poblarSelectorEstudiantes(estudiantes) {
+            const sel = document.getElementById('nombreEstudiante');
+            sel.innerHTML = estudiantes.length ?
+                '<option value="">-- Seleccione un estudiante --</option>' :
+                '<option value="">Sin estudiantes en esta seccion</option>';
+            sel.disabled = !estudiantes.length;
+            document.getElementById('cedulaEstudiante').value = '';
+            document.getElementById('nivelEstudiante').value = '';
+            document.getElementById('seccionEstudiante').value = '';
+            document.getElementById('correoEncargado').value = '';
+
+            // Resetear campo de búsqueda
+            const buscar = document.getElementById('buscarEstudiante');
+            buscar.value = '';
+            buscar.disabled = !estudiantes.length;
+            buscar.placeholder = estudiantes.length ? 'Escriba para buscar estudiante...' : 'Sin estudiantes en esta sección';
+            document.getElementById('sugerenciasEstudiante').classList.remove('open');
+
+            estudiantes.forEach((e) => {
+                if (!e.nombre_completo) return;
+                const opt = document.createElement('option');
+                opt.value = e.nombre_completo;
+                opt.textContent = e.nombre_completo;
+                opt.dataset.cedula = e.cedula || '';
+                // Nombre limpio para mostrar: quitar cédula si está pegada al inicio
+                opt.dataset.nombre = e.nombre_completo.replace(/^\d+\s*/, '').trim();
+                opt.dataset.nivel = obtenerNivelDeSeccion(e.seccion);
+                opt.dataset.seccion = e.seccion || '';
+                opt.dataset.correo = e.correo_encargado || '';
+                opt.dataset.correo_estudiante = e.correo_estudiante || '';
+                sel.appendChild(opt);
+            });
+        }
+
+        function iniciarAutocompletarEstudiante() {
+            const inputBuscar = document.getElementById('buscarEstudiante');
+            const listaSugerencias = document.getElementById('sugerenciasEstudiante');
+            const selOculto = document.getElementById('nombreEstudiante');
+            let indiceActivo = -1;
+
+            function obtenerSugerencias(query) {
+                const q = query.trim().toLowerCase();
+                const opciones = [...selOculto.options].filter(o => o.value);
+                if (!q) return opciones;
+                // Buscar por nombre O por cédula
+                return opciones.filter(o =>
+                    o.value.toLowerCase().includes(q) ||
+                    (o.dataset.cedula && o.dataset.cedula.includes(q))
+                );
+            }
+
+            function resaltarTexto(texto, query) {
+                if (!query.trim()) return texto;
+                const escapado = query.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                return texto.replace(new RegExp('(' + escapado + ')', 'gi'), '<mark>$1</mark>');
+            }
+
+            function mostrarSugerencias(query) {
+                const matches = obtenerSugerencias(query);
+                indiceActivo = -1;
+                listaSugerencias.innerHTML = '';
+
+                if (!matches.length) {
+                    listaSugerencias.innerHTML = '<div class="suggestion-empty">Sin coincidencias</div>';
+                } else {
+                    matches.forEach((opt) => {
+                        const item = document.createElement('div');
+                        item.className = 'suggestion-item';
+                        // Mostrar solo el nombre limpio (sin cédula aunque está en nombre_completo)
+                        const nombreMostrar = opt.dataset.nombre || opt.value;
+                        item.innerHTML = resaltarTexto(nombreMostrar, query);
+                        item.addEventListener('mousedown', (e) => {
+                            e.preventDefault();
+                            seleccionarEstudiante(opt);
+                        });
+                        listaSugerencias.appendChild(item);
+                    });
+                }
+                listaSugerencias.classList.add('open');
+            }
+
+            function seleccionarEstudiante(opt) {
+                inputBuscar.value = opt.dataset.nombre || opt.value;
+                selOculto.value = opt.value;
+                selOculto.dispatchEvent(new Event('change'));
+                listaSugerencias.classList.remove('open');
+            }
+
+            inputBuscar.addEventListener('input', function() {
+                mostrarSugerencias(this.value);
+            });
+
+            inputBuscar.addEventListener('focus', function() {
+                if (!this.disabled) mostrarSugerencias(this.value);
+            });
+
+            inputBuscar.addEventListener('blur', function() {
+                setTimeout(() => listaSugerencias.classList.remove('open'), 150);
+            });
+
+            inputBuscar.addEventListener('keydown', function(e) {
+                const items = listaSugerencias.querySelectorAll('.suggestion-item');
+                if (!items.length) return;
+
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    indiceActivo = Math.min(indiceActivo + 1, items.length - 1);
+                    items.forEach((el, i) => el.classList.toggle('highlighted', i === indiceActivo));
+                    items[indiceActivo] ?.scrollIntoView({
+                        block: 'nearest'
+                    });
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    indiceActivo = Math.max(indiceActivo - 1, 0);
+                    items.forEach((el, i) => el.classList.toggle('highlighted', i === indiceActivo));
+                    items[indiceActivo] ?.scrollIntoView({
+                        block: 'nearest'
+                    });
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (indiceActivo >= 0 && items[indiceActivo]) {
+                        const matches = obtenerSugerencias(this.value);
+                        if (matches[indiceActivo]) seleccionarEstudiante(matches[indiceActivo]);
+                    }
+                } else if (e.key === 'Escape') {
+                    listaSugerencias.classList.remove('open');
+                }
+            });
+        }
+
+        function poblarSelectorNiveles() {
+            const sel = document.getElementById('nivelSelector');
+            sel.innerHTML = '<option value="">-- Seleccione el nivel --</option>';
+
+            nivelesDisponibles.forEach((nivel) => {
+                const opt = document.createElement('option');
+                opt.value = nivel;
+                opt.textContent = (!isNaN(nivel) && String(nivel).trim() !== '') ? nivel + '°' : nivel;
+                sel.appendChild(opt);
+            });
+
+            sel.disabled = !nivelesDisponibles.length;
+            if (nivelesDisponibles.length === 1) {
+                sel.value = nivelesDisponibles[0];
+                sel.dispatchEvent(new Event('change'));
+            }
+        }
+
+        function poblarSelectorSecciones(nivel) {
+            const sel = document.getElementById('seccionSelector');
+            const lista = seccionesPorNivel.get(nivel) || [];
+            sel.innerHTML = lista.length ?
+                '<option value="">-- Seleccione una seccion --</option>' :
+                '<option value="">No hay secciones para este nivel</option>';
+            sel.disabled = !lista.length;
+
+            lista.forEach((sec) => {
+                const opt = document.createElement('option');
+                opt.value = sec;
+                opt.textContent = sec;
+                sel.appendChild(opt);
+            });
+
+            if (lista.length === 1) {
+                sel.value = lista[0];
+                sel.dispatchEvent(new Event('change'));
+            }
+        }
+
+        function prepararEventosSelectorSeccion() {
+            document.getElementById('nivelSelector').addEventListener('change', function() {
+                const nivel = this.value;
+                const selSeccion = document.getElementById('seccionSelector');
+                selSeccion.disabled = true;
+                selSeccion.value = '';
+                selSeccion.innerHTML = '<option value="">-- Seleccione primero el nivel --</option>';
+                document.getElementById('nombreEstudiante').disabled = true;
+                document.getElementById('docenteGuiaSeccion').value = '';
+                poblarSelectorEstudiantes([]);
+
+                if (!nivel) {
+                    return;
+                }
+
+                poblarSelectorSecciones(nivel);
+            });
+
+            document.getElementById('seccionSelector').addEventListener('change', async function() {
+                const seccion = this.value;
+                document.getElementById('seccionEstudiante').value = seccion;
+                document.getElementById('nombreEstudiante').disabled = true;
+                document.getElementById('docenteGuiaSeccion').value = '';
+                poblarSelectorEstudiantes([]);
+                if (!seccion) return;
+
+                noti.loading(true, 'Cargando estudiantes...');
+                const [estudiantes, docenteGuia] = await Promise.all([
+                    cargarEstudiantesDeSeccion(seccion),
+                    cargarDocenteGuiaDeSeccion(seccion)
+                ]);
+                noti.loading(false);
+
+                document.getElementById('docenteGuiaSeccion').value = docenteGuia;
+                poblarSelectorEstudiantes(estudiantes);
+                if (!estudiantes.length) {
+                    noti.toast('info', 'Sin estudiantes', `No hay estudiantes registrados en la seccion ${seccion}.`);
+                }
+            });
+
+            document.getElementById('nombreEstudiante').addEventListener('change', function() {
+                const selected = this.options[this.selectedIndex];
+                const correoInput = document.getElementById('correoEncargado');
+                const correoAviso = document.getElementById('correoEncargadoAviso');
+                const correoEstudianteInput = document.getElementById('correoEstudiante');
+                const correoEstudianteAviso = document.getElementById('correoEstudianteAviso');
+
+                if (!selected || !selected.dataset.cedula) {
+                    document.getElementById('cedulaEstudiante').value = '';
+                    document.getElementById('nivelEstudiante').value = '';
+                    document.getElementById('seccionEstudiante').value = document.getElementById('seccionSelector').value;
+                    correoEstudianteInput.value = '';
+                    correoEstudianteInput.readOnly = true;
+                    correoEstudianteInput.style.background = '';
+                    correoEstudianteAviso.style.display = 'none';
+                    correoInput.value = '';
+                    correoInput.readOnly = true;
+                    correoInput.style.background = '';
+                    correoAviso.style.display = 'none';
+                    return;
+                }
+                document.getElementById('cedulaEstudiante').value = selected.dataset.cedula;
+                let nEst = selected.dataset.nivel || obtenerNivelDeSeccion(selected.dataset.seccion);
+                document.getElementById('nivelEstudiante').value = (!isNaN(nEst) && String(nEst).trim() !== '') ? nEst + '°' : nEst;
+                document.getElementById('seccionEstudiante').value = selected.dataset.seccion;
+
+                if (selected.dataset.correo_estudiante) {
+                    correoEstudianteInput.value = selected.dataset.correo_estudiante;
+                    correoEstudianteInput.readOnly = true;
+                    correoEstudianteInput.style.background = '';
+                    correoEstudianteAviso.style.display = 'none';
+                } else {
+                    correoEstudianteInput.value = '';
+                    correoEstudianteInput.readOnly = false;
+                    correoEstudianteInput.style.background = '#fff8e1';
+                    correoEstudianteInput.placeholder = 'Escriba el correo del estudiante...';
+                    correoEstudianteAviso.style.display = 'block';
+                }
+
+                if (selected.dataset.correo) {
+                    correoInput.value = selected.dataset.correo;
+                    correoInput.readOnly = true;
+                    correoInput.style.background = '';
+                    correoAviso.style.display = 'none';
+                } else {
+                    correoInput.value = '';
+                    correoInput.readOnly = false;
+                    correoInput.style.background = '#fff8e1';
+                    correoInput.placeholder = 'Escriba el correo del encargado...';
+                    correoAviso.style.display = 'block';
+                }
+            });
+        }
+
+        function isValidEmail(e) {
+            return typeof e === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+        }
+
+        async function guardarBoleta(event) {
+            event.preventDefault();
+            const btn = document.getElementById('btnGuardarBoleta');
+
+            const payload = {
+                numero_boleta: document.getElementById('numeroBoleta').value.trim(),
+                fecha: document.getElementById('fechaBoleta').value,
+                estudiante_nombre: document.getElementById('nombreEstudiante').value.trim(),
+                estudiante_cedula: document.getElementById('cedulaEstudiante').value.trim(),
+                seccion: document.getElementById('seccionEstudiante').value.trim(),
+                docente_nombre: document.getElementById('docenteAplica').value.trim(),
+                docente_usuario: usuarioActual,
+                correo_encargado: document.getElementById('correoEncargado').value.trim(),
+                falta_cometida: document.getElementById('faltaCometida').value.trim(),
+                puntos_restar: Number(document.getElementById('faltaPuntos').value || 0),
+                falta_id: Number(document.getElementById('faltaId').value || 0) || null,
+                observaciones: document.getElementById('observaciones').value.trim() || null
+            };
+
+            const correo_estudiante = document.getElementById('correoEstudiante').value.trim();
+
+            if (!payload.fecha || !payload.estudiante_nombre || !payload.estudiante_cedula || !payload.seccion || !payload.falta_cometida) {
+                noti.toast('warning', 'Campos incompletos', 'Debe completar todos los campos obligatorios de la boleta.');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
+
+            try {
+                // PASO 1: Obtener todas las boletas previas del estudiante para calcular conducta CORRECTA
+                const paramsPrevias = new URLSearchParams();
+                paramsPrevias.set('select', 'puntos_restar');
+                paramsPrevias.set('estudiante_cedula', `eq.${encodeURIComponent(payload.estudiante_cedula)}`);
+                let boletasPrevias = [];
+                try {
+                    boletasPrevias = await fetchJson(`${SUPABASE_URL}/rest/v1/boletas?${paramsPrevias.toString()}`, { headers });
+                } catch (e) {
+                    console.warn('No se pudieron obtener boletas previas:', e);
+                }
+                
+                // Calcular suma de puntos previos
+                const puntosPrevios = (Array.isArray(boletasPrevias) ? boletasPrevias : [])
+                    .reduce((sum, b) => sum + Number(b.puntos_restar || 0), 0);
+                
+                // Calcular conducta TOTAL (previos + esta nueva)
+                const totalPuntosConEstaBoleta = puntosPrevios + Number(payload.puntos_restar || 0);
+                const notaConductaCalculada = Math.max(0, 100 - totalPuntosConEstaBoleta);
+                
+                console.log('DEBUG: Puntos previos:', puntosPrevios, '| Esta boleta:', payload.puntos_restar, '| Total:', totalPuntosConEstaBoleta, '| Conducta:', notaConductaCalculada);
+
+                // PASO 2: Agregar nota_conducta al payload ANTES de guardar
+                payload.nota_conducta = notaConductaCalculada;
+
+                // PASO 3: Guardar la boleta CON la nota_conducta calculada en la BD
+                await fetchJson(`${SUPABASE_URL}/rest/v1/boletas`, {
+                    method: 'POST',
+                    headers,
+                    body: JSON.stringify(payload)
+                });
+
+                // PASO 4: Actualizar nota_conducta_actual en la tabla estudiantes
+                try {
+                    await fetchJson(`${SUPABASE_URL}/rest/v1/estudiantes?cedula=eq.${encodeURIComponent(payload.estudiante_cedula)}`, {
+                        method: 'PATCH',
+                        headers,
+                        body: JSON.stringify({ nota_conducta_actual: payload.nota_conducta })
+                    });
+                    console.log('nota_conducta_actual actualizada en estudiantes:', payload.nota_conducta);
+                } catch (e) {
+                    console.warn('No se pudo actualizar nota_conducta_actual en estudiantes:', e);
+                }
+
+                // Si el correo fue ingresado manualmente (campo editable), guardarlo en estudiantes
+                const correoInput = document.getElementById('correoEncargado');
+                if (!correoInput.readOnly && payload.correo_encargado && payload.estudiante_cedula) {
+                    try {
+                        await fetchJson(`${SUPABASE_URL}/rest/v1/estudiantes?cedula=eq.${encodeURIComponent(payload.estudiante_cedula)}`, {
+                            method: 'PATCH',
+                            headers,
+                            body: JSON.stringify({
+                                correo_encargado: payload.correo_encargado
+                            })
+                        });
+                        noti.toast('info', 'Correo guardado', `El correo del encargado fue registrado para ${payload.estudiante_nombre}.`);
+                    } catch (e) {
+                        console.warn('No se pudo actualizar el correo en estudiantes:', e);
+                    }
+                }
+
+                // Si el correo del estudiante fue ingresado manualmente, guardarlo
+                const correoEstudianteInput = document.getElementById('correoEstudiante');
+                if (!correoEstudianteInput.readOnly && correo_estudiante && payload.estudiante_cedula) {
+                    try {
+                        await fetchJson(`${SUPABASE_URL}/rest/v1/estudiantes?cedula=eq.${encodeURIComponent(payload.estudiante_cedula)}`, {
+                            method: 'PATCH',
+                            headers,
+                            body: JSON.stringify({
+                                correo_estudiante: correo_estudiante
+                            })
+                        });
+                        noti.toast('info', 'Correo del estudiante guardado', `El correo del estudiante fue registrado para ${payload.estudiante_nombre}.`);
+                    } catch (e) {
+                        console.warn('No se pudo actualizar el correo del estudiante:', e);
+                    }
+                }
+
+                // NOTIFICAR POR EMAIL VÍA EMAILJS
+                const destinatarios = [payload.correo_encargado, correo_estudiante].filter(isValidEmail);
+
+                if (destinatarios.length > 0) {
+                    try {
+                        // Usar la nota_conducta que ya fue calculada y guardada en la BD
+                        const emailParams = {
+                            numero_boleta: payload.numero_boleta,
+                            estudiante_nombre: payload.estudiante_nombre,
+                            seccion: payload.seccion,
+                            fecha_boleta: payload.fecha,
+                            docente_nombre: payload.docente_nombre,
+                            falta_cometida: payload.falta_cometida,
+                            puntos_restar: Number(payload.puntos_restar || 0),
+                            nota_conducta: payload.nota_conducta,
+                            observaciones: payload.observaciones || 'Sin observaciones.'
+                        };
+
+                        console.log('Email enviado con nota_conducta de BD:', emailParams.nota_conducta);
+
+                        destinatarios.forEach(destinatario => {
+                            console.log('Enviando boleta a:', destinatario, 'Nota conducta:', emailParams.nota_conducta);
+                            emailjs.send("service_2w4077i", "template_8lllyqq", {...emailParams,
+                                    to_email: destinatario,
+                                    correo_encargado: destinatario
+                                })
+                                .then(() => {
+                                    console.log(`Correo de boleta enviado exitosamente a ${destinatario}.`);
+                                }).catch(err => {
+                                    console.error(`No se pudo enviar el correo a ${destinatario}:`, err);
+                                    if (typeof noti === 'object' && typeof noti.toast === 'function') {
+                                        noti.toast('error', 'Error envío correo', `Ocurrió un error al enviar la notificación a ${destinatario}.`);
+                                    }
+                                });
+                        });
+                    } catch (emailErr) {
+                        console.error('Error enviando email:', emailErr);
+                        noti.toast('warning', 'Correo no enviado', 'Boleta guardada, pero hubo un error al enviar el correo.');
+                    }
+                } else {
+                    console.warn('No hay correos válidos para enviar la notificación.');
+                    if (typeof noti === 'object' && typeof noti.toast === 'function') {
+                        noti.toast('warning', 'Correos no enviados', 'No se encontraron correos válidos para el encargado o el estudiante.');
+                    }
+                }
+
+                noti.toast('success', 'Boleta registrada correctamente');
+                document.getElementById('formBoleta').reset();
+                document.getElementById('nivelSelector').value = '';
+                document.getElementById('seccionSelector').value = '';
+                document.getElementById('seccionSelector').disabled = true;
+                const selNombre = document.getElementById('nombreEstudiante');
+                selNombre.innerHTML = '<option value="">-- Seleccione el nivel primero --</option>';
+                selNombre.disabled = true;
+                document.getElementById('cedulaEstudiante').value = '';
+                document.getElementById('nivelEstudiante').value = '';
+                document.getElementById('seccionEstudiante').value = '';
+                document.getElementById('docenteGuiaSeccion').value = '';
+                const correoInputReset = document.getElementById('correoEncargado');
+                const correoEstudianteInputReset = document.getElementById('correoEstudiante');
+                correoInputReset.value = '';
+                correoInputReset.readOnly = true;
+                correoInputReset.style.background = '';
+                correoInputReset.placeholder = 'Se autocompleta al seleccionar estudiante';
+                correoEstudianteInputReset.value = '';
+                correoEstudianteInputReset.readOnly = true;
+                correoEstudianteInputReset.style.background = '';
+                correoEstudianteInputReset.placeholder = 'Se autocompleta al seleccionar estudiante';
+                document.getElementById('correoEncargadoAviso').style.display = 'none';
+                document.getElementById('correoEstudianteAviso').style.display = 'none';
+                const inputBuscar = document.getElementById('buscarEstudiante');
+                inputBuscar.value = '';
+                inputBuscar.disabled = true;
+                inputBuscar.placeholder = 'Seleccione la sección primero';
+                document.getElementById('sugerenciasEstudiante').classList.remove('open');
+                // Resetear selector de falta
+                document.getElementById('buscarFalta').value = '';
+                poblarSelectFaltas(_todasLasFaltas);
+                document.getElementById('faltaSelect').value = '';
+                document.getElementById('faltaCometida').value = '';
+                document.getElementById('faltaId').value = '';
+                document.getElementById('faltaPuntos').value = '0';
+                document.getElementById('faltaInfo').style.display = 'none';
+                document.getElementById('observaciones').value = '';
+                document.getElementById('numeroBoleta').value = await generarNumeroBoleta();
+                document.getElementById('fechaBoleta').value = (() => {
+                    const partes = new Intl.DateTimeFormat('en-CA', {
+                        timeZone: 'America/Costa_Rica',
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit'
+                    }).formatToParts(new Date());
+                    const anio = partes.find(p => p.type === 'year') ?.value || '0000';
+                    const mes = partes.find(p => p.type === 'month') ?.value || '00';
+                    const dia = partes.find(p => p.type === 'day') ?.value || '00';
+                    return `${anio}-${mes}-${dia}`;
+                })();
+                document.getElementById('docenteAplica').value = localStorage.getItem('nombre') || '';
+
+                await cargarBoletasPropias();
+                if (rolActual === 'docente_guia' || rolActual === 'docente_guia_admin') {
+                    await cargarBoletasSeccion();
+                    await cargarConduccionSeccion();
+                }
+            } catch (error) {
+                console.error(error);
+                noti.toast('error', 'Error al guardar', `No fue posible guardar la boleta. ${error.message}`);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-save"></i> Guardar Boleta';
+            }
+        }
+
+        let _todasLasFaltas = [];
+
+        async function cargarFaltasReglamento() {
+            const sel = document.getElementById('faltaSelect');
+            try {
+                const params = new URLSearchParams();
+                params.set('select', 'id,falta,puntos,inciso,articulo');
+                params.set('order', 'articulo.asc,inciso.asc');
+                const data = await fetchJson(`${SUPABASE_URL}/rest/v1/faltas_reglamento?${params.toString()}`, { headers });
+                _todasLasFaltas = data;
+                poblarSelectFaltas(_todasLasFaltas);
+                sel.disabled = false;
+            } catch (e) {
+                console.error('No se pudo cargar faltas_reglamento:', e);
+                sel.innerHTML = '<option value="">Error al cargar faltas</option>';
+            }
+        }
+
+        function poblarSelectFaltas(lista) {
+            const sel = document.getElementById('faltaSelect');
+            const valorActual = sel.value;
+            sel.innerHTML = '<option value="">-- Seleccione la falta --</option>';
+            lista.forEach(f => {
+                const opt = document.createElement('option');
+                opt.value = f.falta;
+                opt.dataset.id = f.id;
+                opt.dataset.puntos = f.puntos;
+                const etiqueta = [f.articulo && `Art.${f.articulo}`, f.inciso && `Inc.${f.inciso}`].filter(Boolean).join(' ');
+                opt.textContent = etiqueta ? `[${etiqueta}] ${f.falta} (-${f.puntos}pts)` : `${f.falta} (-${f.puntos}pts)`;
+                sel.appendChild(opt);
+            });
+            if (valorActual) sel.value = valorActual;
+        }
+
+        async function cargarConduccionSeccion() {
+            if (!seccionesGuia.length) return;
+            const tbody = document.getElementById('cuerpoConduccion');
+            try {
+                // Obtener todos los estudiantes de las secciones guía con su nota_conducta_actual
+                const paramsEst = new URLSearchParams();
+                paramsEst.set('select', 'nombre_completo,cedula,seccion,nota_conducta_actual');
+                setFiltroSecciones(paramsEst, 'seccion', seccionesGuia);
+                paramsEst.set('order', 'nombre_completo.asc');
+                const estudiantes = await fetchJson(`${SUPABASE_URL}/rest/v1/estudiantes?${paramsEst.toString()}`, { headers });
+
+                // Obtener conteo de boletas por estudiante
+                const paramsBoletas = new URLSearchParams();
+                paramsBoletas.set('select', 'estudiante_cedula,puntos_restar');
+                setFiltroSecciones(paramsBoletas, 'seccion', seccionesGuia);
+                const boletas = await fetchJson(`${SUPABASE_URL}/rest/v1/boletas?${paramsBoletas.toString()}`, { headers });
+
+                // Mapa de conteo y puntos por cédula
+                const mapaConteos = new Map();
+                boletas.forEach(b => {
+                    const key = b.estudiante_cedula;
+                    if (!mapaConteos.has(key)) mapaConteos.set(key, { boletas: 0, puntosRestados: 0 });
+                    const entry = mapaConteos.get(key);
+                    entry.boletas++;
+                    entry.puntosRestados += Number(b.puntos_restar || 0);
+                });
+
+                if (!estudiantes.length) {
+                    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:30px;color:#666;"><i class="fas fa-info-circle" style="color:#3498db;font-size:1.4rem;display:block;margin-bottom:8px;"></i>No se encontraron estudiantes en las secciones guía.</td></tr>`;
+                    return;
+                }
+
+                // Ordenar: peor conducta primero
+                const lista = [...estudiantes].sort((a, b) =>
+                    (Number(a.nota_conducta_actual ?? 100)) - (Number(b.nota_conducta_actual ?? 100))
+                );
+
+                tbody.innerHTML = '';
+                lista.forEach(e => {
+                    const nota = Number(e.nota_conducta_actual ?? 100);
+                    const conteo = mapaConteos.get(e.cedula) || { boletas: 0, puntosRestados: 0 };
+                    const color = nota >= 90 ? '#27ae60' : nota >= 70 ? '#f57f17' : '#c62828';
+                    tbody.innerHTML += `
+                        <tr>
+                            <td><strong>${e.nombre_completo || 'N/A'}</strong></td>
+                            <td>${e.cedula || 'N/A'}</td>
+                            <td>${e.seccion || 'N/A'}</td>
+                            <td style="text-align:center;">${conteo.boletas}</td>
+                            <td style="text-align:center; color:#c62828; font-weight:bold;">-${conteo.puntosRestados}</td>
+                            <td style="text-align:center;">
+                                <span style="background:${color}20; color:${color}; padding:4px 14px; border-radius:20px; font-weight:800; font-size:0.97rem;">${nota}/100</span>
+                            </td>
+                        </tr>`;
+                });
+            } catch (e) {
+                console.error(e);
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:20px;color:#e74c3c;"><i class="fas fa-exclamation-triangle"></i> No se pudo cargar la nota de conducta.</td></tr>`;
+            }
+        }
+
+        function cerrarSesion() {
+            noti.confirm('🚪 Cerrar Sesión', '¿Seguro que desea salir del sistema?', () => {
+                localStorage.clear();
+                globalThis.location.href = 'index.html';
+            }, false, '🚪');
+        }
+
+        // Iniciar autocomplete al cargar
+        document.addEventListener('DOMContentLoaded', () => {
+            iniciarAutocompletarEstudiante();
+
+            // Buscador de faltas en reglamento
+            document.getElementById('buscarFalta').addEventListener('input', function() {
+                const q = this.value.trim().toLowerCase();
+                if (!q) {
+                    poblarSelectFaltas(_todasLasFaltas);
+                    return;
+                }
+                const filtradas = _todasLasFaltas.filter(f =>
+                    (f.falta || '').toLowerCase().includes(q) ||
+                    (f.articulo || '').toLowerCase().includes(q) ||
+                    (f.inciso || '').toLowerCase().includes(q)
+                );
+                poblarSelectFaltas(filtradas);
+            });
+
+            document.getElementById('faltaSelect').addEventListener('change', function() {
+                const opt = this.options[this.selectedIndex];
+                document.getElementById('faltaCometida').value = this.value;
+                document.getElementById('faltaId').value = opt.dataset.id || '';
+                document.getElementById('faltaPuntos').value = opt.dataset.puntos || '0';
+                const info = document.getElementById('faltaInfo');
+                if (this.value) {
+                    info.textContent = `\u26a0 Esta falta resta ${opt.dataset.puntos || 0} punto(s) de conducta`;
+                    info.style.display = 'block';
+                } else {
+                    info.style.display = 'none';
+                }
+            });
+        });
+
+        async function inicializar() {
+            const usuario = (localStorage.getItem('usuario') || '').trim();
+            const expiraEn = Number(localStorage.getItem('session_expires_at') || 0);
+
+            if (!usuario || (expiraEn && Date.now() > expiraEn)) {
+                localStorage.clear();
+                globalThis.location.href = 'registrarme.html';
+                return;
+            }
+
+            const userDb = await cargarDatosUsuarioDesdeBD(usuario).catch(() => null);
+            if (!userDb) {
+                noti.toast('error', 'Sesión inválida', 'No se pudo validar su usuario en la base de datos.');
+                setTimeout(() => {
+                    localStorage.clear();
+                    globalThis.location.href = 'registrarme.html';
+                }, 1800);
+                return;
+            }
+
+            const nombre = userDb.nombre_completo || localStorage.getItem('nombre') || usuario;
+            rolActual = userDb.rol;
+            usuarioActual = userDb.usuario || usuario;
+            seccionGuia = '';
+            const asignaciones = await cargarSeccionesAsignadas(usuario, userDb);
+            seccionesDocente = asignaciones.todas;
+            seccionesGuia = asignaciones.guias;
+            seccionesDisponibles = await cargarSeccionesDisponibles();
+            construirNivelesYSecciones(seccionesDisponibles);
+
+            localStorage.setItem('usuario', usuarioActual);
+            localStorage.setItem('nombre', nombre);
+            localStorage.setItem('rol', rolActual);
+
+            if (!ROLES_PERMITIDOS.has(rolActual)) {
+                noti.toast('warning', 'Sin acceso', 'Solo docentes, docentes guía o admin pueden usar boletas.');
+                setTimeout(() => {
+                    globalThis.location.href = 'docentes.html';
+                }, 2500);
+                return;
+            }
+
+            actualizarInterfazSesion(nombre, usuario, rolActual);
+            document.getElementById('numeroBoleta').value = await generarNumeroBoleta();
+            document.getElementById('fechaBoleta').value = (() => {
+                const partes = new Intl.DateTimeFormat('en-CA', {
+                    timeZone: 'America/Costa_Rica',
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit'
+                }).formatToParts(new Date());
+                const anio = partes.find(p => p.type === 'year') ?.value || '0000';
+                const mes = partes.find(p => p.type === 'month') ?.value || '00';
+                const dia = partes.find(p => p.type === 'day') ?.value || '00';
+                return `${anio}-${mes}-${dia}`;
+            })();
+            prepararEventosSelectorSeccion();
+            poblarSelectorNiveles();
+            await cargarFaltasReglamento();
+            document.getElementById('formBoleta').addEventListener('submit', guardarBoleta);
+
+            await cargarBoletasPropias();
+
+            if (rolActual === 'docente_guia' || rolActual === 'docente_guia_admin') {
+                const panel = document.getElementById('panelGuia');
+                panel.style.display = 'block';
+                document.getElementById('seccionGuiaLabel').textContent = seccionesGuia.length ? seccionesGuia.join(', ') : (seccionGuia || 'SIN ASIGNAR');
+                if (seccionesGuia.length || seccionGuia) {
+                    document.getElementById('bloqueBoletasSeccion').style.display = 'block';
+                    document.getElementById('bloqueConducta').style.display = 'block';
+                    if (!seccionesGuia.length && seccionGuia) {
+                        seccionesGuia = [seccionGuia];
+                    }
+                    await cargarBoletasSeccion();
+                    await cargarConduccionSeccion();
+                }
+            }
+        }
+
+        window.onload = inicializar;
+    </script>
+</body>
+
+</html>

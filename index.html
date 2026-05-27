@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CTP de Matapalo - Sitio Oficial </title>
+    <link rel="icon" type="image/png" href="img/logo_colegio_nuevo.png">
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/stylo.css">
+    <style>
+        .site-footer {
+            margin-top: 34px;
+            padding: 20px 16px 24px;
+            border-top: 1px solid var(--borde);
+            background: rgba(255, 255, 255, 0.45);
+        }
+        
+        .footer-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            text-align: center;
+            color: #1f2937;
+        }
+        
+        .footer-content p {
+            margin: 0;
+            font-size: 1.02rem;
+            line-height: 1.5;
+        }
+        
+        .footer-visitas {
+            margin-top: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 3px 10px rgba(10, 76, 35, 0.08);
+        }
+        
+        .footer-visitas-label {
+            color: #4b5563;
+            font-weight: 700;
+            font-size: 0.94rem;
+            letter-spacing: 0.2px;
+        }
+        
+        .footer-visitas-badge {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+            box-shadow: 0 1px 4px rgba(17, 24, 39, 0.18);
+        }
+        
+        @media (max-width: 600px) {
+            .site-footer {
+                padding: 18px 12px 22px;
+            }
+            .footer-content p {
+                font-size: 0.95rem;
+            }
+            .footer-visitas {
+                gap: 8px;
+                padding: 9px 10px;
+                border-radius: 14px;
+            }
+            .footer-visitas-label {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="page-index">
+
+    <header class="header">
+        <div class="header-container">
+            <div class="header-logos-left">
+                <img src="img/LOGO_MEP-removebg-preview.png" class="logo-mep" alt="MEP Costa Rica">
+                <div class="divider"></div>
+                <div class="logo-gobierno">
+                    <strong>Dirección Regional de Educación Central del Pacífico</strong><br>
+                    <strong>Circuito 02</strong><br>
+                    <strong>Colegio Técnico Profesional de Matapalo</strong><br>
+                </div>
+            </div>
+
+            <div class="nav-right">
+                <a href="index.html" title="Inicio">
+                    <img src="img/logo_colegio_nuevo.png" class="logo-escudo" alt="Escudo CTP Matapalo">
+                </a>
+                <a href="registrarme.html" class="btn-login">Acceso Personal</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="main-title-bar">
+        <h1><i class="fas fa-bell"></i>Sistema de Notificaciones</h1>
+    </section>
+
+    <main class="container">
+        <div class="grid-superior">
+            <section class="card-steam">
+                <a href="galeria.html"><img src="img/steam.png" alt="STEAM"></a>
+                <h3>Ingresa a STEAM</h3>
+                <p>Conservación y Promoción de la Reserva Ecológica Institucional como estrategia para la Educación Ambiental desde un enfoque STEAM. </p>
+            </section>
+
+            <section class="carousel-box">
+                <div class="carousel">
+                    <div class="slides" id="slides">
+                        <img src="img/info.jpeg" alt="Actividad institucional 1">
+                        <img src="img/comidas.png" alt="Actividad institucional 2">
+                        <img src="img/huevos1.jpeg" alt="Actividad institucional 3">
+                        <img src="img/ciencia.jpeg" alt="Actividad institucional 4">
+                        <img src="img/cuatro.jpeg" alt="Actividad institucional 5">
+                        <img src="img/lau.jpeg" alt="Actividad institucional 6">
+                        <img src="img/23ab.jpeg" alt="Actividad institucional 7">
+                        <img src="img/23abb.jpeg" alt="Actividad institucional 8">
+                        <img src="img/QE.png" alt="Actividad institucional 9">
+                        <img src="img/QEE.png" alt="Actividad institucional 10">
+                        <img src="img/23abbb.jpeg" alt="Actividad institucional 11">
+                        <img src="img/orienta.jpeg" alt="Actividad institucional 12">
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <section>
+            <h2 class="titulo-seccion">Comunicados Oficiales</h2>
+            <div class="comunicados-grid" id="contenedorComunicados">
+                <p style="text-align: center; grid-column: 1/-1;">Cargando anuncios oficiales...</p>
+            </div>
+        </section>
+
+        <section style="margin-top: 50px;">
+            <h2 class="titulo-seccion">Reporte de Asistencia Docente</h2>
+            <div class="tabla-scroll">
+                <div class="tabla-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Docente</th>
+                                <th>Estado</th>
+                                <th>Motivo</th>
+                                <th>Detalle</th>
+                                <th>Horario</th>
+                                <th>Desde / Hasta</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaAusencias">
+                            <tr>
+                                <td colspan="4" style="text-align:center; padding: 30px; color: #666;"><i class="fas fa-spinner fa-spin"></i> Actualizando datos...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        let idx = 0;
+        setInterval(() => {
+            const slides = document.getElementById("slides");
+            if (slides) {
+                idx = (idx + 1) % slides.children.length;
+                slides.style.transform = `translateX(-${idx * 100}%)`;
+            }
+        }, 5000);
+
+        const SUPABASE_URL = 'https://etdcmuikvtnqfcnlvodh.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0ZGNtdWlrdnRucWZjbmx2b2RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1OTQ1ODcsImV4cCI6MjA5MTE3MDU4N30.8JHWlTxYRSYEkpipqesHVBKn7QomTXJYHp6Nm6SzU4A';
+
+        const headers = {
+            "apikey": SUPABASE_KEY,
+            "Authorization": `Bearer ${SUPABASE_KEY}`,
+            "Content-Type": "application/json"
+        };
+
+        function escapeHtml(value) {
+            return String(value || '')
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#39;');
+        }
+
+        function nombrePdfSinExtension(nombre) {
+            return String(nombre || '')
+                .trim()
+                .replace(/\.pdf$/i, '') ||
+                'Documento';
+        }
+
+        function renderAdjuntoPdf(url, nombre) {
+            if (!url) return '';
+            return `
+                <div style="margin-top: 14px;">
+                    <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; gap:8px; background:#fff4e5; color:#a15c00; border:1px solid #ffd08a; border-radius:999px; padding:9px 14px; text-decoration:none; font-weight:700; font-size:0.92rem;">
+                        <i class="fas fa-file-pdf"></i>
+                        ${escapeHtml(nombrePdfSinExtension(nombre))}
+                    </a>
+                </div>`;
+        }
+
+        function formatearFechaComunicado(fechaIso) {
+            if (!fechaIso) return 'Sin fecha';
+            const fecha = new Date(fechaIso);
+            if (Number.isNaN(fecha.getTime())) return 'Sin fecha';
+            return fecha.toLocaleDateString('es-CR', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            });
+        }
+
+        async function cargarComunicados() {
+            const contenedor = document.getElementById("contenedorComunicados");
+            try {
+                const res = await fetch(`${SUPABASE_URL}/rest/v1/comunicados?select=*&order=creado_en.desc&limit=6`, {
+                    headers
+                });
+                const datos = await res.json();
+                if (!datos || datos.length === 0) {
+                    contenedor.innerHTML = "<p style='grid-column:1/-1; text-align:center; color: #666;'><i class='fas fa-info-circle' style='color: #3498db; font-size: 1.5rem; display:block; margin-bottom: 10px;'></i>No hay anuncios institucionales recientes.</p>";
+                    return;
+                }
+                contenedor.innerHTML = "";
+                datos.forEach(c => {
+                    const fechaPublicacion = formatearFechaComunicado(c.creado_en);
+                    contenedor.innerHTML += `
+                        <article class="comunicado-card">
+                            <div class="com-content">
+                                <h3 class="com-titulo">${c.titulo}</h3>
+                                <p class="com-contenido">${c.contenido}</p>
+                                ${renderAdjuntoPdf(c.pdf_url, c.pdf_nombre)}
+                            </div>
+                            <div class="com-footer">
+                                <span class="com-autor"><i class="fas fa-user-circle"></i> ${c.autor || 'DIRECCIÓN'}</span>
+                                <span class="com-fecha"><i class="fas fa-calendar-alt"></i> ${fechaPublicacion}</span>
+                            </div>
+                        </article>`;
+                });
+            } catch (e) {
+                console.error(e);
+                contenedor.innerHTML = "<p style='grid-column:1/-1; text-align:center; color:#e74c3c;'><i class='fas fa-exclamation-circle'></i> No se pudieron cargar los comunicados.</p>";
+            }
+        }
+
+        function obtenerFechaCostaRica() {
+            const partes = new Intl.DateTimeFormat('en-CA', {
+                timeZone: 'America/Costa_Rica',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            }).formatToParts(new Date());
+            const anioObj = partes.find(p => p.type === 'year');
+            const anio = (anioObj && anioObj.value) ? anioObj.value : '0000';
+            const mesObj = partes.find(p => p.type === 'month');
+            const mes = (mesObj && mesObj.value) ? mesObj.value : '00';
+            const diaObj = partes.find(p => p.type === 'day');
+            const dia = (diaObj && diaObj.value) ? diaObj.value : '00';
+            return `${anio}-${mes}-${dia}`;
+        }
+
+        function obtenerFechaCostaRicaDesde(fecha) {
+            const partes = new Intl.DateTimeFormat('en-CA', {
+                timeZone: 'America/Costa_Rica',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            }).formatToParts(fecha);
+            const anioObj = partes.find(p => p.type === 'year');
+            const anio = (anioObj && anioObj.value) ? anioObj.value : '0000';
+            const mesObj = partes.find(p => p.type === 'month');
+            const mes = (mesObj && mesObj.value) ? mesObj.value : '00';
+            const diaObj = partes.find(p => p.type === 'day');
+            const dia = (diaObj && diaObj.value) ? diaObj.value : '00';
+            return `${anio}-${mes}-${dia}`;
+        }
+
+        function obtenerHoraCostaRica() {
+            const partes = new Intl.DateTimeFormat('en-GB', {
+                timeZone: 'America/Costa_Rica',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            }).formatToParts(new Date());
+            const horaObj = partes.find(p => p.type === 'hour');
+            const hora = Number((horaObj && horaObj.value) ? horaObj.value : 0);
+            const minutoObj = partes.find(p => p.type === 'minute');
+            const minuto = Number((minutoObj && minutoObj.value) ? minutoObj.value : 0);
+            return hora * 60 + minuto;
+        }
+
+        async function cargarAusencias() {
+            const tabla = document.getElementById("tablaAusencias");
+            const hoy = obtenerFechaCostaRica();
+            const manana = new Date(`${hoy}T00:00:00-06:00`);
+            manana.setDate(manana.getDate() + 1);
+            const mananaStr = obtenerFechaCostaRicaDesde(manana);
+            try {
+                const res = await fetch(`${SUPABASE_URL}/rest/v1/ausencias?fecha=lte.${mananaStr}&fecha_fin=gte.${hoy}&select=*`, {
+                    headers
+                });
+                const datos = await res.json();
+
+                if (!datos || datos.length === 0) {
+                    tabla.innerHTML = "<tr><td colspan='5' style='text-align:center; padding:30px; color:#666;'><i class='fas fa-check-circle' style='color: #27ae60; font-size: 1.5rem; display:block; margin-bottom: 10px;'></i>Todos los docentes están presentes hoy y mañana.</td></tr>";
+                    return;
+                }
+
+                tabla.innerHTML = "";
+                const horaActual = obtenerHoraCostaRica(); // minutos desde medianoche en Costa Rica
+                const pasaronLas12 = horaActual >= 12 * 60; // >= 12:00
+                const pasaronLas1630 = horaActual >= 16 * 60 + 30; // >= 16:30
+
+                datos.forEach(a => {
+                    const formatearFecha = (fechaOriginal) => {
+                        if (!fechaOriginal) return 'N/A';
+                        const partes = fechaOriginal.split('-');
+                        if (partes.length === 3) {
+                            return `${partes[2]}/${partes[1]}/${partes[0]}`;
+                        }
+                        return fechaOriginal;
+                    };
+
+                    const horarioTexto = a.horario || 'Todo el día';
+                    const esHoy = a.fecha === hoy;
+
+                    // Ocultar mañanas de hoy si ya pasaron las 12:00
+                    if (esHoy && horarioTexto === 'Mañana' && pasaronLas12) return;
+                    // Ocultar tardes de hoy si ya pasaron las 16:30
+                    if (esHoy && horarioTexto === 'Tarde' && pasaronLas1630) return;
+
+                    const fechaInicio = formatearFecha(a.fecha);
+                    const fechaFin = formatearFecha(a.fecha_fin);
+                    const horarioColor = horarioTexto === 'Mañana' ? '#e3f2fd' : horarioTexto === 'Tarde' ? '#fff8e1' : '#f3e5f5';
+                    const horarioTextColor = horarioTexto === 'Mañana' ? '#1565c0' : horarioTexto === 'Tarde' ? '#f57f17' : '#6a1b9a';
+                    const horarioTooltip = horarioTexto === 'Mañana' ? 'Horario: 7:00 a.m. a 12:00 m.d.' : horarioTexto === 'Tarde' ? 'Horario: 12:00 m.d. a 4:30 p.m.' : 'Horario: Todo el día (7:00 a.m. a 4:30 p.m.)';
+                    tabla.innerHTML += `
+                        <tr>
+                            <td><strong>${a.nombre}</strong></td>
+                            <td style="color:#c62828; font-weight:bold;">Ausente</td>
+                            <td><span style="background:#ffebee; color:#c62828; padding:3px 8px; border-radius:4px; font-size:0.75rem;">${a.razon}</span></td>
+                            <td><span style="background:#ffebee; color:#c62828; padding:3px 8px; border-radius:4px; font-size:0.75rem;">${a.detalle || ''}</span></td>
+                            <td><span title="${horarioTooltip}" style="background:${horarioColor}; color:${horarioTextColor}; padding:3px 8px; border-radius:4px; font-size:0.75rem; font-weight:bold; cursor:help;">${horarioTexto}</span></td>
+                            <td><small>${fechaInicio} al ${fechaFin}</small></td>
+                        </tr>`;
+                });
+
+                if (tabla.innerHTML === "") {
+                    tabla.innerHTML = "<tr><td colspan='5' style='text-align:center; padding:30px; color:#666;'><i class='fas fa-check-circle' style='color: #27ae60; font-size: 1.5rem; display:block; margin-bottom: 10px;'></i>Todos los docentes están presentes hoy y mañana.</td></tr>";
+                }
+            } catch (e) {
+                console.error(e);
+                tabla.innerHTML = "<tr><td colspan='5' style='text-align:center; padding:20px; color:#e74c3c;'><i class='fas fa-exclamation-triangle'></i> Hubo un problema al cargar los datos.</td></tr>";
+            }
+        }
+
+        window.onload = () => {
+            cargarComunicados();
+            cargarAusencias();
+        };
+    </script>
+</body>
+
+<footer class="site-footer">
+    <div class="footer-content">
+        <p>Desarrollado por la Especialidad de Informática | CTP de Matapalo | 2026. Todos los derechos reservados.</p>
+        <div class="footer-visitas" aria-label="Contador de visitas">
+            <span class="footer-visitas-label">Visitas a la página</span>
+            <!-- Contador de visitas usando visitorbadge.io -->
+            <img class="footer-visitas-badge" src="https://api.visitorbadge.io/api/visitors?path=sistema-informacion-ctp-matapalo.ed.cr&countColor=%232980b9" alt="Contador de visitas">
+        </div>
+    </div>
+</footer>
+
+</html>
+
+</html>
