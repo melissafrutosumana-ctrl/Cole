@@ -129,6 +129,21 @@ Sistemas Notificaciones/
 > **NOTA:** Esta sección es el registro histórico de TODO lo que se ha modificado en el proyecto.
 > Cada cambio debe registrarse aquí inmediatamente después de implementarlo.
 
+### [26-05-2026] - Ajustar Contadores: Solo Index
+- **Archivos:** `index.html`, `galeria.html`, `docentes.html`, `subir-imagen.html`
+- **Cambios:**
+  - ✅ **index.html:** Contador de visitas MANTENIDO
+  - ✅ **galeria.html:** Contador REMOVIDO (solo texto)
+  - ✅ **docentes.html:** Contador REMOVIDO (solo texto)
+  - ✅ **subir-imagen.html:** Contador REMOVIDO (solo texto)
+- **Razón:**
+  - Usuario pidió: "quita el contador" → Interpretado como remover de todas
+  - Usuario aclaró: "en el index no" → Debe permanecer en landing page
+- **Impacto:**
+  - ✅ Contador de visitas visible solo en index.html (landing)
+  - ✅ Página principal destaca con métrica de tráfico
+  - ✅ Resto de páginas con footer limpio y profesional
+
 ### [26-05-2026] - Uniformizar Footers: Consistencia Total
 - **Archivos:** `subir-imagen.html`, `galeria.html`, `docentes.html`
 - **Cambios:**
