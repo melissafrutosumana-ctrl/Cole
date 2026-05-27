@@ -177,6 +177,29 @@ Sistemas Notificaciones/
 3. ⚠️ Se recomienda implementar servidor propio para manejar uploads
 4. ⚠️ Las credenciales no deben estar en el código cliente (RIESGO DE SEGURIDAD)
 
+### [26-05-2026] - Corregir Subida de Archivos y Crear Diagnóstico de Supabase
+- **Archivo(s):** `subir-imagen.html`, `diagnostico-supabase.html` (nuevo)
+- **Cambios:**
+  - ✅ **subir-imagen.html:** Corregido formato de envío de archivos a Supabase Storage
+    - Cambio: Ahora convierte el archivo a `ArrayBuffer` antes de enviarlo
+    - Agregado header `Content-Type` correcto según el tipo MIME del archivo
+    - Antes: `body: file` (incorrecto)
+    - Ahora: `body: arrayBuffer` con `Content-Type: file.type || 'image/jpeg'`
+  - ✅ **diagnostico-supabase.html:** Creado nuevo archivo de diagnóstico
+    - 4 pruebas automáticas: conexión, tabla, bucket, permisos
+    - Identifica exactamente qué está mal con Supabase
+    - Interfaz visual consistente con el proyecto
+- **Razón:** 
+  - Error 400 en uploads era por formato incorrecto del blob
+  - Supabase necesitaba bucket creado manualmente (no fue automático)
+  - Necesitaba herramienta para diagnosticar Supabase sin acceso directo
+- **Impacto:**
+  - ✅ Uploads ahora funcionan correctamente (requiere bucket `imagenes` público)
+  - ✅ Usuario puede identificar exactamente qué falta configurar en Supabase
+  - ✅ Bucket "imagenes" debe existir y ser PUBLIC
+  - ✅ Tabla "imagenes" existe con columnas correctas (url, destino, descripcion, created_at)
+  - ⚠️ RLS policies deben permitir SELECT para anon users
+
 ### [26-05-2026] - Descarga Inicial del Repositorio
 - **Archivo(s):** Todos (descarga inicial)
 - **Cambio:** 
