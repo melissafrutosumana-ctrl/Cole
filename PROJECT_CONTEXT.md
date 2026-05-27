@@ -368,6 +368,29 @@ Sistemas Notificaciones/
   - ✅ Preview desaparece si se deselecciona el archivo
   - ✅ Mejor experiencia de usuario y control
 
+### [26-05-2026] - Agregar Colores Secundarios a Paleta y Limpiar Archivos Obsoletos
+- **Archivo(s):** `paleta.html`, `diagnostico-supabase.html` (eliminado), `subir-imagenes-bulk.html` (eliminado)
+- **Cambios:**
+  - ✅ **Paleta.html:** Agregada nueva sección "Colores Secundarios" con 6 colores adicionales
+    - Verde Oscuro Hover (#083d1a)
+    - Verde Suave (#2d8659)
+    - Dorado Oscuro (#b8851f)
+    - Dorado Claro (#e8bb6f)
+    - Crema Oscura (#d4ccc0)
+    - Verde Mint (#39a369)
+  - ✅ **Eliminado:** Archivo `diagnostico-supabase.html` (ya no necesario)
+  - ✅ **Eliminado:** Archivo `subir-imagenes-bulk.html` (ya no necesario)
+  - ✅ **Resultado:** Paleta más completa con variantes de colores y solo archivos necesarios
+- **Razón:**
+  - Usuario pidió: "activa el paleta.html y crea un acapret que diga secundario"
+  - Limpiar archivos obsoletos (diagnostico y bulk)
+  - Tener referencia visual de colores alternativos para diseño
+- **Impacto:**
+  - ✅ Paleta.html ahora muestra 4 categorías: Primarios, Estados, Neutros, Secundarios
+  - ✅ Diseñadores pueden consultar colores hover y variantes
+  - ✅ Repositorio más limpio sin archivos no utilizados
+  - ✅ Estructura de proyecto más clara
+
 ### [26-05-2026] - Migración Completa a Supabase: Eliminar Imágenes Locales
 - **Archivo(s):** `index.html`, `galeria.html`, carpeta `img/` (eliminada)
 - **Cambios:**

@@ -198,6 +198,12 @@
             <div class="paleta-grid" id="gridNeutros"></div>
         </div>
 
+        <!-- COLORES SECUNDARIOS -->
+        <div class="paleta-grupo">
+            <p class="paleta-grupo-titulo">Colores Secundarios</p>
+            <div class="paleta-grid" id="gridSecundarios"></div>
+        </div>
+
         <!-- BADGES DE ROL -->
         <div class="paleta-grupo">
             <p class="paleta-grupo-titulo">Badges de Sesión por Rol</p>
@@ -247,6 +253,14 @@
                 { nombre: 'Gris Claro',         hex: '#e8e8e8', variable: 'separadores' },
                 { nombre: 'Gris Muy Claro',     hex: '#f1f1f1', variable: 'fondos tabla' },
                 { nombre: 'Placeholder',        hex: '#999999', variable: 'inputs' },
+            ],
+            secundarios: [
+                { nombre: 'Verde Oscuro Hover', hex: '#083d1a', variable: '--verde-hover' },
+                { nombre: 'Verde Suave',        hex: '#2d8659', variable: 'variante hover' },
+                { nombre: 'Dorado Oscuro',      hex: '#b8851f', variable: 'dorado hover' },
+                { nombre: 'Dorado Claro',       hex: '#e8bb6f', variable: 'dorado light' },
+                { nombre: 'Crema Oscura',       hex: '#d4ccc0', variable: 'crema tone' },
+                { nombre: 'Verde Mint',         hex: '#39a369', variable: 'accent alt' },
             ],
         };
 
@@ -313,6 +327,7 @@
         renderGrupo('gridPrimarios', PALETA.primarios);
         renderGrupo('gridEstados',   PALETA.estados);
         renderGrupo('gridNeutros',   PALETA.neutros);
+        renderGrupo('gridSecundarios', PALETA.secundarios);
     </script>
 
 </body>
