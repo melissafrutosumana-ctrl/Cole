@@ -344,6 +344,30 @@ Sistemas Notificaciones/
   - ✅ Repositorio ligeramente más pequeño que antes (solo logos necesarios)
   - ✅ Vercel tarda menos al deplegar
 
+### [26-05-2026] - Agregar Vista Previa de Imagen y Eliminar Límite de Peso
+- **Archivo(s):** `subir-imagen.html`
+- **Cambios:**
+  - ✅ **Vista previa de imagen:** Agregado contenedor con preview visual
+    - Muestra la imagen seleccionada antes de subir
+    - Muestra nombre del archivo con icono 📄
+    - Muestra tamaño en MB con icono 💾
+    - Se anima suavemente al seleccionar archivo
+  - ✅ **Eliminado límite de peso:** Se removió validación de 5MB
+    - Antes: `if (file.size > 5 * 1024 * 1024) { mostrarMensaje('La imagen es muy grande (máximo 5MB)', 'error'); }`
+    - Ahora: Sin restricción de tamaño
+  - ✅ **Actualizado texto informativo:** De "Tamaño máximo: 5MB" a "Sin límite de tamaño"
+  - ✅ **JavaScript:** Agregada función `FileReader` que captura imagen y muestra preview en tiempo real
+- **Razón:**
+  - Usuario pidió: "quiero antes de subir la imagen una previsualización de cual es antes de subirla y que no tenga limite de peso"
+  - Mejor UX: ver la imagen antes de confirmar subida
+  - Más flexible: permitir imágenes grandes (útil para fotos de alta resolución)
+- **Impacto:**
+  - ✅ Usuario ve exactamente qué imagen está subiendo antes de procesarla
+  - ✅ Información clara del nombre y tamaño del archivo
+  - ✅ Sin restricción artificial de peso (depende de Supabase/servidor)
+  - ✅ Preview desaparece si se deselecciona el archivo
+  - ✅ Mejor experiencia de usuario y control
+
 ### [26-05-2026] - Migración Completa a Supabase: Eliminar Imágenes Locales
 - **Archivo(s):** `index.html`, `galeria.html`, carpeta `img/` (eliminada)
 - **Cambios:**

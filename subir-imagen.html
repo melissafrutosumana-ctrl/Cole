@@ -423,8 +423,18 @@
                 </label>
                 <input class="form-input" type="file" id="imagen" name="imagen" accept="image/*" required>
                 <small style="color: var(--texto-gris); margin-top: 6px; display: block;">
-                    Formatos: JPG, PNG, GIF. Tamaño máximo: 5MB
+                    Formatos: JPG, PNG, GIF. Sin límite de tamaño.
                 </small>
+            </div>
+            
+            <!-- VISTA PREVIA DE LA IMAGEN -->
+            <div id="previewContainer" style="display: none; margin-top: 25px; padding: 20px; background: #f9f9f9; border: 2px dashed var(--verde-claro); border-radius: 8px; text-align: center;">
+                <p style="color: var(--texto-gris); margin-bottom: 15px; font-weight: 500;">
+                    <i class="fas fa-eye"></i> Vista Previa
+                </p>
+                <img id="previewImg" style="max-width: 100%; max-height: 300px; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" alt="Vista previa">
+                <p id="previewFileName" style="color: var(--texto-gris); font-size: 0.9rem; margin-top: 12px; word-break: break-word;"></p>
+                <p id="previewFileSize" style="color: var(--texto-gris); font-size: 0.9rem; margin-top: 6px;"></p>
             </div>
 
             <div class="form-group">
@@ -538,11 +548,6 @@
 
                 if (!file) {
                     mostrarMensaje('Por favor, selecciona una imagen', 'error');
-                    return;
-                }
-
-                if (file.size > 5 * 1024 * 1024) {
-                    mostrarMensaje('La imagen es muy grande (máximo 5MB)', 'error');
                     return;
                 }
 
@@ -765,6 +770,30 @@
                 secC.classList.add('active');
             }
         }
+
+        // VISTA PREVIA DE IMAGEN
+        const imageInput = document.getElementById('imagen');
+        const previewContainer = document.getElementById('previewContainer');
+        const previewImg = document.getElementById('previewImg');
+        const previewFileName = document.getElementById('previewFileName');
+        const previewFileSize = document.getElementById('previewFileSize');
+
+        imageInput.addEventListener('change', function(e) {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    previewImg.src = event.target.result;
+                    previewFileName.textContent = '📄 ' + file.name;
+                    const sizeInMB = (file.size / (1024 * 1024)).toFixed(2);
+                    previewFileSize.textContent = '💾 Tamaño: ' + sizeInMB + ' MB';
+                    previewContainer.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                previewContainer.style.display = 'none';
+            }
+        });
 
         // CERRAR MODAL
         document.getElementById('closeLightbox').onclick = function() {
