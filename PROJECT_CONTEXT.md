@@ -129,6 +129,22 @@ Sistemas Notificaciones/
 > **NOTA:** Esta sección es el registro histórico de TODO lo que se ha modificado en el proyecto.
 > Cada cambio debe registrarse aquí inmediatamente después de implementarlo.
 
+### [26-05-2026] - Mejorar Estilo de Tabs en subir-imagen.html
+- **Archivo:** `subir-imagen.html`
+- **Cambios:**
+  - ✅ **Tab activo Galería:** Verde oscuro (#0a4c23) - mantenido
+  - ✅ **Tab activo Carrusel:** Cambió de azul (variable indefinida) a verde claro (#1a6b3a)
+  - ✅ **Paleta unificada:** Ambos tabs activos usan verdes institucionales
+  - ✅ **Sombra ajustada:** Carrusel ahora con sombra compatible con verde claro
+- **Razón:**
+  - Usuario pidió: "mira como se ven los tabs arregla eso"
+  - Variable `--azul-carrusel` no estaba definida (causaba fallback a color por defecto)
+  - Necesitaba consistencia con paleta verde institucional
+- **Impacto:**
+  - ✅ Tabs visibles y coherentes con branding
+  - ✅ Ambos botones activos con colores verdes de institución
+  - ✅ Mejor contraste y legibilidad
+
 ### [26-05-2026] - Eliminar Emojis de subir-imagen.html
 - **Archivo:** `subir-imagen.html`
 - **Cambios:**
