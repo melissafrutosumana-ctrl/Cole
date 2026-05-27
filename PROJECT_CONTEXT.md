@@ -129,6 +129,25 @@ Sistemas Notificaciones/
 > **NOTA:** Esta sección es el registro histórico de TODO lo que se ha modificado en el proyecto.
 > Cada cambio debe registrarse aquí inmediatamente después de implementarlo.
 
+### [26-05-2026] - Agregar Funcionalidad de Borrar Imágenes
+- **Archivo(s):** `subir-imagen.html`
+- **Cambios:**
+  - ✅ **Botón de borrar:** Cada imagen ahora muestra un botón 🗑️ al pasar el mouse
+  - ✅ **Función `borrarImagen()`:** Nueva función que elimina:
+    - Archivo del Supabase Storage
+    - Registro de la tabla `imagenes`
+    - Se recarga automáticamente la lista
+  - ✅ **UI mejorada:** Botón rojo (rgba(220, 53, 69, 0.9)) con animación suave
+  - ✅ **Seguridad:** Pide confirmación antes de borrar
+- **Razón:**
+  - Usuario necesita poder gestionar imágenes (crear y borrar)
+  - Debe mantener sincronía Storage + BD
+  - Interface intuitiva con botón visible al pasar mouse
+- **Impacto:**
+  - ✅ Control total sobre imágenes subidas
+  - ✅ Se pueden eliminar imágenes sin entrar a Supabase
+  - ✅ Automatiza limpieza de Storage y BD simultáneamente
+
 ### [26-05-2026] - Crear Script de Subida en Lote y Actualizar Instrucciones
 - **Archivo(s):** `subir-imagenes-bulk.html`, `PROJECT_CONTEXT.md`
 - **Cambios:**
