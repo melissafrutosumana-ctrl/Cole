@@ -129,6 +129,20 @@ Sistemas Notificaciones/
 > **NOTA:** Esta sección es el registro histórico de TODO lo que se ha modificado en el proyecto.
 > Cada cambio debe registrarse aquí inmediatamente después de implementarlo.
 
+### [26-05-2026] - Finalizar subir-imagen.html: Crema + Sin Acceso Personal
+- **Archivo(s):** `subir-imagen.html`
+- **Cambios:**
+  - ✅ **Navbar background:** Ahora es crema (#ebe5d9)
+  - ✅ **Botón eliminado:** "Acceso Personal" removido del navbar
+  - ✅ **Resultado:** Navbar limpio con solo Regresar y logo
+- **Razón:**
+  - Usuario pidió: "quita es ebtn y pon el color crmena"
+  - Navbar más simple y enfocado en regreso a docentes
+- **Impacto:**
+  - ✅ Navbar crema consistente con la nueva paleta
+  - ✅ Solo 2 elementos: Logo Escudo + Botón Regresar
+  - ✅ Interfaz más limpia y profesional
+
 ### [26-05-2026] - Corrección: Invertir Colores de Navbars
 - **Archivo(s):** `subir-imagen.html`, `docentes.html`
 - **Cambios:**
