@@ -129,6 +129,27 @@ Sistemas Notificaciones/
 > **NOTA:** Esta sección es el registro histórico de TODO lo que se ha modificado en el proyecto.
 > Cada cambio debe registrarse aquí inmediatamente después de implementarlo.
 
+### [26-05-2026] - Crear Script de Subida en Lote y Actualizar Instrucciones
+- **Archivo(s):** `subir-imagenes-bulk.html`, `PROJECT_CONTEXT.md`
+- **Cambios:**
+  - ✅ **subir-imagenes-bulk.html:** Nuevo archivo que permite subir todas las imágenes automáticamente
+    - Lee 12 imágenes de carrusel + 11 de galería desde `/img/`
+    - Sube cada una a Supabase Storage automáticamente
+    - Guarda referencias en tabla `imagenes`
+    - Interfaz visual con progreso en tiempo real
+    - Muestra estado de cada imagen (pendiente, subiendo, completado, error)
+  - ✅ **PROJECT_CONTEXT.md:** Actualizado para enfatizar SIEMPRE hacer `git push` después de cambios
+    - Agregada instrucción obligatoria de git add + commit + push inmediatamente
+    - Ahora es claro que TODO cambio debe registrarse Y subirse
+- **Razón:**
+  - Automatizar subida de 23 imágenes locales a Supabase
+  - Asegurar que todos los cambios se sincronicen con GitHub
+  - Facilitar workflow de desarrollo
+- **Impacto:**
+  - ✅ Todas las imágenes se pueden migrar de local a Supabase en 1 click
+  - ✅ Carrusel y galería cargarán imágenes desde Supabase automáticamente
+  - ✅ Repositorio siempre actualizado con último código
+
 ### [26-05-2026] - Mejorar Carrusel y Galería
 - **Archivo(s):** `index.html`, `galeria.html`
 - **Cambios:**
@@ -226,12 +247,20 @@ Sistemas Notificaciones/
 ```
 
 ### 2️⃣ REGISTRAR TODOS LOS CAMBIOS
-**OBLIGATORIO:** Después de realizar CUALQUIER modificación, actualiza la sección **"🔄 HISTORIAL DE CAMBIOS Y CONTEXTO"** con:
-- Fecha actual (DD-MM-YYYY)
-- Qué archivo(s) modificaste
-- QUÉ cambios específicos hiciste
-- POR QUÉ lo hiciste
-- Resultado/Impacto del cambio
+**OBLIGATORIO:** Después de realizar CUALQUIER modificación:
+1. Actualiza la sección **"🔄 HISTORIAL DE CAMBIOS Y CONTEXTO"** con:
+   - Fecha actual (DD-MM-YYYY)
+   - Qué archivo(s) modificaste
+   - QUÉ cambios específicos hiciste
+   - POR QUÉ lo hiciste
+   - Resultado/Impacto del cambio
+
+2. **SIEMPRE HACES GIT ADD + COMMIT + PUSH INMEDIATAMENTE** 
+   ```bash
+   git add -A
+   git commit -m "Descripción clara del cambio"
+   git push origin main
+   ```
 
 **Formato a usar:**
 ```markdown
