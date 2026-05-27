@@ -113,18 +113,7 @@
             <section class="carousel-box">
                 <div class="carousel">
                     <div class="slides" id="slides">
-                        <img src="img/info.jpeg" alt="Actividad institucional 1">
-                        <img src="img/comidas.png" alt="Actividad institucional 2">
-                        <img src="img/huevos1.jpeg" alt="Actividad institucional 3">
-                        <img src="img/ciencia.jpeg" alt="Actividad institucional 4">
-                        <img src="img/cuatro.jpeg" alt="Actividad institucional 5">
-                        <img src="img/lau.jpeg" alt="Actividad institucional 6">
-                        <img src="img/23ab.jpeg" alt="Actividad institucional 7">
-                        <img src="img/23abb.jpeg" alt="Actividad institucional 8">
-                        <img src="img/QE.png" alt="Actividad institucional 9">
-                        <img src="img/QEE.png" alt="Actividad institucional 10">
-                        <img src="img/23abbb.jpeg" alt="Actividad institucional 11">
-                        <img src="img/orienta.jpeg" alt="Actividad institucional 12">
+                        <!-- Las imágenes se cargarán desde Supabase automáticamente -->
                     </div>
                 </div>
             </section>
@@ -164,59 +153,76 @@
     </main>
 
     <script>
-        // 🎠 CARRUSEL AUTOMÁTICO
+        // 🎠 CARRUSEL AUTOMÁTICO - SOLO SUPABASE
         let idx = 0;
         let slidesContainer = null;
+        let totalSlides = 0;
+        
+        const SUPABASE_URL = 'https://etdcmuikvtnqfcnlvodh.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0ZGNtdWlrdnRucWZjbmx2b2RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1OTQ1ODcsImV4cCI6MjA5MTE3MDU4N30.8JHWlTxYRSYEkpipqesHVBKn7QomTXJYHp6Nm6SzU4A';
         
         function iniciarCarrusel() {
             slidesContainer = document.getElementById("slides");
-            if (slidesContainer) {
-                setInterval(() => {
-                    idx = (idx + 1) % slidesContainer.children.length;
-                    slidesContainer.style.transform = `translateX(-${idx * 100}%)`;
-                    slidesContainer.style.transition = 'transform 1s ease-in-out';
-                }, 5000);
+            totalSlides = slidesContainer.children.length;
+            
+            if (totalSlides === 0) {
+                slidesContainer.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:50px; color:#999;"><i class="fas fa-exclamation-circle"></i> No hay imágenes disponibles</p>';
+                return;
             }
+            
+            setInterval(() => {
+                idx = (idx + 1) % totalSlides;
+                slidesContainer.style.transform = `translateX(-${idx * 100}%)`;
+                slidesContainer.style.transition = 'transform 1s ease-in-out';
+            }, 5000);
         }
         
-        // Cargar nuevas imágenes desde Supabase si están disponibles
+        // Cargar imágenes desde Supabase con timeout
         async function cargarImagenesCarruselSupabase() {
-            const SUPABASE_URL = 'https://etdcmuikvtnqfcnlvodh.supabase.co';
-            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0ZGNtdWlrdnRucWZjbmx2b2RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1OTQ1ODcsImV4cCI6MjA5MTE3MDU4N30.8JHWlTxYRSYEkpipqesHVBKn7QomTXJYHp6Nm6SzU4A';
-            
             try {
-                const res = await fetch(`${SUPABASE_URL}/rest/v1/imagenes?destino=eq.carrusel&select=url,descripcion&order=id.desc&limit=12`, {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 5000);
+                
+                const res = await fetch(`${SUPABASE_URL}/rest/v1/imagenes?destino=eq.carrusel&select=url,descripcion&order=id.asc`, {
                     headers: {
                         apikey: SUPABASE_KEY,
                         Authorization: `Bearer ${SUPABASE_KEY}`
                     },
-                    timeout: 5000 // Timeout de 5 segundos
+                    signal: controller.signal
                 });
                 
+                clearTimeout(timeoutId);
+                
                 if (!res.ok) {
-                    console.warn('⚠️ Supabase no disponible o configurado incorrectamente. Usando imágenes locales.');
-                    return;
+                    throw new Error('Supabase error: ' + res.status);
                 }
                 
                 const imagenes = await res.json();
-                if (imagenes && imagenes.length > 0) {
-                    slidesContainer = document.getElementById("slides");
-                    imagenes.forEach(img => {
-                        const newImg = document.createElement('img');
-                        newImg.src = img.url;
-                        newImg.alt = img.descripcion || 'Imagen';
-                        slidesContainer.appendChild(newImg);
-                    });
-                    console.log(`✅ ${imagenes.length} nuevas imágenes del carrusel agregadas desde Supabase`);
+                slidesContainer = document.getElementById("slides");
+                slidesContainer.innerHTML = ''; // Limpiar
+                
+                if (!imagenes || imagenes.length === 0) {
+                    slidesContainer.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:50px; color:#999;"><i class="fas fa-inbox"></i> Sin imágenes en carrusel</p>';
+                    return;
                 }
-            } catch (e) {
-                // Silencio si falla - el carrusel sigue con imágenes locales
-                console.warn('⚠️ Supabase no disponible. El carrusel usará solo imágenes locales.');
+                
+                imagenes.forEach(img => {
+                    const newImg = document.createElement('img');
+                    newImg.src = img.url;
+                    newImg.alt = img.descripcion || 'Imagen del carrusel';
+                    newImg.loading = 'lazy';
+                    slidesContainer.appendChild(newImg);
+                });
+                
+                console.log(`✅ ${imagenes.length} imágenes cargadas del carrusel`);
+                iniciarCarrusel();
+                
+            } catch (error) {
+                console.warn('⚠️ Error cargando carrusel:', error.message);
+                slidesContainer = document.getElementById("slides");
+                slidesContainer.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:50px; color:#999;"><i class="fas fa-cloud-slash"></i> Error cargando imágenes</p>';
             }
         }
-
-        const SUPABASE_URL = 'https://etdcmuikvtnqfcnlvodh.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0ZGNtdWlrdnRucWZjbmx2b2RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1OTQ1ODcsImV4cCI6MjA5MTE3MDU4N30.8JHWlTxYRSYEkpipqesHVBKn7QomTXJYHp6Nm6SzU4A';
 
         const headers = {
             "apikey": SUPABASE_KEY,
