@@ -614,7 +614,7 @@
         // VERIFICACION DE AUTENTICACION Y ROLES
         function verificarAcceso() {
             const rolesAutorizados = ['admin', 'admin/guia', 'admin/guía'];
-            const rolActual = localStorage.getItem('userRole');
+            const rolActual = localStorage.getItem('rol');
             const accesoContainer = document.getElementById('accesoDenegadoContainer');
             const contentContainer = document.getElementById('uploadContentContainer');
 
