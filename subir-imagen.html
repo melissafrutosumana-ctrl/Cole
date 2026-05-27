@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/stylo.css">
     <style>
-        /* ✅ ESTILOS CONSISTENTES CON EL TEMA DEL SITIO */
+        /* ESTILOS CONSISTENTES CON EL TEMA DEL SITIO */
         :root {
             --verde-oscuro: #0a4c23;
             --verde-claro: #1a6b3a;
@@ -433,8 +433,8 @@
                 </label>
                 <select class="form-select" id="destino" name="destino" required>
                     <option value="">-- Selecciona una opción --</option>
-                    <option value="galeria">📸 Galería de Fotos (Actividades/Eventos)</option>
-                    <option value="carrusel">🎞️ Carrusel Principal (Banners de Inicio)</option>
+                    <option value="galeria">Galería de Fotos (Actividades/Eventos)</option>
+                    <option value="carrusel">Carrusel Principal (Banners de Inicio)</option>
                 </select>
             </div>
 
@@ -491,15 +491,10 @@
     <footer class="site-footer">
         <div class="footer-content">
             <p>Desarrollado por la Especialidad de Informática | CTP de Matapalo | 2026. Todos los derechos reservados.</p>
-            <div class="footer-visitas" aria-label="Contador de visitas">
-                <span class="footer-visitas-label">Visitas a la página</span>
-                <!-- Contador de visitas usando visitorbadge.io -->
-                <img class="footer-visitas-badge" src="https://api.visitorbadge.io/api/visitors?path=sistema-informacion-ctp-matapalo.ed.cr&countColor=%232980b9" alt="Contador de visitas">
-            </div>
         </div>
     </footer>
     <script>
-        // ⚠️ CONFIGURACIÓN DE SUPABASE - REEMPLAZA CON TUS CREDENCIALES
+        // CONFIGURACIÓN DE SUPABASE - REEMPLAZA CON TUS CREDENCIALES
         const SUPABASE_CONFIG = {
             url: 'https://etdcmuikvtnqfcnlvodh.supabase.co',
             key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0ZGNtdWlrdnRucWZjbmx2b2RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1OTQ1ODcsImV4cCI6MjA5MTE3MDU4N30.8JHWlTxYRSYEkpipqesHVBKn7QomTXJYHp6Nm6SzU4A'
@@ -592,14 +587,14 @@
                     });
 
                     if (resDB.ok) {
-                        mostrarMensaje('✅ ¡Imagen publicada con éxito!', 'exito');
+                        mostrarMensaje('Imagen publicada con éxito', 'exito');
                         form.reset();
                         cargarImagenesSupabase();
                     } else {
-                        mostrarMensaje('⚠️ Imagen subida pero error en BD. Recarga la página.', 'error');
+                        mostrarMensaje('Imagen subida pero error en BD. Recarga la página.', 'error');
                     }
                 } catch (error) {
-                    mostrarMensaje('⚠️ No se pudo subir la imagen. Verifica tu conexión o que Supabase esté configurado.', 'error');
+                    mostrarMensaje('No se pudo subir la imagen. Verifica tu conexión o que Supabase esté configurado.', 'error');
                     console.error('Error detallado:', error);
                 }
             });
@@ -696,7 +691,7 @@
                 }
             } catch (error) {
                 // Silencio si falla - mostrar mensaje amigable
-                console.warn('⚠️ Supabase no disponible en este momento.');
+                console.warn('Supabase no disponible en este momento.');
                 galeriaDiv.innerHTML = '<p style="color:#999; padding:20px; grid-column:1/-1; text-align:center;"><i class="fas fa-info-circle"></i> Supabase no disponible. Intenta nuevamente más tarde.</p>';
                 carruselDiv.innerHTML = '<p style="color:#999; padding:20px; grid-column:1/-1; text-align:center;"><i class="fas fa-info-circle"></i> Supabase no disponible. Intenta nuevamente más tarde.</p>';
             }
@@ -742,7 +737,7 @@
                     throw new Error('Error borrando de BD: ' + resDB.status);
                 }
                 
-                mostrarMensaje('✅ Imagen borrada correctamente', 'exito');
+                mostrarMensaje('Imagen borrada correctamente', 'exito');
                 setTimeout(() => cargarImagenesSupabase(), 500);
                 
             } catch (error) {
