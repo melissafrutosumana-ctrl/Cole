@@ -129,6 +129,23 @@ Sistemas Notificaciones/
 > **NOTA:** Esta sección es el registro histórico de TODO lo que se ha modificado en el proyecto.
 > Cada cambio debe registrarse aquí inmediatamente después de implementarlo.
 
+### [26-05-2026] - Uniformizar Footers: Consistencia Total
+- **Archivos:** `subir-imagen.html`, `galeria.html`, `docentes.html`
+- **Cambios:**
+  - ✅ **subir-imagen.html footer:** Reemplazado con texto profesional + contador de visitas
+  - ✅ **galeria.html footer:** Agregado footer consistente (faltaba)
+  - ✅ **docentes.html footer:** Agregado footer consistente (faltaba)
+  - ✅ **Texto unificado:** "Desarrollado por la Especialidad de Informática | CTP de Matapalo | 2026. Todos los derechos reservados."
+  - ✅ **Contador de visitas:** Todos los footers con badge de visitorbadge.io
+- **Razón:**
+  - Usuario pidió: "esto es diferente al resto que sea igual que el resto de footer"
+  - Footer anterior era genérico (© 2024-2026), ahora es profesional e institucional
+  - Todas las páginas públicas tienen formato consistente
+- **Impacto:**
+  - ✅ Identidad visual uniforme en todo el sitio
+  - ✅ Branding de Especialidad de Informática visible en todas las páginas
+  - ✅ Contador de visitas global en 4 páginas (index, subir-imagen, galeria, docentes)
+
 ### [26-05-2026] - Finalizar subir-imagen.html: Crema + Sin Acceso Personal
 - **Archivo(s):** `subir-imagen.html`
 - **Cambios:**
