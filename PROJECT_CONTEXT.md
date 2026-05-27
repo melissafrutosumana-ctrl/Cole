@@ -129,6 +129,24 @@ Sistemas Notificaciones/
 > **NOTA:** Esta sección es el registro histórico de TODO lo que se ha modificado en el proyecto.
 > Cada cambio debe registrarse aquí inmediatamente después de implementarlo.
 
+### [26-05-2026] - Mejorar Página de Subir Imágenes
+- **Archivo(s):** `subir-imagen.html`
+- **Cambios:**
+  - ✅ **Eliminado:** Cuadro amarillo "Configuración Requerida" con opciones de backend
+  - ✅ **Agregado:** Botón "Docentes" en navbar con flecha de regreso
+    - Navega a `docentes.html` 
+    - Estilo: Verde claro (#1a6b3a) con icono de flecha hacia atrás
+    - Ubicación: Entre logo escudo y botón "Acceso Personal"
+  - ✅ **Resultado:** Interfaz limpia y navegación mejorada
+- **Razón:**
+  - Usuario solicitó quitar mensaje de "Configuración Requerida"
+  - Necesitaba botón de regreso a docentes.html
+  - Mejorar consistencia y usabilidad de la página
+- **Impacto:**
+  - ✅ Página más limpia y profesional
+  - ✅ Fácil regreso a docentes.html desde subir-imagen.html
+  - ✅ Navbar más coherente con el resto del sitio
+
 ### [26-05-2026] - Eliminar Imágenes Locales: Mantener Solo 3 Logos
 - **Archivo(s):** `img/` (30 imágenes eliminadas)
 - **Cambios:**
