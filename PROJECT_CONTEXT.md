@@ -129,6 +129,27 @@ Sistemas Notificaciones/
 > **NOTA:** Esta sección es el registro histórico de TODO lo que se ha modificado en el proyecto.
 > Cada cambio debe registrarse aquí inmediatamente después de implementarlo.
 
+### [26-05-2026] - Restaurar Logos Esenciales
+- **Archivo(s):** `img/` (carpeta restaurada con solo logos)
+- **Cambios:**
+  - ✅ **Logos restaurados:**
+    - `logo_colegio_nuevo.png` - Logo principal (favicon + header)
+    - `LOGO_MEP-removebg-preview.png` - Logo ministerio
+    - `steam.png` - Logo de iniciativa STEAM
+  - ✅ **Eliminadas:**
+    - Todas las imágenes de carrusel (info.jpeg, comidas.png, etc.)
+    - Todas las imágenes de galería (steam1-steam12.jpeg)
+    - Logos innecesarios
+  - ✅ **Resultado:** Carpeta `/img/` con SOLO 3 archivos necesarios (~5MB)
+- **Razón:**
+  - Los logos son referencias en header.html de todas las páginas
+  - Las imágenes del carrusel/galería ahora están en Supabase
+- **Impacto:**
+  - ✅ Header muestra logos correctamente
+  - ✅ Favicon funciona
+  - ✅ Repositorio ligeramente más pequeño que antes (solo logos necesarios)
+  - ✅ Vercel tarda menos al deplegar
+
 ### [26-05-2026] - Migración Completa a Supabase: Eliminar Imágenes Locales
 - **Archivo(s):** `index.html`, `galeria.html`, carpeta `img/` (eliminada)
 - **Cambios:**
