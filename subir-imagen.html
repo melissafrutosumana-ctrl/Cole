@@ -593,9 +593,6 @@
                 </div>
             </div>
         </div>
-
-
-    </div>
     </div>
 
     <!-- MODAL PARA VER IMAGEN GRANDE -->
@@ -613,7 +610,7 @@
     <script>
         // VERIFICACION DE AUTENTICACION Y ROLES
         function verificarAcceso() {
-            const rolesAutorizados = ['admin', 'admin/guia', 'admin/guía'];
+            const rolesAutorizados = ['admin', 'docente_guia_admin'];
             const rolActual = localStorage.getItem('rol');
             const accesoContainer = document.getElementById('accesoDenegadoContainer');
             const contentContainer = document.getElementById('uploadContentContainer');

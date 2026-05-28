@@ -631,13 +631,7 @@ Sistemas Notificaciones/
   - Elegir solución: Cloudinary, Node.js, o Supabase actualizado
   - Implementar y probar
 
-**Mejoras generales:**
-- [ ] Implementar backend para gestionar datos dinámicamente
-- [ ] Agregar autenticación de usuarios con seguridad mejorada
-- [ ] Mejorar el sistema de boletas con base de datos
-- [ ] Automatizar notificaciones
-- [ ] Agregar dashboard administrativo
-- [ ] Implementar validación de emails (si se usan)
+
 
 ---
 
