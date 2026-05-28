@@ -565,6 +565,12 @@ Sistemas Notificaciones/
   - **Razón:** El usuario pidió no aplicar cambios de código en este momento y dejar la decisión registrada en el historial.
   - **Impacto:** No se realizaron cambios de código; el proyecto conserva su estado actual. Esta entrada facilita que quien implemente los cambios siga un procedimiento claro. Después de implementar, recordar actualizar el historial y hacer `git add + commit + push`.
 
+### [28-05-2026] - Quitar icono de campana en `index.html`
+- **Archivo(s):** `index.html`
+- **Cambio:** Se eliminó el icono de campana (Font Awesome) que precedía el título "Sistema de Notificaciones" para una presentación más limpia en la cabecera.
+- **Razón:** Solicitud del usuario: "quita la campana que se ve".
+- **Impacto:** Mejora visual del encabezado sin afectar funcionalidad; se actualizó el repositorio con el commit correspondiente. Recuerda revisar en móvil la apariencia por posibles ajustes de espaciado.
+
 ### [26-05-2026] - Descarga Inicial del Repositorio
 - **Archivo(s):** Todos (descarga inicial)
 - **Cambio:** 
