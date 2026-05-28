@@ -649,3 +649,15 @@ Sistemas Notificaciones/
 
 **Última actualización:** 26-05-2026  
 **Versión del Proyecto:** 1.0 (Inicial)
+
+### [28-05-2026] - Unificar tipografía del encabezado en subir-imagen.html
+- **Archivo:** `subir-imagen.html`
+- **Cambios:**
+  - ✅ Ajustada la regla `.logo-gobierno` para que use las mismas propiedades que en `index.html` (texto en mayúsculas, `font-size: 0.75rem`, `letter-spacing: 0.5px`, `line-height: 1.2`).
+  - ✅ Regla responsive: en pantallas pequeñas se centra el bloque para mejor lectura.
+- **Commit:** `7c7e7c5` — "Style: match header address typography with index (logo-gobierno)"
+- **Razón:** Mantener coherencia tipográfica entre páginas y mejorar la identidad visual del sitio.
+- **Impacto:** El bloque de dirección regional se ve ahora consistente entre `index.html` y `subir-imagen.html`; mejora la apariencia institucional.
+
+**Última actualización:** 28-05-2026  
+**Versión del Proyecto:** 1.0 (Inicial)
