@@ -559,6 +559,12 @@ Sistemas Notificaciones/
   - ✅ Tabla "imagenes" existe con columnas correctas (url, destino, descripcion, created_at)
   - ⚠️ RLS policies deben permitir SELECT para anon users
 
+  ### [28-05-2026] - Documentar decisión: posponer implementación de upload (Opción 2)
+  - **Archivo(s):** `secundarios/PROJECT_CONTEXT.md`
+  - **Cambio:** Se agregó esta entrada registrando que el usuario eligió la "Opción 2": solo documentar la decisión de implementar la corrección de uploads más adelante sin modificar código ahora. Se enumeran los pasos recomendados para la implementación futura (convertir archivo a ArrayBuffer y enviar con `Content-Type`, añadir diagnóstico, mover claves sensibles a backend o usar signed URLs/RLS, probar uploads y actualizar políticas).
+  - **Razón:** El usuario pidió no aplicar cambios de código en este momento y dejar la decisión registrada en el historial.
+  - **Impacto:** No se realizaron cambios de código; el proyecto conserva su estado actual. Esta entrada facilita que quien implemente los cambios siga un procedimiento claro. Después de implementar, recordar actualizar el historial y hacer `git add + commit + push`.
+
 ### [26-05-2026] - Descarga Inicial del Repositorio
 - **Archivo(s):** Todos (descarga inicial)
 - **Cambio:** 
