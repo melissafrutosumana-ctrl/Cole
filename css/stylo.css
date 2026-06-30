@@ -242,7 +242,8 @@ a:hover {
 /* LOGO MEP */
 
 .page-galeria .logo-mep {
-    height: 50px;
+    height: 120px;
+    width: auto;
     object-fit: contain;
 }
 
@@ -608,7 +609,8 @@ a:hover {
 /* LOGO MEP */
 
 .page-index .logo-mep {
-    height: 50px;
+    height: 120px;
+    width: auto;
     object-fit: contain;
 }
 
@@ -1046,7 +1048,8 @@ a:hover {
 }
 
 .page-registrarme .logo-mep {
-    height: 50px;
+    height: 120px;
+    width: auto;
     object-fit: contain;
 }
 
@@ -1404,7 +1407,8 @@ a:hover {
 }
 
 .page-registro-docentes .logo-mep {
-    height: 50px;
+    height: 120px;
+    width: auto;
     object-fit: contain;
 }
 
@@ -1700,7 +1704,8 @@ a:hover {
 }
 
 .page-docentes .logo-mep {
-    height: 50px;
+    height: 120px;
+    width: auto;
     object-fit: contain;
 }
 
@@ -2726,7 +2731,8 @@ select:focus {
 
 @media (max-width: 640px) {
     .logo-mep {
-        height: 38px !important;
+        height: 100px !important;
+        width: auto !important;
     }
     .logo-escudo {
         height: 58px !important;
